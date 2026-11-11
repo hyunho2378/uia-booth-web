@@ -3,9 +3,7 @@ export default function ProjectFilter({ subjects, activeId, onChange }) {
     <button
       key={s.id}
       onClick={() => onChange(s.id)}
-      className={`font-display font-bold uppercase bg-transparent border-none p-0 text-left cursor-pointer
-        text-sm lg:text-xl transition-opacity duration-200
-        ${activeId === s.id ? 'text-accent opacity-100' : 'text-text-primary opacity-60 hover:opacity-100'}`}
+      className={`t-h3 bg-transparent border-none p-0 text-left cursor-pointer transition-colors duration-200 ${activeId === s.id ? 'text-text-primary' : 'text-text-muted hover:text-text-primary'}`}
     >
       {s.name}
     </button>

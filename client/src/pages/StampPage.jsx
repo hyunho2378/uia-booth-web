@@ -8,7 +8,7 @@ export const stations = [
   { id: 'chuncheon', name: '춘천 임팩톤', to: '/projects?subject=chuncheon' },
   { id: 'sagape', name: '사회적가치 페스타', to: '/projects?subject=sagape' },
   { id: 'gyeongju', name: '경주 포럼', to: '/projects?subject=gyeongju' },
-  { id: 'faces', name: 'UIA의 얼굴들', to: '/faces' },
+  { id: 'faces', name: 'UIA의 얼굴들', to: '/people' },
   { id: 'annual', name: '애뉴얼 리포트', to: '/annual-report' },
   { id: 'videos', name: '활동 영상', to: '/videos' },
 ]
@@ -21,7 +21,7 @@ export default function StampPage() {
   const [got, setGot] = useState(read)
 
   useEffect(() => {
-    document.title = 'Stamp — UIA 특별관'
+    document.title = 'Stamp | UIA 특별관'
     if (id && stations.some(s => s.id === id) && !read().includes(id)) {
       const next = [...read(), id]
       localStorage.setItem(KEY, JSON.stringify(next))
@@ -33,7 +33,7 @@ export default function StampPage() {
 
   return (
     <PageTransition className="pt-10 pb-24">
-      <PageHeader title="Stamp" subtitle={`${got.length} / ${stations.length}`} />
+      <PageHeader title="Stamp" ko="도장 모으기" subtitle={`${got.length} / ${stations.length}`} />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {stations.map(s => {
           const on = got.includes(s.id)
@@ -42,14 +42,14 @@ export default function StampPage() {
               key={s.id}
               to={s.to}
               className="flex items-center justify-center text-center p-6 font-body font-bold"
-              style={{ aspectRatio: '1 / 1', borderRadius: '4px', background: on ? '#F5C518' : '#141414', color: on ? '#0a0a0a' : '#BABABA' }}
+              style={{ aspectRatio: '1 / 1', borderRadius: '4px', background: on ? 'var(--y)' : 'var(--surface)', color: on ? '#212120' : 'var(--mute)' }}
             >
               {s.name}
             </Link>
           )
         })}
       </div>
-      {done && <p className="mt-10 text-xl font-bold text-accent font-body">모든 도장을 모았습니다</p>}
+      {done && <p className="mt-10 text-xl font-bold text-text-primary font-body">모든 도장을 모았습니다</p>}
     </PageTransition>
   )
 }

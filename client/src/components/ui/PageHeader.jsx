@@ -1,15 +1,10 @@
-import Divider from './Divider'
-
-export default function PageHeader({ title, subtitle }) {
+// 영어 제목 아래에 한국어를 함께 둔다.
+export default function PageHeader({ title, ko, subtitle }) {
   return (
-    <div className="mb-10">
-      <h1 className="font-display text-4xl md:text-6xl font-extrabold uppercase tracking-tight text-text-primary leading-none">
-        {title}
-      </h1>
-      {subtitle && (
-        <p className="mt-3 text-sm text-text-muted font-body">{subtitle}</p>
-      )}
-      <Divider className="mt-6" />
+    <div style={{ paddingBlock: 'clamp(3rem, 5vw, 6rem) clamp(2rem, 3vw, 4rem)' }}>
+      <h1 className="t-display">{title}</h1>
+      {ko && <p className="t-ko-lg" style={{ marginTop: '1rem' }}>{ko}</p>}
+      {subtitle && <p className="t-ko" style={{ marginTop: '.6rem', maxWidth: '44rem' }}>{subtitle}</p>}
     </div>
   )
 }

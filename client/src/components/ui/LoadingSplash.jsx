@@ -13,7 +13,7 @@ export default function LoadingSplash({ onDone }) {
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
-        background: '#0a0a0a',
+        background: 'var(--bg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         opacity: fading ? 0 : 1,
         transition: 'opacity 0.4s ease',
@@ -38,7 +38,7 @@ export default function LoadingSplash({ onDone }) {
       `}</style>
       <svg
         viewBox="0 0 395.47 169.67"
-        style={{ width: 'min(240px, 60vw)', fill: '#F5C518' }}
+        style={{ width: 'min(240px, 60vw)', fill: 'var(--y)' }}
         aria-hidden="true"
       >
         <g className="splash-d">

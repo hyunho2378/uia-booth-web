@@ -12,11 +12,11 @@ const panels = [
 
 export default function PanelsPage() {
   const [open, setOpen] = useState(null)
-  useEffect(() => { document.title = 'Panels — UIA 특별관' }, [])
+  useEffect(() => { document.title = 'Panels | UIA 특별관' }, [])
 
   return (
     <PageTransition className="pt-10 pb-24">
-      <PageHeader title="Panels" subtitle="부스에 설치되는 A1 판넬" />
+      <PageHeader title="Panels" ko="전시 판넬" subtitle="부스에 설치되는 A1 판넬" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {panels.map((p, i) => (
           <FadeIn key={p.id} delay={i * 80}>
@@ -25,7 +25,7 @@ export default function PanelsPage() {
               className="w-full text-left flex flex-col gap-3 bg-transparent border-none p-0"
               style={{ cursor: p.src ? 'zoom-in' : 'default' }}
             >
-              <div style={{ aspectRatio: '1 / 1.414', background: '#141414', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '1 / 1.414', background: 'var(--surface)', borderRadius: '4px', overflow: 'hidden' }}>
                 {p.src ? (
                   <img src={p.src} alt={p.name} loading="lazy" className="w-full h-full object-contain" />
                 ) : (

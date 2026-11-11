@@ -48,8 +48,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
 
   const navBtnStyle = {
     position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-    background: 'rgba(10,10,10,0.6)', border: '1px solid #2A2A2A',
-    color: '#f0f0f0', borderRadius: '4px', padding: '6px', cursor: 'pointer',
+    background: 'rgba(10,10,10,0.6)', border: 'none',
+    color: 'var(--ink)', borderRadius: '4px', padding: '6px', cursor: 'pointer',
     display: 'flex', alignItems: 'center', transition: 'border-color 150ms ease, color 150ms ease',
   }
 
@@ -84,8 +84,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             style={{
               position: 'relative',
               height: 'clamp(300px, calc(100vh - 220px), 700px)',
-              background: '#111111',
-              border: `1px solid ${posterHovered ? '#F5C518' : '#2A2A2A'}`,
+              background: 'var(--surface)',
+              border: 'none',
               overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',
@@ -117,8 +117,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               <button
                 onClick={e => { e.stopPropagation(); setPageIdx(i => (i - 1 + pages.length) % pages.length) }}
                 style={{ ...navBtnStyle, left: 10 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#f0f0f0' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
                 aria-label="이전 페이지"
               >
                 <ChevronLeft size={16} />
@@ -128,8 +128,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               <button
                 onClick={e => { e.stopPropagation(); setPageIdx(i => (i + 1) % pages.length) }}
                 style={{ ...navBtnStyle, right: 10 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#f0f0f0' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
                 aria-label="다음 페이지"
               >
                 <ChevronRight size={16} />
@@ -146,7 +146,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   style={{
                     width: '6px', height: '6px', borderRadius: '50%',
                     padding: 0, border: 'none',
-                    background: i === pageIdx ? '#F5C518' : '#2A2A2A',
+                    background: i === pageIdx ? 'var(--y)' : 'var(--surface-2)',
                     cursor: 'pointer',
                     transition: 'background 200ms ease',
                   }}
@@ -162,14 +162,14 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '7px',
                 padding: '8px 18px',
-                border: '1px solid #2a2a2a', borderRadius: '8px',
+                border: 'none', borderRadius: '8px',
                 background: 'transparent', cursor: 'pointer',
-                color: '#BABABA', fontSize: '13px',
+                color: 'var(--mute)', fontSize: '13px',
                 letterSpacing: '0.04em', fontFamily: 'Pretendard Variable, sans-serif',
                 transition: 'border-color 200ms ease, color 200ms ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#2a2a2a'; e.currentTarget.style.color = '#BABABA' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--mute)' }}
               aria-label="크게 보기"
             >
               <Maximize size={14} />
@@ -187,14 +187,14 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '7px',
                 padding: '8px 18px',
-                border: '1px solid #2a2a2a', borderRadius: '8px',
+                border: 'none', borderRadius: '8px',
                 background: 'transparent', cursor: 'pointer',
-                color: '#BABABA', fontSize: '13px',
+                color: 'var(--mute)', fontSize: '13px',
                 letterSpacing: '0.04em', fontFamily: 'Pretendard Variable, sans-serif',
                 transition: 'border-color 200ms ease, color 200ms ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#2a2a2a'; e.currentTarget.style.color = '#BABABA' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--mute)' }}
               aria-label="전체 화면 보기"
             >
               <ExternalLink size={14} />
@@ -202,7 +202,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             </button>
           </div>
           {popupBlocked && (
-            <p style={{ textAlign: 'center', marginTop: '8px', fontSize: '13px', color: '#BABABA', fontFamily: 'Pretendard Variable, sans-serif' }}>
+            <p style={{ textAlign: 'center', marginTop: '8px', fontSize: '13px', color: 'var(--mute)', fontFamily: 'Pretendard Variable, sans-serif' }}>
               팝업이 차단됐습니다. 주소창 우측의 팝업 허용 아이콘을 클릭해주세요.
             </p>
           )}
@@ -232,11 +232,11 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             <p className="text-base text-text-muted font-body">{work.author}</p>
           )}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <p className="font-bold font-ui tracking-wider uppercase text-accent" style={{ fontSize: '21px' }}>{work.subjectName}</p>
+            <p className="font-bold font-ui tracking-wider uppercase text-text-primary" style={{ fontSize: '21px' }}>{work.subjectName}</p>
             {work.award && (
               <span style={{
-                border: '1px solid #F5C518',
-                color: '#F5C518',
+                border: 'none',
+                color: 'var(--ink)',
                 background: 'transparent',
                 padding: '2px 8px',
                 borderRadius: '8px',
@@ -262,9 +262,9 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm font-body transition-colors duration-200"
-                  style={{ border: '1px solid #2a2a2a', color: '#f0f0f0', borderRadius: '8px', padding: '8px 16px' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#2a2a2a'; e.currentTarget.style.color = '#f0f0f0' }}
+                  style={{ border: 'none', color: 'var(--ink)', borderRadius: '8px', padding: '8px 16px' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
                 >
                   {link.label}
                   <ExternalLink size={14} />
@@ -287,8 +287,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
       {isMagazine && magPages.length > 0 && (
         <div style={{ marginTop: '48px' }}>
           <div style={{
-            width: '1px', background: '#2A2A2A', height: '1px',
-            background: 'linear-gradient(to right, transparent, #2A2A2A, transparent)',
+            width: '1px', background: 'var(--surface-2)', height: '1px',
+            background: 'linear-gradient(to right, transparent, var(--surface-2), transparent)',
             marginBottom: '32px',
           }} />
 
@@ -303,8 +303,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   position: 'relative', top: 'auto', transform: 'none',
                   flexShrink: 0, marginRight: '12px',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#f0f0f0' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
                 aria-label="이전 매거진 페이지"
               >
                 <ChevronLeft size={16} />
@@ -315,8 +315,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 aspectRatio: '1 / 1.414',
                 maxWidth: '220px',
                 width: '100%',
-                background: '#111111',
-                border: '1px solid #2A2A2A',
+                background: 'var(--surface)',
+                border: 'none',
                 overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'center',
@@ -343,8 +343,8 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   position: 'relative', top: 'auto', transform: 'none',
                   flexShrink: 0, marginLeft: '12px',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#f0f0f0' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
                 aria-label="다음 매거진 페이지"
               >
                 <ChevronRight size={16} />
@@ -352,7 +352,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             </div>
 
             {/* 페이지 카운터 + 도트 */}
-            <p style={{ fontSize: '11px', color: '#BABABA', letterSpacing: '0.1em', userSelect: 'none' }}>
+            <p style={{ fontSize: '11px', color: 'var(--mute)', letterSpacing: '0.1em', userSelect: 'none' }}>
               {magIdx + 1} / {magPages.length}
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '5px', maxWidth: '320px' }}>
@@ -363,7 +363,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   style={{
                     width: '5px', height: '5px', borderRadius: '50%',
                     padding: 0, border: 'none',
-                    background: i === magIdx ? '#F5C518' : '#2A2A2A',
+                    background: i === magIdx ? 'var(--y)' : 'var(--surface-2)',
                     cursor: 'pointer',
                     transition: 'background 200ms ease',
                   }}
@@ -390,13 +390,13 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             onClick={e => { e.stopPropagation(); setLightboxOpen(false) }}
             style={{
               position: 'absolute', top: '20px', right: '20px',
-              background: 'transparent', border: '1px solid #2A2A2A',
-              color: '#f0f0f0', borderRadius: '4px', padding: '8px',
+              background: 'transparent', border: 'none',
+              color: 'var(--ink)', borderRadius: '4px', padding: '8px',
               cursor: 'pointer', display: 'flex', alignItems: 'center',
               transition: 'border-color 150ms ease, color 150ms ease',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#F5C518'; e.currentTarget.style.color = '#F5C518' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#f0f0f0' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
             aria-label="닫기"
           >
             <X size={18} />

@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    document.title = '404 — UIA 특별관'
+    document.title = '404 | UIA 특별관'
   }, [])
 
   return (

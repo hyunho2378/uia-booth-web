@@ -1,41 +1,34 @@
 import { NavLink } from 'react-router-dom'
+import { NAV_LINKS } from './navLinks'
 
-const NAV_LINKS = [
-  { to: '/',         label: 'About' },
-  { to: '/projects', label: 'Projects' },
-  { to: '/faces',    label: 'Faces' },
-  { to: '/annual-report', label: 'Annual Report' },
-  { to: '/panels',  label: 'Panels' },
-  { to: '/videos',  label: 'Videos' },
-  { to: '/stamp',   label: 'Stamp' },
-]
-
-export default function MobileMenu({ isOpen, onClose }) {
+export default function MobileMenu({ isOpen, onClose, theme, onToggleTheme }) {
   return (
     <div
-      className="lg:hidden overflow-hidden transition-all duration-300"
+      className="xl:hidden"
       style={{
-        maxHeight: isOpen ? '400px' : '0',
-        background: '#0a0a0a',
-        borderBottom: isOpen ? '1px solid #1f1f1f' : 'none',
+        position: 'absolute', left: 0, right: 0, top: '100%',
+        background: 'var(--bg)', boxShadow: isOpen ? 'var(--s2)' : 'none',
+        opacity: isOpen ? 1 : 0, transform: isOpen ? 'none' : 'translateY(-8px)',
+        pointerEvents: isOpen ? 'auto' : 'none',
+        transition: 'opacity .3s var(--ease), transform .3s var(--ease)',
       }}
     >
-      <nav className="flex flex-col px-6 py-4 gap-1">
-        {NAV_LINKS.map(({ to, label }) => (
+      <nav className="wrap flex flex-col" style={{ paddingBlock: '1rem 1.6rem' }}>
+        {NAV_LINKS.map(({ to, label, end }) => (
           <NavLink
             key={to}
             to={to}
-            end={to === '/'}
+            end={end}
             onClick={onClose}
-            className={({ isActive }) =>
-              `py-3 text-sm font-semibold font-ui tracking-widest transition-[color,opacity] duration-[250ms] ease active:opacity-70 active:duration-150 ${
-                isActive ? 'text-accent' : 'text-text-muted hover:text-text-primary'
-              }`
-            }
+            className="t-h3"
+            style={({ isActive }) => ({ color: isActive ? 'var(--ink)' : 'var(--mute)', paddingBlock: '.55rem' })}
           >
             {label}
           </NavLink>
         ))}
+        <button type="button" onClick={onToggleTheme} className="t-label" style={{ color: 'var(--mute)', textAlign: 'left', paddingBlock: '.9rem' }}>
+          {theme === 'dark' ? 'Light' : 'Dark'}
+        </button>
       </nav>
     </div>
   )

@@ -11,16 +11,16 @@ const videos = [
 ]
 
 export default function VideosPage() {
-  useEffect(() => { document.title = 'Videos — UIA 특별관' }, [])
+  useEffect(() => { document.title = 'Videos | UIA 특별관' }, [])
 
   return (
     <PageTransition className="pt-10 pb-24">
-      <PageHeader title="Videos" subtitle="UIA 활동 영상" />
+      <PageHeader title="Videos" ko="활동 영상" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {videos.map((v, i) => (
           <FadeIn key={v.id} delay={i * 80}>
             <div className="flex flex-col gap-3">
-              <div style={{ aspectRatio: '16 / 9', background: '#141414', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '16 / 9', background: 'var(--surface)', borderRadius: '4px', overflow: 'hidden' }}>
                 {v.src ? (
                   <video src={v.src} controls playsInline className="w-full h-full object-contain" />
                 ) : (

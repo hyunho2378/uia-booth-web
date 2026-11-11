@@ -5,7 +5,7 @@ import ProjectImage from './ProjectImage'
 // 방향 순환: 8가지 조합으로 카드마다 다른 와이프 방향
 const DIRS = ['up', 'left', 'up', 'right', 'down', 'right', 'down', 'left']
 
-export default function ProjectCard({ work, index = 0, keycolor = '#F5C518', subject = 'all' }) {
+export default function ProjectCard({ work, index = 0, keycolor = 'var(--y)', subject = 'all' }) {
   const cardRef = useRef(null)
   const [entered, setEntered] = useState(false)
 
@@ -44,7 +44,7 @@ export default function ProjectCard({ work, index = 0, keycolor = '#F5C518', sub
       <div
         ref={cardRef}
         className="relative overflow-hidden"
-        style={{ aspectRatio: '1 / 1.414', borderRadius: '4px', background: '#0a0a0a', border: '1px solid #1f1f1f' }}
+        style={{ aspectRatio: '1 / 1.414', borderRadius: '4px', background: 'var(--bg)', border: 'none' }}
       >
         {/* 이미지 레이어: 와이프 아웃 시 동기 페이드인 */}
         <div
@@ -66,7 +66,7 @@ export default function ProjectCard({ work, index = 0, keycolor = '#F5C518', sub
             style={{ background: 'rgba(10,10,10,0.55)' }}
           >
             <p className="text-base font-semibold text-text-primary text-center font-body" style={{ wordBreak: 'keep-all' }}>
-              {work.title}
+              {work.title.replace(/ (\S+)$/, '\u00A0$1')}
             </p>
             <p className="text-xs text-text-muted text-center font-ui">{work.author}</p>
           </div>

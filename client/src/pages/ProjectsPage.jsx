@@ -26,7 +26,7 @@ export default function ProjectsPage() {
   const [shuffledAll] = useState(() => shuffle(works))
 
   useEffect(() => {
-    document.title = 'Projects — UIA 특별관'
+    document.title = 'Projects | UIA 특별관'
   }, [])
 
   function handleChange(id) {
@@ -39,7 +39,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="pt-10 pb-24">
-      <PageHeader title="Projects" />
+      <PageHeader title="Projects" ko="활동 포스터" />
 
       {/* 모바일 필터 */}
       <div className="lg:hidden mb-6">

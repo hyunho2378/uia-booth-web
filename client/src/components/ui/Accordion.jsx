@@ -7,12 +7,12 @@ export default function Accordion({ items }) {
   return (
     <div>
       {items.map((it, idx) => (
-        <div key={idx} style={{ borderBottom: '1px solid #1f1f1f' }}>
+        <div key={idx} style={{ borderBottom: 'none' }}>
           <button
             onClick={() => setOpen(open === idx ? null : idx)}
             className="w-full flex items-center justify-between py-4 text-left transition-colors duration-200 font-body"
             style={{
-              color: it.highlight ? '#F5C518' : '#f0f0f0',
+              color: it.highlight ? 'var(--y)' : 'var(--ink)',
               fontWeight: it.highlight ? 700 : 400,
             }}
           >

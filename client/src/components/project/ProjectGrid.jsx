@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import ProjectCard from './ProjectCard'
 
-const FALLBACK_COLOR = '#F5C518'
+const FALLBACK_COLOR = 'var(--y)'
 
 function keyOf(work) {
   const src = work.pages?.[0]
