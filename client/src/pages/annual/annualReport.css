@@ -13,7 +13,7 @@
 /* 애뉴얼 리포트 책 화면. 디자인 시스템 다크 토큰과 보라만 쓴다. */
 .ar-root {
   position: fixed;
-  inset: 0;
+  inset: 56px 0 0 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
   background: radial-gradient(900px 500px at 50% 0%, rgb(var(--dah-purple-deep) / 0.35), transparent 70%), rgb(var(--dah-bg-base));
