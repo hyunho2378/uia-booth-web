@@ -155,7 +155,7 @@ img { display: block; max-width: 100%; }
 .photo-cols { columns: 3; column-gap: clamp(1rem, 2vw, 3rem); }
 @media (max-width: 1100px) { .photo-cols { columns: 2; } }
 @media (max-width: 640px) { .photo-cols { columns: 1; } }
-.photo-item { break-inside: avoid; margin-bottom: clamp(1.4rem, 2.4vw, 3.4rem); }
+.photo-item { break-inside: avoid; margin-bottom: clamp(1rem, 1.6vw, 2.4rem); }
 .photo-item figcaption { margin-top: .9rem; }
 .photo-btn {
   display: block; width: 100%; overflow: hidden; border-radius: var(--radius);
@@ -188,11 +188,10 @@ img { display: block; max-width: 100%; }
 .orb span { position: relative; font: 600 clamp(.95rem, 1.35vw, 2rem)/1.25 var(--latin); letter-spacing: -.01em; color: #f2f2f2; text-align: center; transform: translateY(8%); }
 .orb:hover { transform: scale(1.04); }
 
-/* 함께하는 대학 */
-.partner-grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.6rem, 3vw, 4rem) var(--gap); }
-@media (max-width: 700px) { .partner-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.partner-logo { position: relative; height: clamp(7rem, 11vw, 15rem); background: #fff; border-radius: var(--radius); box-shadow: var(--s1); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
-.partner-logo img { position: absolute; inset: 20% 12%; width: 76%; height: 60%; object-fit: contain; }
+/* 함께하는 대학: 교표와 심볼마크를 같은 크기의 원 안에 둔다 */
+.partner-grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(9rem, 13vw, 18rem), 1fr)); gap: clamp(2rem, 3.4vw, 5rem) clamp(1.2rem, 2.4vw, 3.6rem); }
+.partner-logo { position: relative; aspect-ratio: 1; width: 100%; max-width: clamp(9rem, 14vw, 19rem); background: #fff; border-radius: 50%; box-shadow: var(--s1); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
+.partner-logo img { position: absolute; inset: 17%; width: 66%; height: 66%; object-fit: contain; }
 .partner-grid li:hover .partner-logo { box-shadow: var(--s2); transform: translateY(-3px); }
 
 /* 둘러보기 줄 */

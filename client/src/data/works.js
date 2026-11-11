@@ -4,19 +4,6 @@
 
 export const works = [
     {
-        id: 'cc-volumeup',
-        subjectId: 'chuncheon',
-        subjectName: '춘천 임팩톤',
-        title: 'Volume Up!',
-        author: 'UIA 임팩톤@춘천',
-        members: [],
-        description: '청소년이 소리를 고르고 직접 운영하는 춘천시립청소년도서관 2층. 2층을 떠드는 곳과 조용한 곳으로 나누고, 춘천 관내 중고등학교 동아리가 모인 청소년 운영위원회가 그 층을 운영하도록 설계한 공공 서비스 디자인입니다.',
-        award: 'excellence',
-        awardLabel: '우수상',
-        links: [],
-        pages: ['/posters/cc-volumeup.jpg'],
-    },
-    {
         id: 'cc-soyang',
         subjectId: 'chuncheon',
         subjectName: '춘천 임팩톤',
@@ -25,7 +12,7 @@ export const works = [
         members: [],
         description: '소양아트서클의 낮은 관광 인지도를 문제로 보고, ssoring 도넛과 소양강 낙조와 산책 경험을 결합해 방문과 체류의 이유를 제안했습니다.',
         award: 'grand',
-        awardLabel: '대상',
+        awardLabel: '1등',
         links: [],
         pages: ['/posters/cc-soyang.jpg'],
     },
@@ -38,9 +25,22 @@ export const works = [
         members: [],
         description: '춘천의 관광자원과 러닝을 연결하고, 봄내크루 6개 캐릭터를 테마별 러닝 코스와 굿즈에 연계하는 관광 프로젝트입니다.',
         award: 'excellence',
-        awardLabel: '우수상',
+        awardLabel: '2등',
         links: [],
         pages: ['/posters/cc-bomnaerun.jpg'],
+    },
+    {
+        id: 'cc-volumeup',
+        subjectId: 'chuncheon',
+        subjectName: '춘천 임팩톤',
+        title: 'Volume Up!',
+        author: 'UIA 임팩톤@춘천',
+        members: [],
+        description: '청소년이 소리를 고르고 직접 운영하는 춘천시립청소년도서관 2층. 2층을 떠드는 곳과 조용한 곳으로 나누고, 춘천 관내 중고등학교 동아리가 모인 청소년 운영위원회가 그 층을 운영하도록 설계한 공공 서비스 디자인입니다.',
+        award: 'prize',
+        awardLabel: '공동 3등',
+        links: [],
+        pages: ['/posters/cc-volumeup.jpg'],
     },
     {
         id: 'cc-salon',
@@ -50,11 +50,11 @@ export const works = [
         author: 'UIA 임팩톤@춘천',
         members: [],
         description: '',
-        award: null,
+        award: 'prize',
+        awardLabel: '공동 3등',
         links: [],
         pages: ['/posters/cc-salon.jpg'],
     },
-
     {
         id: 'sg-session',
         subjectId: 'sagape',
@@ -79,7 +79,6 @@ export const works = [
         links: [],
         pages: ['/posters/sg-booth.jpg'],
     },
-
     {
         id: 'gj-hanyang',
         subjectId: 'gyeongju',

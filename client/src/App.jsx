@@ -8,10 +8,6 @@ const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'))
 const FacesPage         = lazy(() => import('./pages/FacesPage'))
 const FaceDetailPage    = lazy(() => import('./pages/FaceDetailPage'))
 const PhotosPage        = lazy(() => import('./pages/PhotosPage'))
-const AnnualReport      = lazy(() => import('./pages/annual/AnnualReport'))
-const PanelsPage        = lazy(() => import('./pages/PanelsPage'))
-const VideosPage        = lazy(() => import('./pages/VideosPage'))
-const StampPage         = lazy(() => import('./pages/StampPage'))
 const NotFoundPage      = lazy(() => import('./pages/NotFoundPage'))
 
 function PageFallback() {
@@ -34,11 +30,6 @@ export default function App() {
           <Route path="/people/:id"    element={<FaceDetailPage />} />
           <Route path="/faces"         element={<Navigate to="/people" replace />} />
           <Route path="/photos"        element={<PhotosPage />} />
-          <Route path="/annual-report" element={<AnnualReport />} />
-          <Route path="/panels"        element={<PanelsPage />} />
-          <Route path="/videos"        element={<VideosPage />} />
-          <Route path="/stamp"         element={<StampPage />} />
-          <Route path="/stamp/:id"     element={<StampPage />} />
           <Route path="*"              element={<NotFoundPage />} />
         </Routes>
       </Suspense>

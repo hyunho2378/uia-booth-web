@@ -39,7 +39,7 @@ export default function FaceDetailPage() {
             {f.photo ? (
               <img src={f.photo} alt={f.name} decoding="async" />
             ) : partner ? (
-              <img src={'/brand/schools/' + partner.logo + '.svg'} alt={partner.en} className="person-logo" />
+              <img src={'/brand/symbols/' + partner.logo} alt={partner.en} className="person-logo" />
             ) : null}
           </div>
         </div>

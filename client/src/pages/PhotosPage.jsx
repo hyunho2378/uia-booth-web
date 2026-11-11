@@ -3,12 +3,16 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import PageHeader from '../components/ui/PageHeader'
 import { events, photos } from '../data/photos'
 
-const FILTERS = [{ id: 'all', en: 'All', ko: '전체' }, ...events]
-
 export default function PhotosPage() {
-  const [filter, setFilter] = useState('all')
+  const [eventId, setEventId] = useState('all')
+  const [albumId, setAlbumId] = useState('all')
   const [open, setOpen] = useState(-1)
-  const list = useMemo(() => (filter === 'all' ? photos : photos.filter(p => p.event === filter)), [filter])
+
+  const event = events.find(e => e.id === eventId)
+  const list = useMemo(
+    () => photos.filter(p => (eventId === 'all' || p.event === eventId) && (albumId === 'all' || p.album === albumId)),
+    [eventId, albumId]
+  )
 
   useEffect(() => { document.title = 'Photos | UIA 특별관' }, [])
 
@@ -26,44 +30,56 @@ export default function PhotosPage() {
     return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
   }, [open, close, step])
 
+  const labelOf = p => {
+    const ev = events.find(e => e.id === p.event)
+    const al = ev.albums.find(a => a.id === p.album)
+    return { en: ev.en + ', ' + al.en, ko: ev.ko + ', ' + al.ko }
+  }
+
+  const pickEvent = id => { setEventId(id); setAlbumId('all'); setOpen(-1) }
+  const tab = (active) => ({ color: active ? 'var(--ink)' : 'var(--mute)', transition: 'color .25s var(--ease)', paddingBlock: '.4rem' })
+
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
       <PageHeader title="Photos" ko="현장 사진" subtitle="임팩톤@춘천, 사회적가치 페스타, 경주 포럼의 현장 사진입니다." />
 
-      <div className="flex flex-wrap" style={{ gap: '.4rem 2rem', marginBottom: 'clamp(2rem, 3vw, 4rem)' }}>
-        {FILTERS.map(f => (
-          <button
-            key={f.id}
-            type="button"
-            onClick={() => { setFilter(f.id); setOpen(-1) }}
-            className="t-label"
-            style={{ color: filter === f.id ? 'var(--ink)' : 'var(--mute)', transition: 'color .25s var(--ease)', paddingBlock: '.4rem' }}
-          >
-            {f.en} <span style={{ fontWeight: 500, marginLeft: '.3em' }}>{f.ko}</span>
+      <div className="flex flex-wrap" style={{ gap: '.4rem 2rem', marginBottom: '.6rem' }}>
+        <button type="button" onClick={() => pickEvent('all')} className="t-label" style={tab(eventId === 'all')}>All <span style={{ fontWeight: 500, marginLeft: '.3em' }}>전체</span></button>
+        {events.map(e => (
+          <button key={e.id} type="button" onClick={() => pickEvent(e.id)} className="t-label" style={tab(eventId === e.id)}>
+            {e.en} <span style={{ fontWeight: 500, marginLeft: '.3em' }}>{e.ko}</span>
           </button>
         ))}
+      </div>
+      <div className="flex flex-wrap" style={{ gap: '.4rem 1.6rem', marginBottom: 'clamp(2rem, 3vw, 4rem)', minHeight: '2.4rem' }}>
+        {event && (
+          <>
+            <button type="button" onClick={() => { setAlbumId('all'); setOpen(-1) }} className="t-label" style={tab(albumId === 'all')}>All <span style={{ fontWeight: 500, marginLeft: '.3em' }}>전체</span></button>
+            {event.albums.map(a => (
+              <button key={a.id} type="button" onClick={() => { setAlbumId(a.id); setOpen(-1) }} className="t-label" style={tab(albumId === a.id)}>
+                {a.en} <span style={{ fontWeight: 500, marginLeft: '.3em' }}>{a.ko}</span>
+              </button>
+            ))}
+          </>
+        )}
       </div>
 
       <div className="photo-cols">
         {list.map((p, i) => (
           <figure key={p.src} className="photo-item">
-            <button type="button" onClick={() => setOpen(i)} className="photo-btn" style={{ aspectRatio: String(p.r) }} aria-label={p.en}>
-              <img src={p.src} alt={p.en} loading="lazy" decoding="async" />
+            <button type="button" onClick={() => setOpen(i)} className="photo-btn" style={{ aspectRatio: String(p.r) }} aria-label={labelOf(p).en}>
+              <img src={p.thumb} alt={labelOf(p).en} loading="lazy" decoding="async" />
             </button>
-            <figcaption>
-              <span className="t-label" style={{ color: 'var(--ink)', display: 'block' }}>{p.en}</span>
-              <span className="t-ko" style={{ display: 'block', fontSize: '.9rem' }}>{p.ko}</span>
-            </figcaption>
           </figure>
         ))}
       </div>
 
       {open >= 0 && list[open] && (
         <div className="lightbox" onClick={close} role="dialog" aria-modal="true">
-          <img src={list[open].src} alt={list[open].en} onClick={e => e.stopPropagation()} />
+          <img src={list[open].src} alt={labelOf(list[open]).en} onClick={e => e.stopPropagation()} />
           <p className="lightbox-cap" onClick={e => e.stopPropagation()}>
-            <span className="t-label" style={{ color: '#f2f2f2', display: 'block' }}>{list[open].en}</span>
-            <span className="t-ko" style={{ color: '#adaeae' }}>{list[open].ko}</span>
+            <span className="t-label" style={{ color: '#f2f2f2', display: 'block' }}>{labelOf(list[open]).en}</span>
+            <span className="t-ko" style={{ color: '#adaeae' }}>{labelOf(list[open]).ko}</span>
           </p>
           <button type="button" className="lb-btn lb-close" onClick={close} aria-label="Close"><X size={24} /></button>
           <button type="button" className="lb-btn lb-prev" onClick={e => { e.stopPropagation(); step(-1) }} aria-label="Previous"><ChevronLeft size={32} /></button>

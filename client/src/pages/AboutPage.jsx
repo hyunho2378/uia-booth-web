@@ -16,8 +16,6 @@ const EXPLORE = [
   { to: '/projects', en: 'Projects', ko: '활동 포스터' },
   { to: '/photos', en: 'Photos', ko: '현장 사진' },
   { to: '/people', en: 'People', ko: '참여 학생' },
-  { to: '/panels', en: 'Panels', ko: '전시 판넬' },
-  { to: '/videos', en: 'Videos', ko: '활동 영상' },
 ]
 
 function useParallax(heroRef, layerRefs) {
@@ -167,7 +165,7 @@ export default function AboutPage() {
         <ul className="partner-grid">
           {partners.map(p => (
             <li key={p.id}>
-              <div className="partner-logo"><img src={'/brand/schools/' + p.logo + '.svg'} alt={p.en} loading="lazy" decoding="async" /></div>
+              <div className="partner-logo"><img src={'/brand/symbols/' + p.logo} alt={p.en} loading="lazy" decoding="async" /></div>
               <p className="t-label" style={{ color: 'var(--ink)', marginTop: '.9rem' }}>{p.en}</p>
               <p className="t-ko" style={{ fontSize: '.95rem' }}>{p.ko}</p>
             </li>
