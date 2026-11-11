@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --page-px-mobile:  1.5rem;
+  --page-px-tablet:  2.5rem;
+  --page-px-desktop: 4rem;
+}
+
+.page-px {
+  padding-left:  var(--page-px-mobile);
+  padding-right: var(--page-px-mobile);
+}
+@media (min-width: 768px) {
+  .page-px {
+    padding-left:  var(--page-px-tablet);
+    padding-right: var(--page-px-tablet);
+  }
+}
+@media (min-width: 1024px) {
+  .page-px {
+    padding-left:  var(--page-px-desktop);
+    padding-right: var(--page-px-desktop);
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #0a0a0a;
+  color: #f0f0f0;
+  font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+p, dd, span, h1, h2, h3 { word-break: keep-all; }
+
+*:focus-visible {
+  outline: 2px solid #F5C518;
+  outline-offset: 2px;
+}
+
+
+.card-cv {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 350px;
+}
+
+/* ── 카드 와이프 애니메이션 ──────────────────────────────────── */
+/* 오버레이: 아래→위 */
+@keyframes wipe-overlay-up {
+  0%   { transform: translateY(101%);  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  37%  { transform: translateY(0);     animation-timing-function: linear; }
+  56%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { transform: translateY(-101%); }
+}
+/* 오버레이: 위→아래 */
+@keyframes wipe-overlay-down {
+  0%   { transform: translateY(-101%); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  37%  { transform: translateY(0);     animation-timing-function: linear; }
+  56%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { transform: translateY(101%);  }
+}
+/* 오버레이: 오른쪽→왼쪽 */
+@keyframes wipe-overlay-left {
+  0%   { transform: translateX(101%);  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  37%  { transform: translateX(0);     animation-timing-function: linear; }
+  56%  { transform: translateX(0);     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { transform: translateX(-101%); }
+}
+/* 오버레이: 왼쪽→오른쪽 */
+@keyframes wipe-overlay-right {
+  0%   { transform: translateX(-101%); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  37%  { transform: translateX(0);     animation-timing-function: linear; }
+  56%  { transform: translateX(0);     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { transform: translateX(101%);  }
+}
+/* 이미지: 와이프 아웃 시점(56%)에 맞춰 페이드인 */
+@keyframes wipe-image-reveal {
+  0%   { opacity: 0; }
+  56%  { opacity: 0; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { opacity: 1; }
+}
+
+/* ── Hero 배경 이미지 페이드인 ──────────────────────────────── */
+@keyframes hero-bg-reveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Hero/포스터 진입 애니메이션 ────────────────────────────── */
+/* h1 전체: 좌→우 clip-path reveal */
+@keyframes title-clip-reveal {
+  0%   { clip-path: inset(0 100% 0 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  60%  { clip-path: inset(0 0% 0 0); }
+  100% { clip-path: inset(0 0% 0 0); }
+}
+/* "Flow" span: reveal 후 scaleX(-1) + blur "흐름" 표현 */
+@keyframes title-flow-flip {
+  0%   { transform: scaleX(1); filter: blur(0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  40%  { filter: blur(2px); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100% { transform: scaleX(-1); filter: blur(0); }
+}
+/* 일반 요소: opacity + translateY fade-up */
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+/* 포스터: scale + fade reveal */
+@keyframes poster-reveal {
+  from { opacity: 0; transform: scale(0.97) translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes lightbox-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
