@@ -1,3 +1,4 @@
+import { asset } from '../utils/asset'
 import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
@@ -37,9 +38,9 @@ export default function FaceDetailPage() {
         <div className="person-photo-wrap">
           <div className="person-photo">
             {f.photo ? (
-              <img src={f.photo} alt={f.name} decoding="async" />
+              <img src={asset(f.photo)} alt={f.name} decoding="async" />
             ) : partner ? (
-              <img src={'/brand/symbols/' + partner.logo} alt={partner.en} className="person-logo" />
+              <img src={asset('/brand/symbols/' + partner.logo)} alt={partner.en} className="person-logo" />
             ) : null}
           </div>
         </div>

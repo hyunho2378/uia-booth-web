@@ -1,5 +1,7 @@
 // 실제 활동 사진. 파일은 public/photos/<event>/<album>/NN.jpg 와 t NN.jpg(썸네일). r 은 가로 세로 비율이다.
 // 출처: 학생기획단 구글 드라이브 공유 폴더(임팩톤@춘천 현장 기록 모음, 사회적가치 페스타(UIA), 경주국제포럼)
+import { asset } from '../utils/asset'
+
 export const events = [
   { id: 'chuncheon', en: 'Impactthon Chuncheon', ko: '임팩톤@춘천', albums: [
     { id: 'group', en: 'Group photo', ko: '단체사진' },
@@ -26,7 +28,7 @@ export const events = [
   ] },
 ]
 
-const P = (event, album, file, r) => ({ event, album, src: '/photos/' + event + '/' + album + '/' + file, thumb: '/photos/' + event + '/' + album + '/t' + file, r })
+const P = (event, album, file, r) => ({ event, album, src: asset('/photos/' + event + '/' + album + '/' + file), thumb: asset('/photos/' + event + '/' + album + '/t' + file), r })
 
 export const photos = [
   P('chuncheon', 'group', '01.jpg', 1.7608),
@@ -170,7 +172,7 @@ export const photos = [
 ]
 
 export const heroPhotos = {
-  chuncheon: '/photos/cc-group-1.jpg',
-  sagape: '/photos/sg-booth-team.jpg',
-  gyeongju: '/photos/gj-backdrop.jpg',
+  chuncheon: asset('/photos/cc-group-1.jpg'),
+  sagape: asset('/photos/sg-booth-team.jpg'),
+  gyeongju: asset('/photos/gj-backdrop.jpg'),
 }

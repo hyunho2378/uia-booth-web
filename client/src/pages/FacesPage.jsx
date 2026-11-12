@@ -1,3 +1,4 @@
+import { asset } from '../utils/asset'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
@@ -14,7 +15,7 @@ export default function FacesPage() {
         {faces.map((f, i) => (
           <li key={f.name}>
             <Link to={'/people/' + (i + 1)} className="person-row">
-              {f.photo && <img src={f.photo} alt={f.name} className="person-thumb" loading="lazy" decoding="async" />}
+              {f.photo && <img src={asset(f.photo)} alt={f.name} className="person-thumb" loading="lazy" decoding="async" />}
               <span className="person-text">
                 <span className="t-h2" style={{ display: 'block' }}>{f.name}</span>
                 <span className="t-ko" style={{ display: 'block', marginTop: '.3rem' }}>{f.univ} {f.major}</span>

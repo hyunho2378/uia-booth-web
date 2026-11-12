@@ -8,6 +8,9 @@ const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'))
 const FacesPage         = lazy(() => import('./pages/FacesPage'))
 const FaceDetailPage    = lazy(() => import('./pages/FaceDetailPage'))
 const PhotosPage        = lazy(() => import('./pages/PhotosPage'))
+const ActivitiesPage    = lazy(() => import('./pages/ActivitiesPage'))
+const ActivityDetailPage = lazy(() => import('./pages/ActivityDetailPage'))
+const VisitPage         = lazy(() => import('./pages/VisitPage'))
 const NotFoundPage      = lazy(() => import('./pages/NotFoundPage'))
 
 function PageFallback() {
@@ -24,6 +27,9 @@ export default function App() {
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/"              element={<AboutPage />} />
+          <Route path="/activities"     element={<ActivitiesPage />} />
+          <Route path="/activities/:id" element={<ActivityDetailPage />} />
+          <Route path="/visit"          element={<VisitPage />} />
           <Route path="/projects"      element={<ProjectsPage />} />
           <Route path="/projects/:id"  element={<ProjectDetailPage />} />
           <Route path="/people"        element={<FacesPage />} />

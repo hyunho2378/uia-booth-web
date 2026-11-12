@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import PageHeader from '../components/ui/PageHeader'
+import { useSearchParams } from 'react-router-dom'
 import { events, photos } from '../data/photos'
 
 export default function PhotosPage() {
-  const [eventId, setEventId] = useState('all')
+  const [params] = useSearchParams()
+  const startEvent = events.some(e => e.id === params.get('event')) ? params.get('event') : 'all'
+  const [eventId, setEventId] = useState(startEvent)
   const [albumId, setAlbumId] = useState('all')
   const [open, setOpen] = useState(-1)
 

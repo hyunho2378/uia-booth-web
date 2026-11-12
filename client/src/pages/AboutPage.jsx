@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
+import { asset } from '../utils/asset'
 import Ph from '../components/ui/Ph'
 import { partners } from '../data/partners'
+import { StatsBand, Programs, TimelineRows, FeaturedProjects, Voices, Notices, VisitBand } from '../components/home/Sections'
 import { heroPhotos } from '../data/photos'
 
 const FOUR_C = [
@@ -10,12 +12,6 @@ const FOUR_C = [
   { name: 'Co-Learning', color: '#fdc51b', en: 'Members from many majors and universities learn together at the sites of social problems.', ko: '다양한 전공과 대학의 구성원이/사회문제 현장에서 함께 배웁니다' },
   { name: 'Co-Creating', color: '#e94545', en: 'We create new solutions together by joining university knowledge with field expertise.', ko: '대학의 지식과 현장의 전문성으로/새로운 해결책을 함께 만듭니다' },
   { name: 'Collective Impact', color: '#c4c2c1', en: 'We spread knowledge and solutions to regions and society to build collective impact.', ko: '지식과 해결책을 지역과 사회로 확산해/집합적 임팩트를 만듭니다' },
-]
-
-const EXPLORE = [
-  { to: '/projects', en: 'Projects', ko: '활동 포스터' },
-  { to: '/photos', en: 'Photos', ko: '현장 사진' },
-  { to: '/people', en: 'People', ko: '참여 학생' },
 ]
 
 function useParallax(heroRef, layerRefs) {
@@ -108,6 +104,8 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <StatsBand />
+
       {/* UIA는 */}
       <section className="wrap two" style={{ paddingBlock: 'clamp(4rem, 9vw, 11rem)' }}>
         <div>
@@ -165,7 +163,7 @@ export default function AboutPage() {
         <ul className="partner-grid">
           {partners.map(p => (
             <li key={p.id}>
-              <div className="partner-logo"><img src={'/brand/symbols/' + p.logo} alt={p.en} loading="lazy" decoding="async" /></div>
+              <div className="partner-logo"><img src={asset('/brand/symbols/' + p.logo)} alt={p.en} loading="lazy" decoding="async" /></div>
               <p className="t-label" style={{ color: 'var(--ink)', marginTop: '.9rem' }}>{p.en}</p>
               <p className="t-ko" style={{ fontSize: '.95rem' }}>{p.ko}</p>
             </li>
@@ -173,19 +171,12 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      {/* 둘러보기 */}
-      <section className="wrap" style={{ paddingBlock: 'clamp(2rem, 4vw, 5rem) clamp(5rem, 10vw, 12rem)' }}>
-        <ul>
-          {EXPLORE.map(x => (
-            <li key={x.to}>
-              <Link to={x.to} className="explore-row two">
-                <span className="t-h1">{x.en}</span>
-                <span className="explore-ko t-ko-lg">{x.ko}<ArrowUpRight size={28} /></span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <Programs />
+      <TimelineRows />
+      <FeaturedProjects />
+      <Voices />
+      <Notices />
+      <VisitBand />
     </>
   )
 }

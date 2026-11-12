@@ -2,6 +2,8 @@
 // pages: 포스터 이미지 경로(/public/posters). award: 'grand' | 'excellence' | 'prize' | null
 // 수상 문구는 awardLabel 로 덮어쓴다. 출처가 확인된 내용만 적는다.
 
+import { asset } from '../utils/asset'
+
 export const works = [
     {
         id: 'cc-soyang',
@@ -130,3 +132,5 @@ export const works = [
         pages: ['/posters/gj-handong.jpg'],
     },
 ]
+
+works.forEach((w) => { w.pages = w.pages.map(asset) })
