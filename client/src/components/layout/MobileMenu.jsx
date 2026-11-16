@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { NAV_LINKS } from './navLinks'
 
-export default function MobileMenu({ isOpen, onClose, theme, onToggleTheme }) {
+export default function MobileMenu({ isOpen, onClose }) {
   return (
     <div
       className="xl:hidden"
@@ -26,9 +26,6 @@ export default function MobileMenu({ isOpen, onClose, theme, onToggleTheme }) {
             {label}
           </NavLink>
         ))}
-        <button type="button" onClick={onToggleTheme} className="t-label" style={{ color: 'var(--mute)', textAlign: 'left', paddingBlock: '.9rem' }}>
-          {theme === 'dark' ? 'Light' : 'Dark'}
-        </button>
       </nav>
     </div>
   )

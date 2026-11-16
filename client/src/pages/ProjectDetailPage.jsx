@@ -10,7 +10,7 @@ export default function ProjectDetailPage() {
   const work = getWorkById(works, id)
 
   useEffect(() => {
-    if (work) document.title = `${work.title} — UIA 특별관`
+    if (work) document.title = `${work.title} | UIA 특별관`
   }, [work])
 
   if (!work) return <Navigate to="/404" replace />

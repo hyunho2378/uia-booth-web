@@ -3,12 +3,10 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import UiaMark from '../ui/UiaMark'
 import MobileMenu from './MobileMenu'
-import useTheme from '../../hooks/useTheme'
 import { NAV_LINKS } from './navLinks'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
-  const [theme, toggleTheme] = useTheme()
   const { pathname } = useLocation()
   useEffect(() => { setOpen(false) }, [pathname])
 
@@ -24,9 +22,9 @@ export default function Header() {
       }}
     >
       <div className="wrap h-full flex items-center justify-between" style={{ gap: '2rem' }}>
-        <Link to="/" className="flex items-center" style={{ gap: '.9rem', color: 'var(--ink)' }} aria-label="UIA Special Hall">
+        <Link to="/" className="flex items-center" style={{ gap: '.9rem', color: 'var(--ink)' }} aria-label="UIA 특별관">
           <UiaMark className="" title="UIA" />
-          <span className="hidden sm:block t-label" style={{ color: 'var(--mute)', whiteSpace: 'nowrap' }}>Special Hall</span>
+          <span className="hidden sm:block t-label" style={{ color: 'var(--mute)', whiteSpace: 'nowrap' }}>특별관</span>
         </Link>
 
         <nav className="hidden xl:flex items-center" style={{ gap: 'clamp(1.2rem, 1.8vw, 2.6rem)' }}>
@@ -45,16 +43,13 @@ export default function Header() {
               {label}
             </NavLink>
           ))}
-          <button type="button" onClick={toggleTheme} className="t-label" style={{ color: 'var(--mute)', minWidth: '3.4em', textAlign: 'right' }} aria-label="Switch theme">
-            {theme === 'dark' ? 'Light' : 'Dark'}
-          </button>
         </nav>
 
-        <button type="button" className="xl:hidden" style={{ color: 'var(--ink)' }} onClick={() => setOpen(o => !o)} aria-label="Menu">
+        <button type="button" className="xl:hidden" style={{ color: 'var(--ink)' }} onClick={() => setOpen(o => !o)} aria-label="메뉴">
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-      <MobileMenu isOpen={open} onClose={() => setOpen(false)} theme={theme} onToggleTheme={toggleTheme} />
+      <MobileMenu isOpen={open} onClose={() => setOpen(false)} />
     </header>
   )
 }

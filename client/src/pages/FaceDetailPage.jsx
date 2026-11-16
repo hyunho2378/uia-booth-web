@@ -10,7 +10,7 @@ function Paragraphs({ text }) {
   if (!parts.length) {
     return (
       <p className="t-body" style={{ color: 'var(--mute)' }}>
-        Message coming soon <span className="t-ko" style={{ fontSize: '1rem', marginLeft: '.5em' }}>메시지를 준비하고 있습니다</span>
+        소개 글을 준비하고 있습니다.
       </p>
     )
   }
@@ -21,7 +21,7 @@ export default function FaceDetailPage() {
   const { id } = useParams()
   const idx = Number(id) - 1
   const f = faces[idx]
-  useEffect(() => { if (f) document.title = f.name + ' | UIA 특별관' }, [f])
+  useEffect(() => { if (f) document.title = f.name + ' | 참여 학생 | UIA 특별관' }, [f])
   if (!f) return <Navigate to="/people" replace />
 
   const partner = partnerByUniv(f.univ)
@@ -31,7 +31,7 @@ export default function FaceDetailPage() {
   return (
     <div style={{ paddingBlock: 'clamp(2rem, 3vw, 4rem) clamp(4rem, 8vw, 10rem)' }}>
       <Link to="/people" className="t-label" style={{ color: 'var(--mute)', display: 'inline-flex', alignItems: 'center', gap: '.5rem', marginBottom: '2rem' }}>
-        <ArrowLeft size={18} /> People
+        <ArrowLeft size={18} /> 참여 학생 목록
       </Link>
 
       <div className="two person-detail">
@@ -40,7 +40,7 @@ export default function FaceDetailPage() {
             {f.photo ? (
               <img src={asset(f.photo)} alt={f.name} decoding="async" />
             ) : partner ? (
-              <img src={asset('/brand/symbols/' + partner.logo)} alt={partner.en} className="person-logo" />
+              <img src={asset('/brand/symbols/' + partner.logo)} alt={partner.ko} className="person-logo" />
             ) : null}
           </div>
         </div>
@@ -50,14 +50,12 @@ export default function FaceDetailPage() {
           <p className="t-ko-lg" style={{ marginTop: '.6rem' }}>{f.univ} {f.major}</p>
 
           <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>
-            <h2 className="t-h3">What UIA means to me</h2>
-            <p className="t-ko" style={{ margin: '.2rem 0 1.2rem' }}>내가 생각하는 UIA</p>
+            <h2 className="t-h3">내가 생각하는 UIA</h2>
             <Paragraphs text={f.uia} />
           </section>
 
           <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>
-            <h2 className="t-h3">A moment I remember</h2>
-            <p className="t-ko" style={{ margin: '.2rem 0 1.2rem' }}>인상 깊었던 경험</p>
+            <h2 className="t-h3">인상 깊었던 경험</h2>
             <Paragraphs text={f.memory} />
           </section>
 

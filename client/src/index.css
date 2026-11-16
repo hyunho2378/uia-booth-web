@@ -18,20 +18,11 @@
   --radius: 16px;
   --sans: 'Pretendard Variable', 'Pretendard', sans-serif;
   --latin: 'Barlow', 'Pretendard Variable', sans-serif;
-}
-html[data-theme='light'] {
   --bg: #f2f2f2; --surface: #ffffff; --surface-2: #e5e5e5; --ink: #212120; --ink-2: #3c3c3c; --mute: #838384;
   --glass: rgba(242,242,242,.88); --orb-top: #161615; --field: #212120;
   --s1: 0 1px 2px rgba(33,33,32,.06), 0 4px 12px rgba(33,33,32,.06);
   --s2: 0 2px 4px rgba(33,33,32,.06), 0 12px 32px rgba(33,33,32,.12);
   --s3: 0 4px 8px rgba(33,33,32,.08), 0 28px 64px rgba(33,33,32,.2);
-}
-html[data-theme='dark'] {
-  --bg: #212120; --surface: #2c2c2b; --surface-2: #3c3c3c; --ink: #f2f2f2; --ink-2: #c4c2c1; --mute: #adaeae;
-  --glass: rgba(33,33,32,.88); --orb-top: #0b0b0a; --field: #161615;
-  --s1: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.28);
-  --s2: 0 2px 4px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.4);
-  --s3: 0 4px 8px rgba(0,0,0,.34), 0 28px 64px rgba(0,0,0,.55);
 }
 
 /* 한 곳에서 정한 좌우 여백과 열 */
@@ -51,7 +42,6 @@ body {
   word-break: keep-all;
   line-break: strict;
   -webkit-font-smoothing: antialiased;
-  transition: background-color .5s var(--ease), color .5s var(--ease);
 }
 p, li, h1, h2, h3 { text-wrap: pretty; }
 h1, h2, h3 { text-wrap: balance; }
@@ -202,10 +192,12 @@ img { display: block; max-width: 100%; }
 
 /* 사람 목록과 상세 */
 .people-grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 2.6rem); }
+.people-grid > li { min-width: 0; }
 @media (max-width: 760px) { .people-grid { grid-template-columns: 1fr; } }
-.person-row { display: flex; align-items: center; gap: 1.4rem; padding: clamp(1.4rem, 2.2vw, 2.8rem); background: var(--surface); border-radius: var(--radius); box-shadow: var(--s1); color: var(--ink); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
+.person-row { display: flex; align-items: center; gap: 1.4rem; width: 100%; min-width: 0; box-sizing: border-box; padding: clamp(1.4rem, 2.2vw, 2.8rem); background: var(--surface); border-radius: var(--radius); box-shadow: var(--s1); color: var(--ink); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
 .person-row:hover { box-shadow: var(--s3); transform: translateY(-3px); }
 .person-thumb { width: 4.4rem; height: 4.4rem; object-fit: cover; border-radius: var(--radius); flex: none; }
+.person-thumb.person-logo-thumb { object-fit: contain; background: #fff; padding: .45rem; }
 .person-text { flex: 1; min-width: 0; }
 .person-arrow { flex: none; color: var(--mute); transition: transform .4s var(--ease), color .3s var(--ease); }
 .person-row:hover .person-arrow { transform: translate(4px, -4px); color: var(--ink); }

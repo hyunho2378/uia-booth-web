@@ -71,7 +71,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
   return (
     <div>
       <div className="mb-6">
-        <BackLink to={backTo}>Projects 목록으로</BackLink>
+        <BackLink to={backTo}>프로젝트 목록</BackLink>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10">
@@ -83,13 +83,11 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             onClick={() => setLightboxOpen(true)}
             style={{
               position: 'relative',
-              height: 'clamp(300px, calc(100vh - 220px), 700px)',
-              background: 'var(--surface)',
+              width: '100%',
+              aspectRatio: '1 / 1.414',
+              background: 'transparent',
               border: 'none',
               overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               transform: posterHovered ? 'scale(1.22)' : 'scale(1)',
               boxShadow: posterHovered
                 ? '0 40px 100px rgba(0,0,0,0.85)'
@@ -108,7 +106,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 loading="lazy"
                 decoding="async"
                 onError={() => setMainDetailFailed(s => { const n = new Set(s); n.add(mainSrc); return n })}
-                style={{ height: '100%', width: 'auto', objectFit: 'contain', display: 'block' }}
+                style={{ height: '100%', width: '100%', objectFit: 'cover', display: 'block' }}
               />
             )}
 
@@ -119,7 +117,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 style={{ ...navBtnStyle, left: 10 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
-                aria-label="이전 페이지"
+                aria-label="이전 이미지"
               >
                 <ChevronLeft size={16} />
               </button>
@@ -130,7 +128,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 style={{ ...navBtnStyle, right: 10 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
-                aria-label="다음 페이지"
+                aria-label="다음 이미지"
               >
                 <ChevronRight size={16} />
               </button>
@@ -287,7 +285,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
       {isMagazine && magPages.length > 0 && (
         <div style={{ marginTop: '48px' }}>
           <div style={{
-            width: '1px', background: 'var(--surface-2)', height: '1px',
+            width: '1px', height: '1px',
             background: 'linear-gradient(to right, transparent, var(--surface-2), transparent)',
             marginBottom: '32px',
           }} />
@@ -305,7 +303,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
-                aria-label="이전 매거진 페이지"
+                aria-label="이전 페이지"
               >
                 <ChevronLeft size={16} />
               </button>
@@ -345,7 +343,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
-                aria-label="다음 매거진 페이지"
+                aria-label="다음 페이지"
               >
                 <ChevronRight size={16} />
               </button>

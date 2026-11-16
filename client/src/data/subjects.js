@@ -1,7 +1,7 @@
 // src/data/subjects.js — UIA 활동 구분 (사이드 필터 + 정보 패널)
 
 export const subjects = [
-    { id: 'all', name: 'ALL', description: '' },
+    { id: 'all', name: '전체', description: '' },
 
     {
         id: 'chuncheon', name: '춘천 임팩톤',
