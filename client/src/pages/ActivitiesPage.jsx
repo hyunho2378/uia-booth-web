@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
 import PageHeader from '../components/ui/PageHeader'
 import { events } from '../data/events'
 
@@ -28,7 +27,6 @@ export default function ActivitiesPage() {
                 <span className="t-h1" style={{ display: 'block' }}>{e.ko}</span>
                 <span className="t-lead" style={{ display: 'block', fontWeight: 700, marginTop: '1.2rem' }}>{e.dateKo}, {e.placeKo}</span>
                 <span className="t-ko" style={{ display: 'block', marginTop: '1.2rem', maxWidth: '40rem' }}>{e.summaryKo}</span>
-                <span className="more-link t-label" style={{ marginTop: '1.6rem' }}>자세히 보기<ArrowUpRight size={20} /></span>
               </span>
             </Link>
           </li>

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
 import { stats, events, notices, programs } from '../../data/events'
 import { works } from '../../data/works'
 import { faces } from '../../data/faces'
@@ -7,7 +6,7 @@ import FadeIn from '../ui/FadeIn'
 import { CountUp, useCursorPreview } from './Motion'
 import { asset } from '../../utils/asset'
 
-const SECTION = { paddingBlock: 'clamp(3rem, 6vw, 8rem)' }
+const SECTION = { paddingBlock: 'clamp(2rem, 3.6vw, 4.6rem)' }
 
 export function SectionHead({ en, ko, body, bodyKo, to, toLabel }) {
   return (
@@ -17,9 +16,6 @@ export function SectionHead({ en, ko, body, bodyKo, to, toLabel }) {
           <h2 className="t-h1">{ko || en}</h2>
         </div>
         <div style={{ maxWidth: '44rem' }}>
-          {to && (
-            <Link to={to} className="more-link t-label" style={{ marginTop: '1.2rem' }}>{toLabel}<ArrowUpRight size={20} /></Link>
-          )}
         </div>
       </div>
     </FadeIn>
@@ -66,7 +62,7 @@ export function TimelineRows() {
                   <span className="t-h2" style={{ display: 'block' }}>{e.ko}</span>
                   <span className="t-ko" style={{ display: 'block' }}>{e.placeKo}</span>
                 </span>
-                <ArrowUpRight size={28} className="tl-arrow" />
+                
               </span>
             </Link>
           </li>
@@ -157,7 +153,7 @@ export function Notices() {
               <span className="t-ko-lg">{n.date}</span>
               <span className="tl-main">
                 <span className="t-h3">{n.title}</span>
-                <ArrowUpRight size={26} className="tl-arrow" />
+                
               </span>
             </a>
           </li>
@@ -178,7 +174,7 @@ export function VisitBand() {
         <span className="visit-info">
           <span className="t-h2" style={{ display: 'block' }}>11월 27일부터 29일까지</span>
           <span className="t-ko" style={{ display: 'block', color: 'rgba(33,33,32,.72)' }}>고양 킨텍스</span>
-          <ArrowUpRight size={40} className="visit-arrow" />
+          
         </span>
       </Link>
     </section>

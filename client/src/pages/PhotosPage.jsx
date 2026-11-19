@@ -17,7 +17,7 @@ export default function PhotosPage() {
     [eventId, albumId]
   )
 
-  useEffect(() => { document.title = '현장 사진 | UIA 특별관' }, [])
+  useEffect(() => { document.title = 'Photo | UIA' }, [])
 
   const close = useCallback(() => setOpen(-1), [])
   const step = useCallback(d => setOpen(i => (i < 0 ? i : (i + d + list.length) % list.length)), [list.length])
@@ -44,7 +44,7 @@ export default function PhotosPage() {
 
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
-      <PageHeader title="현장 사진" />
+      <PageHeader title="Photo" />
 
       <div className="flex flex-wrap" style={{ gap: '.4rem 2rem', marginBottom: '.6rem' }}>
         <button type="button" onClick={() => pickEvent('all')} className="t-label" style={tab(eventId === 'all')}>전체</button>

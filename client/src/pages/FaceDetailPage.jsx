@@ -1,7 +1,6 @@
 import { asset } from '../utils/asset'
 import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { faces } from '../data/faces'
 import { partnerByUniv } from '../data/partners'
 
@@ -19,13 +18,11 @@ export default function FaceDetailPage() {
   if (!f) return <Navigate to="/people" replace />
 
   const partner = partnerByUniv(f.univ)
-  const prev = faces[(idx - 1 + faces.length) % faces.length]
-  const next = faces[(idx + 1) % faces.length]
 
   return (
     <div style={{ paddingBlock: 'clamp(2rem, 3vw, 4rem) clamp(4rem, 8vw, 10rem)' }}>
       <Link to="/people" className="t-label" style={{ color: 'var(--mute)', display: 'inline-flex', alignItems: 'center', gap: '.5rem', marginBottom: '2rem' }}>
-        <ArrowLeft size={18} /> 참여 학생 목록
+        참여 학생 목록
       </Link>
 
       <div className="two person-detail">
@@ -57,14 +54,6 @@ export default function FaceDetailPage() {
             </section>
           )}
 
-          <nav className="flex justify-between" style={{ marginTop: 'clamp(3rem, 5vw, 6rem)', gap: '2rem' }}>
-            <Link to={'/people/' + (((idx - 1 + faces.length) % faces.length) + 1)} className="t-label person-nav" style={{ color: 'var(--mute)' }}>
-              <ArrowLeft size={18} /> {prev.name}
-            </Link>
-            <Link to={'/people/' + (((idx + 1) % faces.length) + 1)} className="t-label person-nav" style={{ color: 'var(--mute)' }}>
-              {next.name} <ArrowRight size={18} />
-            </Link>
-          </nav>
         </div>
       </div>
     </div>

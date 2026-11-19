@@ -32,7 +32,7 @@ export default function Header() {
               key={to}
               to={to}
               end={end}
-              className="t-label"
+              className="t-label nav-link"
               style={({ isActive }) => ({
                 color: isActive ? 'var(--ink)' : 'var(--mute)',
                 transition: 'color .25s var(--ease)',
@@ -44,7 +44,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <button type="button" className="xl:hidden" style={{ color: 'var(--ink)' }} onClick={() => setOpen(o => !o)} aria-label="메뉴">
+        <button type="button" className="xl:hidden tap" style={{ color: 'var(--ink)' }} onClick={() => setOpen(o => !o)} aria-label="메뉴">
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>

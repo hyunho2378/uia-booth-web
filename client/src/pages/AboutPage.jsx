@@ -1,11 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
 import { asset } from '../utils/asset'
 import { partners } from '../data/partners'
 import FourC from '../components/home/FourC'
 import { PhotoStrip } from '../components/home/Motion'
-import { StatsBand, Programs, TimelineRows, FeaturedProjects, Voices, Notices, VisitBand } from '../components/home/Sections'
 import { heroPhotos } from '../data/photos'
 
 function useParallax(heroRef, layerRefs) {
@@ -94,10 +92,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <StatsBand />
-
       {/* UIA는 */}
-      <section className="wrap two" style={{ paddingBlock: 'clamp(3rem, 6vw, 8rem)' }}>
+      <section className="wrap two" style={{ paddingBlock: 'clamp(2rem, 3.6vw, 4.6rem)' }}>
         <div>
           <h2 className="t-h1">UIA는</h2>
         </div>
@@ -108,18 +104,17 @@ export default function AboutPage() {
           <div>
             <p className="t-ko" style={{ color: 'var(--ink-2)' }}>각 대학의 교육과 연구 역량, 인재와 지역사회 네트워크를 연결해 한 대학이 혼자서는 만들 수 없는 배움과 임팩트를 함께 만듭니다.</p>
           </div>
+          <div>
+            <p className="t-ko" style={{ color: 'var(--ink-2)' }}>9개 대학 11개 캠퍼스가 참여하며 2026년에 정식 출범했습니다. 춘천 임팩톤에는 학생 55명 이상이 참여했습니다.</p>
+          </div>
         </div>
       </section>
 
       <FourC />
 
       {/* 함께하는 대학 */}
-      <section className="wrap" style={{ paddingBlock: 'clamp(2rem, 4vw, 5rem) clamp(3rem, 6vw, 8rem)' }}>
-        <div className="two" style={{ marginBottom: 'clamp(2.4rem, 4vw, 5rem)' }}>
-          <div>
-            <h2 className="t-h1">함께하는 대학</h2>
-          </div>
-        </div>
+      <section className="wrap" style={{ paddingBlock: 'clamp(2rem, 3.4vw, 4.4rem)', textAlign: 'center' }}>
+        <h2 className="t-h1" style={{ marginBottom: 'clamp(1.6rem, 2.6vw, 3.2rem)' }}>함께하는 대학</h2>
         <ul className="partner-grid">
           {partners.map(p => (
             <li key={p.id}>
@@ -131,12 +126,6 @@ export default function AboutPage() {
       </section>
 
       <PhotoStrip />
-      <Programs />
-      <TimelineRows />
-      <FeaturedProjects />
-      <Voices />
-      <Notices />
-      <VisitBand />
     </>
   )
 }

@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { events, eventById } from '../data/events'
 import { works } from '../data/works'
 import { photos } from '../data/photos'
@@ -12,15 +11,13 @@ export default function ActivityDetailPage() {
   if (!ev) return <Navigate to="/activities" replace />
 
   const idx = events.findIndex((e) => e.id === ev.id)
-  const prev = events[(idx - 1 + events.length) % events.length]
-  const next = events[(idx + 1) % events.length]
   const related = ev.subjectId ? works.filter((w) => w.subjectId === ev.subjectId) : []
   const shots = photos.filter((p) => p.event === ev.id).filter((_, i) => i % 3 === 0).slice(0, 8)
 
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
       <div style={{ paddingBlock: 'clamp(2rem, 3.4vw, 4rem) clamp(1.6rem, 2.6vw, 3rem)' }}>
-        <Link to="/activities" className="person-nav t-label" style={{ color: 'var(--mute)' }}><ArrowLeft size={18} />활동 목록</Link>
+        <Link to="/activities" className="person-nav t-label" style={{ color: 'var(--mute)' }}>활동 목록</Link>
       </div>
 
       <div className="two" style={{ alignItems: 'end', marginBottom: 'clamp(2rem, 3.4vw, 4.4rem)' }}>
@@ -63,20 +60,16 @@ export default function ActivityDetailPage() {
 
       {shots.length > 0 && (
         <section style={{ paddingBottom: 'clamp(2.6rem, 5vw, 6rem)' }}>
-          <h2 className="t-h2" style={{ marginBottom: 'clamp(1.4rem, 2.4vw, 3rem)' }}>현장 사진</h2>
+          <h2 className="t-h2" style={{ marginBottom: 'clamp(1.4rem, 2.4vw, 3rem)' }}>Photo</h2>
           <ul className="shot-row">
             {shots.map((p) => (
               <li key={p.src}><img src={p.thumb} alt={ev.ko} loading="lazy" decoding="async" /></li>
             ))}
           </ul>
-          <Link to={'/photos?event=' + ev.id} className="more-link t-label" style={{ marginTop: '1.6rem' }}>사진 전체 보기<ArrowUpRight size={20} /></Link>
+          <Link to={'/photos?event=' + ev.id} className="more-link t-label" style={{ marginTop: '1.6rem' }}>사진 전체 보기</Link>
         </section>
       )}
 
-      <div className="two" style={{ paddingTop: 'clamp(1rem, 2vw, 2rem)' }}>
-        <Link to={'/activities/' + prev.id} className="person-nav t-label" style={{ color: 'var(--mute)' }}><ArrowLeft size={18} />{prev.ko}</Link>
-        <Link to={'/activities/' + next.id} className="person-nav t-label" style={{ color: 'var(--mute)', justifySelf: 'start' }}>{next.ko}<ArrowRight size={18} /></Link>
-      </div>
     </div>
   )
 }

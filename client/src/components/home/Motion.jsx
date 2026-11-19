@@ -47,7 +47,7 @@ export function PhotoStrip() {
     <li key={p.src + i}><img src={asset(p.src)} alt={p.alt} loading="lazy" decoding="async" draggable="false" /></li>
   ))
   return (
-    <section className="strip" aria-label="현장 사진">
+    <section className="strip" aria-label="Photo">
       <ul className="strip-track">
         {row}
         {STRIP.map((p, i) => (
