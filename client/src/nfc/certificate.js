@@ -26,6 +26,19 @@ async function loadLogo() {
   return loadImage(URL.createObjectURL(new Blob([sized], { type: 'image/svg+xml' })))
 }
 
+// 로고를 한 가지 색으로 칠한 복사본
+function tint(img, color) {
+  const c = document.createElement('canvas')
+  c.width = img.naturalWidth || 864
+  c.height = img.naturalHeight || 396
+  const g = c.getContext('2d')
+  g.drawImage(img, 0, 0, c.width, c.height)
+  g.globalCompositeOperation = 'source-in'
+  g.fillStyle = color
+  g.fillRect(0, 0, c.width, c.height)
+  return c
+}
+
 const spaced = (s) => String(s).split('').join(' ')
 
 function wrapKo(ctx, text, maxW) {
@@ -79,31 +92,30 @@ function star(ctx, x, y, R) {
   ctx.fill()
 }
 
-// 학생회 로고처럼 만든 문장: 이중 테두리, 둘레 영문, 가운데 UIA 로고
-function crest(ctx, logo, cx, cy, R) {
+// 한림대 디지털인문예술전공 운영위원회 로고(LUCID) 양식: 검은 원, 겹줄 테두리, 위아래 둘레 영문, 가운데 굵은 로고
+function crest(ctx, logoWhite, cx, cy, R) {
   ctx.save()
-  ctx.fillStyle = NAVY
+  ctx.fillStyle = '#0b0b0b'
   ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill()
   ctx.strokeStyle = '#ffffff'
-  ctx.lineWidth = R * 0.022
+  ctx.lineWidth = R * 0.03
   ctx.beginPath(); ctx.arc(cx, cy, R * 0.955, 0, Math.PI * 2); ctx.stroke()
-  ctx.lineWidth = R * 0.012
-  ctx.beginPath(); ctx.arc(cx, cy, R * 0.915, 0, Math.PI * 2); ctx.stroke()
-  ctx.lineWidth = R * 0.022
-  ctx.beginPath(); ctx.arc(cx, cy, R * 0.66, 0, Math.PI * 2); ctx.stroke()
-  ctx.fillStyle = '#ffffff'
-  ctx.beginPath(); ctx.arc(cx, cy, R * 0.635, 0, Math.PI * 2); ctx.fill()
+  ctx.lineWidth = R * 0.011
+  ctx.beginPath(); ctx.arc(cx, cy, R * 0.905, 0, Math.PI * 2); ctx.stroke()
+  // 글자 안쪽의 얇은 겹호
+  ctx.lineWidth = R * 0.01
+  for (const rr of [0.6, 0.575]) {
+    ctx.beginPath(); ctx.arc(cx, cy, R * rr, Math.PI * 1.1, Math.PI * 1.9); ctx.stroke()
+    ctx.beginPath(); ctx.arc(cx, cy, R * rr, Math.PI * 0.1, Math.PI * 0.9); ctx.stroke()
+  }
   ctx.fillStyle = '#ffffff'
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-  ctx.font = `800 ${R * 0.125}px ${FONT}`
-  arcTop(ctx, 'UNIVERSITY IMPACT ALLIANCE', cx, cy, R * 0.79, Math.PI * 0.92)
-  ctx.font = `800 ${R * 0.12}px ${FONT}`
-  arcBottom(ctx, 'EST 2026', cx, cy, R * 0.8, Math.PI * 0.42)
-  star(ctx, cx - R * 0.8, cy + R * 0.08, R * 0.065)
-  star(ctx, cx + R * 0.8, cy + R * 0.08, R * 0.065)
+  ctx.font = `800 ${R * 0.15}px ${FONT}`
+  arcTop(ctx, 'UNIVERSITY IMPACT', cx, cy, R * 0.755, Math.PI * 0.86)
+  arcBottom(ctx, 'ALLIANCE EST 2026', cx, cy, R * 0.765, Math.PI * 0.84)
   const lw = R * 0.92
   const lh = (lw * 396) / 864
-  ctx.drawImage(logo, cx - lw / 2, cy - lh / 2, lw, lh)
+  ctx.drawImage(logoWhite, cx - lw / 2, cy - lh / 2, lw, lh)
   ctx.restore()
 }
 
@@ -130,6 +142,7 @@ export async function drawCertificate(kind, d) {
     document.fonts.load(`600 30px ${FONT}`, sample),
   ])
   const [logo, seal] = await Promise.all([loadLogo(), loadImage(asset('/nfc/seal.jpg'))])
+  const logoWhite = tint(logo, '#ffffff')
 
   const c = document.createElement('canvas')
   c.width = W; c.height = H
@@ -142,7 +155,7 @@ export async function drawCertificate(kind, d) {
 
   // 가운데 배경 문장(희미하게)
   ctx.save(); ctx.globalAlpha = 0.07
-  crest(ctx, logo, W / 2, 800, 330)
+  crest(ctx, logoWhite, W / 2, 800, 330)
   ctx.restore()
 
   const ink = '#1b1b1b'
@@ -153,7 +166,7 @@ export async function drawCertificate(kind, d) {
   ctx.textAlign = 'left'
   ctx.font = `600 26px ${FONT}`
   ctx.fillText(numLabel, 120, 150)
-  crest(ctx, logo, W / 2, 200, 112)
+  crest(ctx, logoWhite, W / 2, 200, 112)
 
   // 제목
   ctx.textAlign = 'center'
@@ -198,14 +211,14 @@ export async function drawCertificate(kind, d) {
   // 오른쪽 아래 학교 이름과 직인
   ctx.textAlign = 'right'
   ctx.font = `800 64px ${FONT}`
-  ctx.fillText('UIA 대학교', 830, 1330)
+  ctx.fillText('UIA 대학교', 810, 1330)
   ctx.font = `600 24px ${FONT}`
   ctx.fillStyle = '#3c3c3c'
-  ctx.fillText('UIA UNIVERSITY  |  IMPACT ALLIANCE', 830, 1376)
+  ctx.fillText('UIA UNIVERSITY  |  IMPACT ALLIANCE', 810, 1376)
   ctx.save()
   ctx.globalCompositeOperation = 'multiply'
-  ctx.translate(900, 1290); ctx.rotate(-0.04)
-  ctx.drawImage(seal, -62, -62, 124, 124)
+  ctx.translate(890, 1285); ctx.rotate(-0.04)
+  ctx.drawImage(seal, -86, -86, 172, 172)
   ctx.restore()
 
   return c.toDataURL('image/png')
