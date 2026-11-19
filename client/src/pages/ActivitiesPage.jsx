@@ -16,7 +16,7 @@ export default function ActivitiesPage() {
   useEffect(() => { document.title = '활동 | UIA 특별관' }, [])
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
-      <PageHeader title="활동" subtitle="2026년 UIA 학생들이 현장에서 이어 온 활동입니다." />
+      <PageHeader title="활동" />
       <ul className="act-list">
         {events.map((e) => (
           <li key={e.id}>

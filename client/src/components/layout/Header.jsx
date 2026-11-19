@@ -22,9 +22,8 @@ export default function Header() {
       }}
     >
       <div className="wrap h-full flex items-center justify-between" style={{ gap: '2rem' }}>
-        <Link to="/" className="flex items-center" style={{ gap: '.9rem', color: 'var(--ink)' }} aria-label="UIA 특별관">
+        <Link to="/" className="flex items-center" style={{ color: 'var(--ink)' }} aria-label="UIA 특별관">
           <UiaMark className="" title="UIA" />
-          <span className="hidden sm:block t-label" style={{ color: 'var(--mute)', whiteSpace: 'nowrap' }}>특별관</span>
         </Link>
 
         <nav className="hidden xl:flex items-center" style={{ gap: 'clamp(1.2rem, 1.8vw, 2.6rem)' }}>

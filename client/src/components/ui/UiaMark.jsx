@@ -1,6 +1,6 @@
 import { asset } from '../../utils/asset'
 
-export default function UiaMark({ className = '', title = 'UIA', height = '1.9rem' }) {
+export default function UiaMark({ className = '', title = 'UIA', height = '1.4rem' }) {
   return (
     <img
       className={className}

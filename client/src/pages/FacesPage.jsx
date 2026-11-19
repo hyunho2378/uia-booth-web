@@ -11,7 +11,7 @@ export default function FacesPage() {
 
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
-      <PageHeader title="참여 학생" subtitle="학생들이 직접 적은 UIA에 대한 생각과 기억을 소개합니다." />
+      <PageHeader title="참여 학생" />
       <ul className="people-grid">
         {faces.map((f, i) => (
           <li key={f.name}>

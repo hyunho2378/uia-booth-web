@@ -3,15 +3,10 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { asset } from '../utils/asset'
 import { partners } from '../data/partners'
+import FourC from '../components/home/FourC'
+import { PhotoStrip } from '../components/home/Motion'
 import { StatsBand, Programs, TimelineRows, FeaturedProjects, Voices, Notices, VisitBand } from '../components/home/Sections'
 import { heroPhotos } from '../data/photos'
-
-const FOUR_C = [
-  { name: '대학 연결', color: '#2d9ed9', body: '대학과 대학, 학생과 학생, 교수와 지역사회를 연결합니다.' },
-  { name: '함께 배우기', color: '#fdc51b', body: '다양한 전공과 대학의 구성원이 사회문제 현장에서 함께 배웁니다.' },
-  { name: '함께 만들기', color: '#e94545', body: '대학의 지식과 현장의 전문성을 모아 새로운 해결책을 함께 만듭니다.' },
-  { name: '공동의 변화', color: '#c4c2c1', body: '지식과 해결책을 지역과 사회로 확산해 공동의 변화를 만듭니다.' },
-]
 
 function useParallax(heroRef, layerRefs) {
   useEffect(() => {
@@ -94,7 +89,7 @@ export default function AboutPage() {
             <svg viewBox="0 0 100 100" style={{ display: 'block', width: '100%', height: '100%' }}><circle cx="50" cy="50" r="50" fill="#e94545" /></svg>
           </Layer>
           <Shot refs={layerRefs} i={3} depth="1.1" src={heroPhotos.chuncheon} alt="춘천 임팩톤 참가 학생 단체 사진" style={{ left: 0, top: '9%', width: '62%', aspectRatio: '2400/1363' }} />
-          <Shot refs={layerRefs} i={4} depth="1.7" src={heroPhotos.sagape} alt="UIA 특별관을 찾은 학생들" style={{ right: 0, top: '33%', width: '56%', aspectRatio: '3/2' }} />
+          <Shot refs={layerRefs} i={4} depth="1.7" src={heroPhotos.sagape} alt="사회적가치 페스타 세션 무대에서 함께 찍은 참가자들" style={{ right: 0, top: '33%', width: '56%', aspectRatio: '3/2' }} />
           <Shot refs={layerRefs} i={5} depth="2.2" src={heroPhotos.gyeongju} alt="세계경주포럼에 참여한 학생들" style={{ left: '13%', bottom: 0, width: '25%', aspectRatio: '2/3' }} />
         </div>
       </section>
@@ -102,7 +97,7 @@ export default function AboutPage() {
       <StatsBand />
 
       {/* UIA는 */}
-      <section className="wrap two" style={{ paddingBlock: 'clamp(4rem, 9vw, 11rem)' }}>
+      <section className="wrap two" style={{ paddingBlock: 'clamp(3rem, 6vw, 8rem)' }}>
         <div>
           <h2 className="t-h1">UIA는</h2>
         </div>
@@ -116,36 +111,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4C */}
-      <section className="wrap" style={{ paddingBlock: 'clamp(2rem, 4vw, 5rem) clamp(4rem, 9vw, 11rem)' }}>
-        <div className="two" style={{ alignItems: 'center' }}>
-          <div className="orbs" aria-hidden="true">
-            {FOUR_C.map(c => (
-              <div className="orb" key={c.name} style={{ '--c': c.color }}>
-                <span>{c.name}</span>
-              </div>
-            ))}
-          </div>
-          <div>
-            <h2 className="t-h1">UIA의 4C 전략</h2>
-            {FOUR_C.map(c => (
-              <div key={c.name} style={{ marginBottom: '2.2rem' }}>
-                <h3 className="t-h3" style={{ marginBottom: '.5rem' }}>{c.name}</h3>
-                <p className="t-ko" style={{ fontSize: '1rem' }}>{c.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FourC />
 
       {/* 함께하는 대학 */}
-      <section className="wrap" style={{ paddingBlock: 'clamp(2rem, 4vw, 5rem) clamp(4rem, 9vw, 11rem)' }}>
+      <section className="wrap" style={{ paddingBlock: 'clamp(2rem, 4vw, 5rem) clamp(3rem, 6vw, 8rem)' }}>
         <div className="two" style={{ marginBottom: 'clamp(2.4rem, 4vw, 5rem)' }}>
           <div>
             <h2 className="t-h1">함께하는 대학</h2>
-          </div>
-          <div style={{ maxWidth: '44rem' }}>
-            <p className="t-ko" style={{ color: 'var(--ink-2)' }}>대학과 루트임팩트가 함께합니다. 각 대학은 자신의 색으로 참여하며, 사회혁신 교육을 운영하는 대학이라면 언제든 합류할 수 있습니다.</p>
           </div>
         </div>
         <ul className="partner-grid">
@@ -158,6 +130,7 @@ export default function AboutPage() {
         </ul>
       </section>
 
+      <PhotoStrip />
       <Programs />
       <TimelineRows />
       <FeaturedProjects />

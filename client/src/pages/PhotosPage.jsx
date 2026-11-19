@@ -44,7 +44,7 @@ export default function PhotosPage() {
 
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
-      <PageHeader title="현장 사진" subtitle="임팩톤@춘천과 사회적가치 페스타, 경주 포럼에서 촬영한 사진입니다." />
+      <PageHeader title="현장 사진" />
 
       <div className="flex flex-wrap" style={{ gap: '.4rem 2rem', marginBottom: '.6rem' }}>
         <button type="button" onClick={() => pickEvent('all')} className="t-label" style={tab(eventId === 'all')}>전체</button>

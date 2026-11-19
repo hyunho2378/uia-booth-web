@@ -16,7 +16,6 @@ export default function ActivityDetailPage() {
   const next = events[(idx + 1) % events.length]
   const related = ev.subjectId ? works.filter((w) => w.subjectId === ev.subjectId) : []
   const shots = photos.filter((p) => p.event === ev.id).filter((_, i) => i % 3 === 0).slice(0, 8)
-  const isKintex = ev.id === 'kintex'
 
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
@@ -44,16 +43,6 @@ export default function ActivityDetailPage() {
           <p className="t-ko" style={{ color: 'var(--ink-2)' }}>{ev.summaryKo}</p>
         </div>
       </div>
-
-      {isKintex && (
-        <div className="two" style={{ paddingBottom: 'clamp(2.6rem, 5vw, 6rem)' }}>
-          <h2 className="t-h2">프로그램과 배치도</h2>
-          <div style={{ maxWidth: '44rem' }}>
-            <p className="t-h3">준비하고 있습니다</p>
-            <Link to="/visit" className="more-link t-label" style={{ marginTop: '1.4rem' }}>방문 안내<ArrowUpRight size={20} /></Link>
-          </div>
-        </div>
-      )}
 
       {related.length > 0 && (
         <section style={{ paddingBottom: 'clamp(2.6rem, 5vw, 6rem)' }}>

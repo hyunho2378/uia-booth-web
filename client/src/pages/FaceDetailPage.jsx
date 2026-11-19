@@ -7,13 +7,7 @@ import { partnerByUniv } from '../data/partners'
 
 function Paragraphs({ text }) {
   const parts = (text || '').split('\n').map(s => s.trim()).filter(Boolean)
-  if (!parts.length) {
-    return (
-      <p className="t-body" style={{ color: 'var(--mute)' }}>
-        소개 글을 준비하고 있습니다.
-      </p>
-    )
-  }
+  if (!parts.length) return null
   return parts.map((p, i) => <p key={i} className="person-body">{p}</p>)
 }
 
@@ -49,15 +43,19 @@ export default function FaceDetailPage() {
           <h1 className="t-h1">{f.name}</h1>
           <p className="t-ko-lg" style={{ marginTop: '.6rem' }}>{f.univ} {f.major}</p>
 
-          <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>
-            <h2 className="t-h3">내가 생각하는 UIA</h2>
-            <Paragraphs text={f.uia} />
-          </section>
+          {f.uia && (
+            <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>
+              <h2 className="t-h3">내가 생각하는 UIA</h2>
+              <Paragraphs text={f.uia} />
+            </section>
+          )}
 
-          <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>
-            <h2 className="t-h3">인상 깊었던 경험</h2>
-            <Paragraphs text={f.memory} />
-          </section>
+          {f.memory && (
+            <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>
+              <h2 className="t-h3">인상 깊었던 경험</h2>
+              <Paragraphs text={f.memory} />
+            </section>
+          )}
 
           <nav className="flex justify-between" style={{ marginTop: 'clamp(3rem, 5vw, 6rem)', gap: '2rem' }}>
             <Link to={'/people/' + (((idx - 1 + faces.length) % faces.length) + 1)} className="t-label person-nav" style={{ color: 'var(--mute)' }}>

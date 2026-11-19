@@ -173,6 +173,6 @@ export const photos = [
 
 export const heroPhotos = {
   chuncheon: asset('/photos/cc-group-1.jpg'),
-  sagape: asset('/photos/sg-booth-team.jpg'),
+  sagape: asset('/photos/sagape/session/14.jpg'),
   gyeongju: asset('/photos/gj-backdrop.jpg'),
 }
