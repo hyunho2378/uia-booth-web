@@ -60,7 +60,7 @@ export default function AboutPage() {
   useEffect(() => { document.title = 'UIA 특별관 소개' }, [])
 
   return (
-    <>
+    <div className="home-type">
       {/* 첫 화면 */}
       <section ref={heroRef} className="wrap two" style={{ minHeight: 'calc(100vh - var(--header-h))', alignItems: 'center', paddingBlock: '2rem 4rem', overflow: 'hidden' }}>
         <div style={{ position: 'relative', zIndex: 3, display: 'grid', gap: '2.4rem' }}>
@@ -126,6 +126,6 @@ export default function AboutPage() {
       </section>
 
       <PhotoStrip />
-    </>
+    </div>
   )
 }

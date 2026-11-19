@@ -49,15 +49,24 @@ img { display: block; max-width: 100%; }
 .ph { display: inline-block; }
 
 /* 글자 역할: 크기, 굵기, 행간을 정하고 자간은 한글과 영어를 따로 둔다 */
-.t-display { font: 800 clamp(2.4rem, 4.2vw, 7rem)/1.02 var(--latin); letter-spacing: -0.035em; text-transform: uppercase; }
-.t-h1 { font: 700 clamp(1.8rem, 2.5vw, 4rem)/1.18 var(--latin); letter-spacing: -0.03em; }
-.t-h2 { font: 700 clamp(1.35rem, 1.7vw, 2.8rem)/1.28 var(--latin); letter-spacing: -0.025em; }
-.t-h3 { font: 700 clamp(1.1rem, 1.2vw, 2rem)/1.25 var(--latin); letter-spacing: -0.02em; }
-.t-lead { font: 500 clamp(1rem, 1.02vw, 1.6rem)/1.7 var(--sans); letter-spacing: -0.012em; }
+.t-display { font: 800 clamp(1.6rem, 1.7vw, 2.4rem)/1.12 var(--latin); letter-spacing: -0.03em; text-transform: uppercase; }
+.t-h1 { font: 700 clamp(1.3rem, 1.35vw, 1.9rem)/1.25 var(--latin); letter-spacing: -0.026em; }
+.t-h2 { font: 700 clamp(1.1rem, 1.05vw, 1.45rem)/1.3 var(--latin); letter-spacing: -0.022em; }
+.t-h3 { font: 700 clamp(1rem, .9vw, 1.2rem)/1.3 var(--latin); letter-spacing: -0.02em; }
+.t-lead { font: 500 clamp(.95rem, .85vw, 1.15rem)/1.7 var(--sans); letter-spacing: -0.012em; }
 .t-body { font: 400 1rem/1.75 var(--sans); letter-spacing: -0.01em; }
 .t-label { font: 600 .9rem/1.5 var(--sans); letter-spacing: -0.005em; }
-.t-ko { font: 500 clamp(.92rem, .9vw, 1.35rem)/1.7 var(--sans); letter-spacing: -0.015em; color: var(--mute); word-break: keep-all; line-break: strict; }
-.t-ko-lg { font: 600 clamp(1.1rem, 1.35vw, 2.2rem)/1.4 var(--sans); letter-spacing: -0.03em; color: var(--mute); word-break: keep-all; }
+.t-ko { font: 500 clamp(.88rem, .78vw, 1.05rem)/1.7 var(--sans); letter-spacing: -0.015em; color: var(--mute); word-break: keep-all; line-break: strict; }
+.t-ko-lg { font: 600 clamp(1rem, .95vw, 1.3rem)/1.45 var(--sans); letter-spacing: -0.03em; color: var(--mute); word-break: keep-all; }
+
+/* 홈(About)은 기존 크기를 그대로 둔다 */
+.home-type .t-display { font: 800 clamp(2.4rem, 4.2vw, 7rem)/1.02 var(--latin); letter-spacing: -0.035em; text-transform: uppercase; }
+.home-type .t-h1 { font: 700 clamp(1.8rem, 2.5vw, 4rem)/1.18 var(--latin); letter-spacing: -0.03em; }
+.home-type .t-h2 { font: 700 clamp(1.35rem, 1.7vw, 2.8rem)/1.28 var(--latin); letter-spacing: -0.025em; }
+.home-type .t-h3 { font: 700 clamp(1.1rem, 1.2vw, 2rem)/1.25 var(--latin); letter-spacing: -0.02em; }
+.home-type .t-lead { font: 500 clamp(1rem, 1.02vw, 1.6rem)/1.7 var(--sans); letter-spacing: -0.012em; }
+.home-type .t-ko { font: 500 clamp(.92rem, .9vw, 1.35rem)/1.7 var(--sans); letter-spacing: -0.015em; color: var(--mute); word-break: keep-all; line-break: strict; }
+.home-type .t-ko-lg { font: 600 clamp(1.1rem, 1.35vw, 2.2rem)/1.4 var(--sans); letter-spacing: -0.03em; color: var(--mute); word-break: keep-all; }
 
 *:focus-visible { outline: 2px solid var(--b); outline-offset: 3px; }
 
@@ -197,7 +206,7 @@ img { display: block; max-width: 100%; }
 .person-card:hover .person-pic { box-shadow: var(--s3); transform: translateY(-4px); }
 .person-card:hover .person-pic:not(.is-logo) img { transform: scale(1.04); }
 .person-name { display: block; margin-top: 1.1rem; }
-.person-sub { display: block; margin-top: .15rem; font-size: clamp(.9rem, .95vw, 1.2rem); }
+.person-sub { display: block; margin-top: .1rem; font-size: clamp(.85rem, .78vw, 1rem); }
 .person-detail { align-items: start; }
 .person-photo-wrap { position: sticky; top: calc(var(--header-h) + 2rem); }
 .person-photo { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: #fff; box-shadow: var(--s2); }
