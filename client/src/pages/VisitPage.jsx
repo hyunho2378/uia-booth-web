@@ -21,7 +21,7 @@ export default function VisitPage() {
     <div className="visit" style={{ paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
       <PageHeader title="Visit" />
 
-      <p className="t-lead visit-lead">2026년 11월 27일 금요일부터 29일 일요일까지<br />킨텍스 제1전시장 5홀</p>
+      <p className="t-lead visit-lead">2026년 11월 27일 금요일부터 29일 일요일까지, 킨텍스 제1전시장 5홀</p>
 
       <div className="visit-tabs" role="tablist">
         {TABS.map((t) => (
