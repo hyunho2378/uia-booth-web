@@ -49,15 +49,15 @@ img { display: block; max-width: 100%; }
 .ph { display: inline-block; }
 
 /* 글자 역할: 크기, 굵기, 행간을 정하고 자간은 한글과 영어를 따로 둔다 */
-.t-display { font: 800 clamp(1.6rem, 1.7vw, 2.4rem)/1.12 var(--latin); letter-spacing: -0.03em; text-transform: uppercase; }
-.t-h1 { font: 700 clamp(1.3rem, 1.35vw, 1.9rem)/1.25 var(--latin); letter-spacing: -0.026em; }
-.t-h2 { font: 700 clamp(1.1rem, 1.05vw, 1.45rem)/1.3 var(--latin); letter-spacing: -0.022em; }
-.t-h3 { font: 700 clamp(1rem, .9vw, 1.2rem)/1.3 var(--latin); letter-spacing: -0.02em; }
-.t-lead { font: 500 clamp(.95rem, .85vw, 1.15rem)/1.7 var(--sans); letter-spacing: -0.012em; }
+.t-display { font: 800 clamp(1.8rem, 2vw, 2.8rem)/1.12 var(--latin); letter-spacing: -0.03em; text-transform: uppercase; }
+.t-h1 { font: 700 clamp(1.45rem, 1.5vw, 2.1rem)/1.25 var(--latin); letter-spacing: -0.026em; }
+.t-h2 { font: 700 clamp(1.2rem, 1.2vw, 1.7rem)/1.3 var(--latin); letter-spacing: -0.022em; }
+.t-h3 { font: 700 clamp(1.05rem, 1vw, 1.3rem)/1.3 var(--latin); letter-spacing: -0.02em; }
+.t-lead { font: 500 clamp(1rem, .95vw, 1.25rem)/1.7 var(--sans); letter-spacing: -0.012em; }
 .t-body { font: 400 1rem/1.75 var(--sans); letter-spacing: -0.01em; }
 .t-label { font: 600 .9rem/1.5 var(--sans); letter-spacing: -0.005em; }
-.t-ko { font: 500 clamp(.88rem, .78vw, 1.05rem)/1.7 var(--sans); letter-spacing: -0.015em; color: var(--mute); word-break: keep-all; line-break: strict; }
-.t-ko-lg { font: 600 clamp(1rem, .95vw, 1.3rem)/1.45 var(--sans); letter-spacing: -0.03em; color: var(--mute); word-break: keep-all; }
+.t-ko { font: 500 clamp(.95rem, .88vw, 1.15rem)/1.7 var(--sans); letter-spacing: -0.015em; color: var(--mute); word-break: keep-all; line-break: strict; }
+.t-ko-lg { font: 600 clamp(1.05rem, 1vw, 1.35rem)/1.45 var(--sans); letter-spacing: -0.03em; color: var(--mute); word-break: keep-all; }
 
 /* 홈(About)은 기존 크기를 그대로 둔다 */
 .home-type .t-display { font: 800 clamp(2.4rem, 4.2vw, 7rem)/1.02 var(--latin); letter-spacing: -0.035em; text-transform: uppercase; }
@@ -197,6 +197,8 @@ img { display: block; max-width: 100%; }
 /* 사람 목록과 상세 */
 .people-grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.4rem, 3.6vw, 5rem) clamp(1.2rem, 2vw, 3rem); }
 @media (min-width: 760px) { .people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .people-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (min-width: 1700px) { .people-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 .people-grid > li { min-width: 0; }
 .person-card { display: block; color: var(--ink); }
 .person-pic { display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius); background: var(--surface-2); box-shadow: var(--s1); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
@@ -206,7 +208,7 @@ img { display: block; max-width: 100%; }
 .person-card:hover .person-pic { box-shadow: var(--s3); transform: translateY(-4px); }
 .person-card:hover .person-pic:not(.is-logo) img { transform: scale(1.04); }
 .person-name { display: block; margin-top: 1.1rem; }
-.person-sub { display: block; margin-top: .1rem; font-size: clamp(.85rem, .78vw, 1rem); }
+.person-sub { display: block; margin-top: .15rem; font-size: clamp(.88rem, .8vw, 1.05rem); }
 .person-detail { align-items: start; }
 .person-photo-wrap { position: sticky; top: calc(var(--header-h) + 2rem); }
 .person-photo { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: #fff; box-shadow: var(--s2); }
@@ -262,6 +264,7 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 /* 활동 목록과 상세 */
 .act-list { list-style: none; display: grid; gap: clamp(3rem, 6vw, 8rem); }
 .act-row { align-items: center; color: var(--ink); }
+@media (min-width: 900px) { .act-row.two { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); } }
 .act-cover { display: block; overflow: hidden; border-radius: var(--radius); background: var(--surface-2); box-shadow: var(--s2); transition: box-shadow .4s var(--ease); }
 .act-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
 .act-row:hover .act-cover { box-shadow: var(--s3); }
@@ -345,8 +348,8 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 .visit-tabs { display: flex; gap: clamp(1.4rem, 2.4vw, 3rem); margin-top: clamp(2rem, 3.4vw, 4rem); }
 .visit-tabs button { color: var(--mute); padding-block: .6rem; min-height: 2.75rem; transition: color .3s var(--ease); font-weight: 600; }
 .visit-tabs button[data-on="true"] { color: var(--ink); }
-.visit-pane { margin-top: clamp(1.4rem, 2.4vw, 3rem); display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--gap); align-items: start; }
-.visit-pane:has(.visit-plan) { grid-template-columns: 1fr; }
+.visit-pane { margin-top: clamp(1.4rem, 2.4vw, 3rem); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 5fr); gap: var(--gap); align-items: start; }
+.visit-pane:has(.visit-plan) { grid-template-columns: minmax(0, 1fr); max-width: 1100px; }
 @media (max-width: 900px) { .visit-pane { grid-template-columns: 1fr; } }
 .visit-map { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; box-shadow: var(--s1); background: var(--surface-2); }
 .visit-map iframe { width: 100%; height: 100%; display: block; border: 0; }
