@@ -186,18 +186,17 @@ img { display: block; max-width: 100%; }
 .explore-row:hover .explore-ko { color: var(--ink); }
 
 /* 사람 목록과 상세 */
-.people-grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 3vw, 4rem) clamp(1rem, 1.8vw, 2.6rem); }
-@media (min-width: 700px) { .people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (min-width: 1700px) { .people-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+.people-grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.4rem, 3.6vw, 5rem) clamp(1.2rem, 2vw, 3rem); }
+@media (min-width: 760px) { .people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .people-grid > li { min-width: 0; }
 .person-card { display: block; color: var(--ink); }
-.person-pic { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius); background: var(--surface-2); box-shadow: var(--s1); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
+.person-pic { display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius); background: var(--surface-2); box-shadow: var(--s1); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
 .person-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 14%; transition: transform .9s var(--ease); }
 .person-pic.is-logo { display: grid; place-items: center; background: #fff; }
 .person-pic.is-logo img { width: 42%; height: auto; object-fit: contain; }
 .person-card:hover .person-pic { box-shadow: var(--s3); transform: translateY(-4px); }
 .person-card:hover .person-pic:not(.is-logo) img { transform: scale(1.04); }
-.person-name { display: block; margin-top: 1rem; }
+.person-name { display: block; margin-top: 1.1rem; }
 .person-sub { display: block; margin-top: .15rem; font-size: clamp(.9rem, .95vw, 1.2rem); }
 .person-detail { align-items: start; }
 .person-photo-wrap { position: sticky; top: calc(var(--header-h) + 2rem); }
