@@ -1,0 +1,41 @@
+.nfc { min-height: 100svh; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.nfc-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; pointer-events: none; }
+.nfc-orb.a { width: 22rem; height: 22rem; top: -8rem; left: -8rem; background: radial-gradient(circle, var(--b), rgba(45,158,217,0) 70%); }
+.nfc-orb.b { width: 20rem; height: 20rem; bottom: -7rem; right: -7rem; background: radial-gradient(circle, var(--y), rgba(253,197,27,0) 70%); }
+.nfc-inner { position: relative; z-index: 1; width: 100%; max-width: 30rem; margin-inline: auto; padding: 1.6rem 1.4rem 3rem; display: flex; flex-direction: column; flex: 1; }
+.nfc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.6rem; }
+.nfc-top img { height: 1.9rem; width: auto; }
+.nfc-step { color: var(--mute); font-weight: 600; font-size: .95rem; }
+.nfc h1 { font: 800 clamp(1.9rem, 8vw, 2.5rem)/1.22 var(--sans); letter-spacing: -0.035em; margin: 0; }
+.nfc-lead { margin: 1rem 0 0; color: var(--ink-2); font-size: 1.05rem; line-height: 1.7; }
+.nfc-form { display: grid; gap: 1.5rem; margin-top: 2.4rem; }
+.nfc-field { display: grid; gap: .5rem; }
+.nfc-field label { font-weight: 700; font-size: .98rem; }
+.nfc-field label span { color: var(--mute); font-weight: 500; margin-left: .4rem; }
+.nfc-input { width: 100%; min-height: 3.4rem; padding: .8rem 1.1rem; border: 0; border-radius: 14px; background: #fff; color: var(--ink); font: 500 1.05rem/1.4 var(--sans); box-shadow: var(--s1); outline: none; }
+.nfc-input:focus { box-shadow: var(--s1), 0 0 0 2px var(--b); }
+.nfc-input::placeholder { color: #a9a9aa; }
+.nfc-note { color: var(--mute); font-size: .88rem; line-height: 1.6; margin: 0; }
+.nfc-btn { width: 100%; min-height: 3.6rem; border: 0; border-radius: 16px; background: var(--ink); color: #fff; font: 700 1.1rem/1 var(--sans); cursor: pointer; box-shadow: var(--s2); transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+.nfc-btn:active { transform: scale(.985); }
+.nfc-btn:disabled { background: #b9b9ba; box-shadow: none; cursor: default; }
+.nfc-btn.soft { background: #fff; color: var(--ink); box-shadow: var(--s1); }
+.nfc-actions { display: grid; gap: .8rem; margin-top: 2rem; }
+.nfc-err { color: var(--r); font-weight: 600; font-size: .95rem; margin: 0; }
+.nfc-cert { width: 100%; height: auto; border-radius: 12px; box-shadow: var(--s3); margin-top: 1.8rem; }
+.nfc-big { font: 800 clamp(3.4rem, 18vw, 5rem)/1 var(--latin); letter-spacing: -0.04em; margin: 1.6rem 0 .2rem; }
+.nfc-prog { height: .35rem; background: #dcdcdc; border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+.nfc-prog i { display: block; height: 100%; background: var(--ink); border-radius: 4px; transition: width .4s var(--ease); }
+.nfc-q { font: 800 clamp(1.4rem, 6vw, 1.75rem)/1.35 var(--sans); letter-spacing: -0.03em; margin: 0 0 1.6rem; }
+.nfc-opts { display: grid; gap: .7rem; }
+.nfc-opt { text-align: left; width: 100%; min-height: 3.6rem; padding: .9rem 1.1rem; border: 0; border-radius: 14px; background: #fff; box-shadow: var(--s1); font: 600 1.05rem/1.4 var(--sans); color: var(--ink); cursor: pointer; transition: transform .15s var(--ease); }
+.nfc-opt:active { transform: scale(.985); }
+.nfc-opt.ok { background: var(--ink); color: #fff; }
+.nfc-opt.no { background: #f7dcdc; color: #7a1f1f; }
+.nfc-opt:disabled { cursor: default; }
+.nfc-explain { margin-top: 1.4rem; padding: 1.1rem 1.2rem; border-radius: 14px; background: rgba(255,255,255,.7); color: var(--ink-2); line-height: 1.65; }
+.nfc-explain b { display: block; margin-bottom: .2rem; color: var(--ink); }
+.nfc-list { display: grid; gap: 1rem; margin-top: 2rem; }
+.nfc-list li { list-style: none; padding: 1.1rem 1.2rem; border-radius: 14px; background: #fff; box-shadow: var(--s1); }
+.nfc-list code { display: block; margin-top: .4rem; font: 500 .88rem/1.5 ui-monospace, Menlo, monospace; color: var(--ink-2); word-break: break-all; }
+.nfc-code { display: inline-block; margin-top: .4rem; font: 800 1.6rem/1 var(--latin); letter-spacing: .12em; }

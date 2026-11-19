@@ -12,6 +12,7 @@ const ActivitiesPage    = lazy(() => import('./pages/ActivitiesPage'))
 const ActivityDetailPage = lazy(() => import('./pages/ActivityDetailPage'))
 const VisitPage         = lazy(() => import('./pages/VisitPage'))
 const NotFoundPage      = lazy(() => import('./pages/NotFoundPage'))
+const NfcRoutes         = lazy(() => import('./nfc/NfcRoutes'))
 
 function PageFallback() {
   return (
@@ -22,6 +23,15 @@ function PageFallback() {
 }
 
 export default function App() {
+  return (
+    <Routes>
+      <Route path="/nfc/*" element={<Suspense fallback={<PageFallback />}><NfcRoutes /></Suspense>} />
+      <Route path="*" element={<SiteApp />} />
+    </Routes>
+  )
+}
+
+function SiteApp() {
   return (
     <Layout>
       <Suspense fallback={<PageFallback />}>
