@@ -11,6 +11,7 @@ const PhotosPage        = lazy(() => import('./pages/PhotosPage'))
 const ActivitiesPage    = lazy(() => import('./pages/ActivitiesPage'))
 const ActivityDetailPage = lazy(() => import('./pages/ActivityDetailPage'))
 const VisitPage         = lazy(() => import('./pages/VisitPage'))
+const WordsPage         = lazy(() => import('./pages/WordsPage'))
 const NotFoundPage      = lazy(() => import('./pages/NotFoundPage'))
 const NfcRoutes         = lazy(() => import('./nfc/NfcRoutes'))
 
@@ -45,6 +46,7 @@ function SiteApp() {
           <Route path="/people"        element={<FacesPage />} />
           <Route path="/people/:id"    element={<FaceDetailPage />} />
           <Route path="/faces"         element={<Navigate to="/people" replace />} />
+          <Route path="/words"         element={<WordsPage />} />
           <Route path="/photos"        element={<PhotosPage />} />
           <Route path="*"              element={<NotFoundPage />} />
         </Routes>

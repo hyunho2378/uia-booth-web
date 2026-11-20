@@ -29,12 +29,24 @@ export async function getVisitor(id) {
   return rows[0] || null
 }
 
-export async function saveQuiz(id, score, total, answers) {
-  const rows = await call('select nfc_quiz($1::uuid,$2,$3,$4::jsonb) as ok', [id, score, total, JSON.stringify(answers)])
-  return !!(rows[0] && rows[0].ok)
+export async function saveSurvey(id, answers, words) {
+  const rows = await call('select nfc_survey($1::uuid,$2::jsonb,$3::text[]) as r', [id, JSON.stringify(answers), words])
+  const r = rows[0] && rows[0].r
+  if (!r || !r.ok) throw new Error('rejected')
+  return r.words || []
 }
 
 export async function graduate(id) {
   const rows = await call('select * from nfc_graduate($1::uuid)', [id])
   return rows[0] || null
+}
+
+export async function getWords() {
+  const rows = await call('select nfc_words() as r', [])
+  return rows[0].r
+}
+
+export async function getChoices() {
+  const rows = await call('select nfc_choices() as r', [])
+  return rows[0].r
 }

@@ -33,9 +33,9 @@ export default function NfcGraduate() {
   if (!visitor.quiz_at) {
     return (
       <NfcShell step={3} title="졸업">
-        <h1>{visitor.name}님, 퀴즈가 남아 있습니다</h1>
-        <p className="nfc-lead">졸업증서는 퀴즈를 마친 뒤 발급됩니다. 2번 NFC에서 퀴즈를 풀고 다시 오세요.</p>
-        <div className="nfc-actions"><Link to="/nfc/2" className="nfc-btn" style={{ display: 'grid', placeItems: 'center', textDecoration: 'none' }}>퀴즈 풀러 가기</Link></div>
+        <h1>{visitor.name}님, 설문이 남아 있습니다</h1>
+        <p className="nfc-lead">졸업증서는 설문에 답한 뒤 발급됩니다. 2번 NFC에서 설문에 답하고 다시 오세요.</p>
+        <div className="nfc-actions"><Link to="/nfc/2" className="nfc-btn" style={{ display: 'grid', placeItems: 'center', textDecoration: 'none' }}>설문 하러 가기</Link></div>
       </NfcShell>
     )
   }

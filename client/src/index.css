@@ -363,3 +363,11 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 .visit-plan img { display: block; width: 100%; height: auto; }
 .visit-plan-mark { position: absolute; left: 46.2%; top: 74.6%; width: 5.2%; height: 11%; background: rgba(253, 197, 27, .55); border-radius: 6px; mix-blend-mode: multiply; }
 .visit-plan-note { margin-top: clamp(1rem, 1.6vw, 2rem); color: var(--ink-2); }
+
+/* Words */
+.words-stage { position: relative; margin-top: clamp(1.4rem, 2.4vw, 3rem); background: var(--surface); border-radius: var(--radius); box-shadow: var(--s1); padding: clamp(.5rem, 1.5vw, 2rem); }
+.words-stage svg { display: block; width: 100%; height: auto; }
+.words-t { font-family: var(--sans); font-weight: 800; letter-spacing: -0.03em; transition: transform .8s var(--ease), opacity .6s var(--ease); animation: words-in .7s var(--ease) both; }
+@keyframes words-in { from { opacity: 0; } to { opacity: 1; } }
+.words-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--mute); }
+.words-meta { margin-top: 1rem; color: var(--mute); }

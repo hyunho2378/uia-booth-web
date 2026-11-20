@@ -7,7 +7,7 @@ import { drawCertificate } from './certificate'
 
 export default function NfcEnroll() {
   const { status, visitor, reset, adopt } = useVisitor()
-  const [form, setForm] = useState({ name: '', affiliation: '', major: '', wish: '' })
+  const [form, setForm] = useState({ name: '', affiliation: '' })
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [cert, setCert] = useState('')
@@ -40,7 +40,12 @@ export default function NfcEnroll() {
     return (
       <NfcShell step={1} title="입학증서">
         <h1>{visitor.name}님, 입학을 축하합니다</h1>
-        <p className="nfc-lead">입학증서가 발급되었습니다. 이미지를 길게 눌러 저장할 수 있습니다. 다음 순서는 퀴즈입니다. 2번 NFC에 휴대폰을 대 주세요.</p>
+        <p className="nfc-lead">입학증서가 발급되었습니다. 이미지를 길게 눌러 저장할 수 있습니다. 아래 순서로 진행됩니다.</p>
+        <ol className="nfc-steps">
+          <li><b>1</b>입학증서를 저장합니다.</li>
+          <li><b>2</b>2번 NFC에 휴대폰을 대고 설문에 답합니다.</li>
+          <li><b>3</b>체험 프로그램을 마친 뒤 3번 NFC에서 졸업증서를 받습니다.</li>
+        </ol>
         <div className="nfc-note" style={{ marginTop: '1.2rem' }}>입학 코드<br /><span className="nfc-code">{visitor.code}</span></div>
         {cert && <img className="nfc-cert" src={cert} alt={visitor.name + ' 입학증서'} />}
         <div className="nfc-actions">
@@ -54,23 +59,15 @@ export default function NfcEnroll() {
   return (
     <NfcShell step={1} title="입학">
       <h1>UIA 대학교에<br />입학하세요</h1>
-      <p className="nfc-lead">입학증서에 들어갈 정보를 적어 주세요. 이름만 적어도 입학할 수 있습니다.</p>
+      <p className="nfc-lead">입학증서에 들어갈 이름과 소속을 적어 주세요.</p>
       <form className="nfc-form" onSubmit={submit}>
         <div className="nfc-field">
           <label htmlFor="name">이름</label>
           <input id="name" className="nfc-input" value={form.name} onChange={set('name')} maxLength={10} autoComplete="name" placeholder="홍길동" required />
         </div>
         <div className="nfc-field">
-          <label htmlFor="aff">소속<span>학교 또는 단체</span></label>
+          <label htmlFor="aff">소속<span>선택</span></label>
           <input id="aff" className="nfc-input" value={form.affiliation} onChange={set('affiliation')} maxLength={30} placeholder="한림대학교" />
-        </div>
-        <div className="nfc-field">
-          <label htmlFor="major">전공 또는 관심 분야</label>
-          <input id="major" className="nfc-input" value={form.major} onChange={set('major')} maxLength={30} placeholder="사회혁신" />
-        </div>
-        <div className="nfc-field">
-          <label htmlFor="wish">UIA에서 이루고 싶은 한 가지</label>
-          <input id="wish" className="nfc-input" value={form.wish} onChange={set('wish')} maxLength={40} placeholder="다른 대학 친구와 함께 만들어 보기" />
         </div>
         <p className="nfc-note">입력한 정보는 입학증서와 졸업증서 발급, 행사 운영에만 사용합니다.</p>
         {err && <p className="nfc-err">{err}</p>}

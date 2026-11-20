@@ -39,3 +39,8 @@
 .nfc-list li { list-style: none; padding: 1.1rem 1.2rem; border-radius: 14px; background: #fff; box-shadow: var(--s1); }
 .nfc-list code { display: block; margin-top: .4rem; font: 500 .88rem/1.5 ui-monospace, Menlo, monospace; color: var(--ink-2); word-break: break-all; }
 .nfc-code { display: inline-block; margin-top: .4rem; font: 800 1.6rem/1 var(--latin); letter-spacing: .12em; }
+.nfc-words { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.6rem; }
+.nfc-words span { padding: .5rem 1rem; border-radius: 999px; background: #fff; box-shadow: var(--s1); font: 700 1rem/1 var(--sans); }
+.nfc-steps { display: grid; gap: .9rem; margin: 1.8rem 0 0; padding: 0; }
+.nfc-steps li { list-style: none; display: grid; grid-template-columns: 2rem 1fr; gap: .8rem; align-items: baseline; color: var(--ink-2); line-height: 1.6; }
+.nfc-steps b { font: 800 1.15rem/1 var(--latin); color: var(--ink); }

@@ -123,17 +123,12 @@ function crest(ctx, logoWhite, cx, cy, R) {
 export async function drawCertificate(kind, d) {
   const grad = kind === 'graduation'
   const title = grad ? '졸 업 증 서' : '입 학 증 서'
-  const total = d.quiz_total || 5
   const numLabel = grad ? `제 ${d.cert_no}호` : `제 ${d.code}호`
   const date = kst(grad ? d.graduated_at : d.entered_at)
   const bodyText = grad
-    ? `위 사람은 UIA 대학교 소정의 전 과정을 이수하고 퀴즈 평가에서 ${d.quiz_score}/${total}점을 얻었으므로 이를 인정하여 졸업증서를 수여함.`
-    : '위 사람은 UIA 대학교의 입학 자격을 얻었으므로 이를 인정하여 입학증서를 수여함.'
-
-  const rows = grad
-    ? [['과 정 명', '4C 과정'], ['입 학 일', kst(d.entered_at)], ['퀴즈점수', `${d.quiz_score}/${total}`], ['증서번호', d.cert_no]]
-    : [['입 학 일', kst(d.entered_at)], ['입학코드', d.code]]
-  const rowsUse = rows.filter((r) => r[1])
+    ? '위 사람은 UIA 대학교에 입학하여\n모든 과정을 마쳤으므로 이 증서를 수여함.'
+    : '위 사람은 UIA 대학교에 입학하였으므로\n이 증서를 수여함.'
+  const rowsUse = []
 
   const sample = [title, d.name, numLabel, date, bodyText, d.wish || '', ...rowsUse.flat(), 'UIA 대학교', 'UIA UNIVERSITY', 'IMPACT ALLIANCE', '0123456789가나다라마바사'].join('')
   await Promise.all([
@@ -173,40 +168,29 @@ export async function drawCertificate(kind, d) {
   ctx.font = `800 64px ${FONT}`
   ctx.fillText(title, W / 2, 470)
 
-  // 이름과 날짜
-  ctx.textAlign = 'left'
-  const X = 150
-  let size = 48
+  // 이름과 소속
+  ctx.textAlign = 'center'
+  let size = 68
   ctx.font = `800 ${size}px ${FONT}`
-  while (ctx.measureText(d.name).width > W - 2 * X && size > 28) { size -= 2; ctx.font = `800 ${size}px ${FONT}` }
-  ctx.fillText(d.name, X, 560)
-  ctx.font = `600 32px ${FONT}`
-  ctx.fillText([d.affiliation, d.major].filter(Boolean).join('  ') || `입학일 ${kst(d.entered_at)}`, X, 612)
+  while (ctx.measureText(d.name).width > W - 240 && size > 32) { size -= 2; ctx.font = `800 ${size}px ${FONT}` }
+  ctx.fillText(d.name, W / 2, 610)
+  const aff = [d.affiliation, d.major].filter(Boolean).join('  ')
+  if (aff) {
+    ctx.font = `600 32px ${FONT}`
+    ctx.fillStyle = '#3c3c3c'
+    wrapKo(ctx, aff, W - 300).forEach((ln, i) => ctx.fillText(ln, W / 2, 674 + i * 44))
+    ctx.fillStyle = ink
+  }
 
   // 본문
   ctx.font = `700 38px ${FONT}`
-  let y = 722
-  for (const line of wrapKo(ctx, bodyText, W - 2 * X - 20)) { ctx.fillText(line, X + 10, y); y += 60 }
-
-  // 세부 항목
-  y += 40
-  ctx.font = `600 30px ${FONT}`
-  for (const [k, v] of rowsUse) {
-    ctx.fillText(`${k} : ${v}`, X + 50, y); y += 48
-  }
-  if (d.wish) {
-    const lab = '다    짐 : '
-    ctx.fillText(lab, X + 50, y)
-    const off = ctx.measureText(lab).width
-    const lines = wrapKo(ctx, d.wish, W - 2 * X - 50 - off)
-    lines.forEach((ln, i) => ctx.fillText(ln, X + 50 + off, y + i * 44))
-    y += lines.length * 44 + 4
-  }
+  let y = 850
+  for (const line of bodyText.split('\n')) { ctx.fillText(line, W / 2, y); y += 66 }
 
   // 날짜
-  y += 40
-  ctx.font = `600 32px ${FONT}`
-  ctx.fillText(date, X + 90, y)
+  y += 50
+  ctx.font = `600 34px ${FONT}`
+  ctx.fillText(date, W / 2, y)
 
   // 오른쪽 아래 학교 이름과 직인
   ctx.textAlign = 'right'
