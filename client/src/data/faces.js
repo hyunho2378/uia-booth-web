@@ -13,7 +13,8 @@ export const faces = [
     "univ": "고려대학교",
     "major": "정치외교학과",
     "uia": "",
-    "memory": ""
+    "memory": "",
+    "photo": "/people/kim-doyun.jpg"
   },
   {
     "name": "김태준",
