@@ -364,10 +364,30 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 .visit-plan-mark { position: absolute; left: 46.2%; top: 74.6%; width: 5.2%; height: 11%; background: rgba(253, 197, 27, .55); border-radius: 6px; mix-blend-mode: multiply; }
 .visit-plan-note { margin-top: clamp(1rem, 1.6vw, 2rem); color: var(--ink-2); }
 
-/* Words */
-.words-stage { position: relative; margin-top: clamp(1.4rem, 2.4vw, 3rem); background: var(--surface); border-radius: var(--radius); box-shadow: var(--s1); padding: clamp(.5rem, 1.5vw, 2rem); }
-.words-stage svg { display: block; width: 100%; height: auto; }
-.words-t { font-family: var(--sans); font-weight: 800; letter-spacing: -0.03em; transition: transform .8s var(--ease), opacity .6s var(--ease); animation: words-in .7s var(--ease) both; }
-@keyframes words-in { from { opacity: 0; } to { opacity: 1; } }
-.words-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--mute); }
-.words-meta { margin-top: 1rem; color: var(--mute); }
+/* Words: 볼트업 라이브 대형화면과 같은 번지는 배경 위의 글래스 칩 */
+.words-stage { position: relative; margin-top: clamp(1.4rem, 2.4vw, 3rem); border-radius: 32px; overflow: hidden; container-type: inline-size; background: #e9eef8 var(--bg) center / cover no-repeat; box-shadow: var(--s2); }
+.words-chip { position: absolute; display: grid; place-items: center; box-sizing: border-box; white-space: nowrap; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #0a0a0a; border-radius: 16px; background: rgba(255,255,255,.34); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); border: 1px solid rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 10px 30px rgba(0,0,0,.10); animation: words-in .5s var(--ease) both; transition: left .8s var(--ease), top .8s var(--ease), width .8s var(--ease), height .8s var(--ease), font-size .8s var(--ease); }
+.words-chip-lead { background: #1f6fff; color: #fff; border-color: rgba(255,255,255,.35); }
+@keyframes words-in { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+.words-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #0a0a0a; }
+.words-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
+.words-meta { color: var(--ink); }
+.words-share { appearance: none; border: 0; cursor: pointer; min-height: 2.75rem; padding: 0 1.4rem; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 600; }
+
+/* 모바일 메뉴: 헤더 아래 전체 화면 */
+.mobile-menu { position: absolute; left: 0; right: 0; top: 100%; height: calc(100dvh - var(--header-h)); z-index: 40; background: var(--bg); overflow-y: auto; overscroll-behavior: contain; opacity: 0; transform: translateY(-8px); pointer-events: none; visibility: hidden; transition: opacity .28s var(--ease), transform .28s var(--ease), visibility 0s linear .28s; }
+.mobile-menu[data-open='true'] { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition-delay: 0s; }
+.mobile-menu-nav { display: flex; flex-direction: column; padding-block: clamp(.6rem, 2vw, 2rem) 3rem; }
+.mobile-menu-link { display: flex; align-items: center; min-height: 3.75rem; font: 700 clamp(1.9rem, 6.4vw, 3.4rem)/1.2 var(--latin); letter-spacing: -0.02em; opacity: 0; transform: translateY(10px); transition: color .2s var(--ease); }
+.mobile-menu[data-open='true'] .mobile-menu-link { animation: menu-in .4s var(--ease-out) both; animation-delay: calc(var(--i) * 40ms + 60ms); }
+@keyframes menu-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* 스탠바이미를 세로로 돌린 화면(1080x1920)과 큰 세로 터치 화면: 헤더, 햄버거, 메뉴를 손가락 크기로 키운다 */
+@media (orientation: portrait) and (min-width: 900px) {
+  :root { --header-h: 6.4rem; }
+  .header-logo img { height: 2.6rem !important; }
+  .burger { min-width: 5rem; min-height: 5rem; margin-right: -1rem; }
+  .burger svg { width: 3rem; height: 3rem; stroke-width: 2.2; }
+  .mobile-menu-nav { padding-block: 2rem 4rem; }
+  .mobile-menu-link { min-height: 7.2rem; font-size: 4.6rem; }
+}

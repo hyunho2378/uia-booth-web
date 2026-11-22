@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import NfcShell from './NfcShell'
+import { Screen, Card, Btn, BtnLink, Radio, Ko, vibrate } from './ui'
 import CodeEntry from './CodeEntry'
 import { CHOICES, WORD_Q, WORD_MAX } from './survey'
 import { saveSurvey } from './db'
 import { useVisitor } from './useVisitor'
+
+const TOTAL = CHOICES.length + 1
 
 export default function NfcSurvey() {
   const { status, visitor, id, attach, reload } = useVisitor()
@@ -15,82 +17,99 @@ export default function NfcSurvey() {
   const [saved, setSaved] = useState(null)
   const [again, setAgain] = useState(false)
 
-  if (status === 'loading') return <NfcShell step={2} title="설문"><p className="nfc-lead">불러오는 중입니다.</p></NfcShell>
-  if (status === 'error') return <NfcShell step={2} title="설문"><h1>연결이 원활하지 않습니다</h1><p className="nfc-lead">인터넷 연결을 확인하고 휴대폰을 NFC에 다시 대 주세요.</p></NfcShell>
-  if (status === 'none') return <NfcShell step={2} title="설문"><CodeEntry onAttach={attach} /></NfcShell>
+  if (status === 'loading') return <Screen title="설문"><Card><p className="vg-body" style={{ marginTop: 0 }}>불러오는 중이에요.</p></Card></Screen>
+  if (status === 'error') return <Screen title="설문"><Card><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 원활하지 않아요</h1><p className="vg-body">인터넷 연결을 확인하고 휴대폰을 NFC에 다시 대 주세요.</p></Card></Screen>
+  if (status === 'none') return <Screen title="설문"><CodeEntry onAttach={attach} /></Screen>
 
-  const total = CHOICES.length
-  const done = saved || (visitor.quiz_at && !again ? [] : null)
+  const finished = saved || (visitor.quiz_at && !again)
 
-  const pick = (k) => {
-    const next = [...answers, k]
-    setAnswers(next)
-    setI(i + 1)
+  if (finished) {
+    return (
+      <Screen
+        title="설문 완료"
+        dock={<><BtnLink to="/words" prominent>워드클라우드 보기</BtnLink><Btn prominent={false} onClick={() => { setAgain(true); setSaved(null); setI(0); setAnswers([]); setWords(['']) }}>답변 다시 남기기</Btn></>}
+      >
+        <Card>
+          <p className="vg-cap">{TOTAL} / {TOTAL}</p>
+          <h1 className="vg-q"><Ko>{`${visitor.name}님, 답변이 전달됐어요`}</Ko></h1>
+          <p className="vg-body"><Ko>남겨 주신 단어는 특별관 화면의 워드클라우드에 나타나요. 체험을 모두 마친 뒤 3번 NFC에 휴대폰을 대면 졸업증서를 받아요.</Ko></p>
+          {saved && saved.length ? <div className="vg-chips">{saved.map((w) => <span key={w} className="vg-chip">{w}</span>)}</div> : null}
+        </Card>
+      </Screen>
+    )
   }
-  const setWord = (n) => (e) => setWords((w) => w.map((x, m) => (m === n ? e.target.value : x)))
-  const addWord = () => setWords((w) => (w.length < WORD_MAX ? [...w, ''] : w))
-  const filled = words.map((w) => w.trim()).filter(Boolean)
 
-  const submit = async (e) => {
-    e.preventDefault()
-    if (!filled.length) return
+  if (i < CHOICES.length) {
+    const q = CHOICES[i]
+    const picked = answers[i]
+    const pick = (k) => { vibrate(8); setAnswers((a) => { const n = [...a]; n[i] = k; return n }) }
+    return (
+      <Screen
+        title="설문"
+        dock={<>
+          <Btn disabled={picked === undefined} onClick={() => { vibrate(8); setI(i + 1) }}>다음</Btn>
+          {i > 0 ? <Btn prominent={false} onClick={() => setI(i - 1)}>이전</Btn> : null}
+        </>}
+      >
+        <Card key={i}>
+          <p className="vg-cap">{i + 1} / {TOTAL}</p>
+          <h1 className="vg-q"><Ko>{q.q}</Ko></h1>
+          <ul className="vg-opts">
+            {q.options.map((o, k) => (
+              <li key={k}>
+                <button type="button" className={'vg-opt' + (picked === k ? ' on' : '')} aria-pressed={picked === k} onClick={() => pick(k)}>
+                  <Radio on={picked === k} />
+                  <span><Ko>{o}</Ko></span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </Screen>
+    )
+  }
+
+  const filled = words.map((w) => w.trim()).filter(Boolean)
+  const setWord = (n) => (e) => setWords((w) => w.map((x, m) => (m === n ? e.target.value.slice(0, 12) : x)))
+  const submit = async () => {
+    if (!filled.length || busy) return
     setBusy(true); setErr('')
     try {
       const out = await saveSurvey(id, answers, filled)
+      vibrate([12, 40, 12])
       setSaved(out)
       reload()
     } catch {
-      setErr('답변을 저장하지 못했습니다. 인터넷 연결을 확인하고 다시 눌러 주세요.')
+      setErr('답변을 저장하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요.')
     } finally { setBusy(false) }
   }
 
-  if (done) {
-    return (
-      <NfcShell step={2} title="설문 완료">
-        <h1>{visitor.name}님,<br />답변이 전달되었습니다</h1>
-        <p className="nfc-lead">남겨 주신 단어는 특별관 화면의 워드클라우드에 나타납니다. 체험 프로그램을 모두 마친 뒤 3번 NFC에 휴대폰을 대면 졸업증서가 발급됩니다.</p>
-        {saved && saved.length > 0 && (
-          <div className="nfc-words">{saved.map((w) => <span key={w}>{w}</span>)}</div>
-        )}
-        <div className="nfc-actions">
-          <button className="nfc-btn soft" type="button" onClick={() => { setAgain(true); setSaved(null); setI(0); setAnswers([]); setWords(['']) }}>답변 다시 남기기</button>
-        </div>
-      </NfcShell>
-    )
-  }
-
-  if (i < total) {
-    const q = CHOICES[i]
-    return (
-      <NfcShell step={2} title="설문">
-        <div className="nfc-prog"><i style={{ width: `${(i / (total + 1)) * 100}%` }} /></div>
-        <p className="nfc-step" style={{ margin: '0 0 .6rem' }}>{i + 1} / {total + 1}</p>
-        <h2 className="nfc-q">{q.q}</h2>
-        <div className="nfc-opts">
-          {q.options.map((o, k) => (
-            <button key={k} type="button" className="nfc-opt" onClick={() => pick(k)}>{o}</button>
+  return (
+    <Screen
+      title="설문"
+      dock={<>
+        <Btn disabled={!filled.length || busy} onClick={submit}>{busy ? '보내는 중' : '보내기'}</Btn>
+        <Btn prominent={false} onClick={() => setI(i - 1)}>이전</Btn>
+      </>}
+    >
+      <Card key="words">
+        <p className="vg-cap">{TOTAL} / {TOTAL}</p>
+        <h1 className="vg-q"><Ko>{WORD_Q}</Ko></h1>
+        <p className="vg-body"><Ko>한 단어로 적어 주세요. 최대 3개까지 남길 수 있어요.</Ko></p>
+        <div style={{ marginTop: 20, display: 'grid', gap: 12 }}>
+          {words.map((w, n) => (
+            <div key={n}>
+              <input className="vg-input" value={w} onChange={setWord(n)} maxLength={12} placeholder={n === 0 ? '한 단어로' : '다른 단어'} aria-label={`단어 ${n + 1}`} />
+              <p className="vg-count">{w.length} / 12</p>
+            </div>
           ))}
         </div>
-      </NfcShell>
-    )
-  }
-
-  return (
-    <NfcShell step={2} title="설문">
-      <div className="nfc-prog"><i style={{ width: `${(total / (total + 1)) * 100}%` }} /></div>
-      <p className="nfc-step" style={{ margin: '0 0 .6rem' }}>{total + 1} / {total + 1}</p>
-      <h2 className="nfc-q">{WORD_Q}</h2>
-      <form className="nfc-form" style={{ marginTop: 0 }} onSubmit={submit}>
-        {words.map((w, n) => (
-          <input key={n} className="nfc-input" value={w} onChange={setWord(n)} maxLength={14} autoFocus={n === words.length - 1 && n > 0} placeholder={n === 0 ? '예: 연결' : '다른 단어'} aria-label={`단어 ${n + 1}`} />
-        ))}
-        {words.length < WORD_MAX && (
-          <button className="nfc-btn soft" type="button" onClick={addWord}>단어 더 적기</button>
-        )}
-        <p className="nfc-note">단어는 최대 {WORD_MAX}개까지 남길 수 있고 이름과 함께 표시되지 않습니다.</p>
-        {err && <p className="nfc-err">{err}</p>}
-        <button className="nfc-btn" type="submit" disabled={busy || !filled.length}>{busy ? '보내는 중' : '답변 보내기'}</button>
-      </form>
-    </NfcShell>
+        {words.length < WORD_MAX ? (
+          <p className="vg-note"><button type="button" onClick={() => setWords((w) => [...w, ''])} className="vg-link">단어 더 적기</button></p>
+        ) : null}
+        {err ? <p className="vg-err">{err}</p> : null}
+        <p className="vg-note">이름은 단어와 함께 표시되지 않아요.</p>
+      </Card>
+    </Screen>
   )
 }

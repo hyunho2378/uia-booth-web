@@ -22,7 +22,7 @@ export default function Header() {
       }}
     >
       <div className="wrap h-full flex items-center justify-between" style={{ gap: '2rem' }}>
-        <Link to="/" className="flex items-center" style={{ color: 'var(--ink)' }} aria-label="UIA 특별관">
+        <Link to="/" className="flex items-center header-logo" style={{ color: 'var(--ink)' }} aria-label="UIA 특별관">
           <UiaMark className="" title="UIA" />
         </Link>
 
@@ -44,7 +44,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <button type="button" className="xl:hidden tap" style={{ color: 'var(--ink)' }} onClick={() => setOpen(o => !o)} aria-label="메뉴">
+        <button type="button" className="xl:hidden tap burger" style={{ color: 'var(--ink)' }} onClick={() => setOpen(o => !o)} aria-label="메뉴">
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>

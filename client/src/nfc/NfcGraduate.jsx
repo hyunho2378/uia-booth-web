@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import NfcShell from './NfcShell'
+import { useEffect, useMemo, useState } from 'react'
+import { Screen, Card, Btn, BtnLink, Ko, useToast } from './ui'
 import CodeEntry from './CodeEntry'
 import { graduate } from './db'
 import { drawCertificate } from './certificate'
 import { useVisitor } from './useVisitor'
+import { saveImage, shareImage, shareLink, siteUrl } from './share'
 
 export default function NfcGraduate() {
   const { status, visitor, id, attach } = useVisitor()
   const [grad, setGrad] = useState(null)
   const [cert, setCert] = useState('')
   const [err, setErr] = useState('')
+  const [toast, show] = useToast()
 
   useEffect(() => {
-    if (status !== 'ready' || !visitor || !visitor.quiz_at) return
+    if (status !== 'ready' || !visitor || !visitor.quiz_at) return undefined
     let off = false
     ;(async () => {
       try {
@@ -21,36 +22,48 @@ export default function NfcGraduate() {
         if (off || !g || !g.cert_no) return
         setGrad(g)
         setCert(await drawCertificate('graduation', g))
-      } catch { if (!off) setErr('졸업증서를 만들지 못했습니다. 인터넷 연결을 확인하고 다시 대 주세요.') }
+      } catch { if (!off) setErr('졸업증서를 만들지 못했어요. 인터넷 연결을 확인하고 다시 대 주세요.') }
     })()
     return () => { off = true }
   }, [status, visitor, id])
 
-  if (status === 'loading') return <NfcShell step={3} title="졸업"><p className="nfc-lead">불러오는 중입니다.</p></NfcShell>
-  if (status === 'error') return <NfcShell step={3} title="졸업"><h1>연결이 원활하지 않습니다</h1><p className="nfc-lead">인터넷 연결을 확인하고 휴대폰을 NFC에 다시 대 주세요.</p></NfcShell>
-  if (status === 'none') return <NfcShell step={3} title="졸업"><CodeEntry onAttach={attach} /></NfcShell>
+  const fileName = useMemo(() => (grad ? `UIA_졸업증서_${grad.name}.png` : ''), [grad])
+  const link = grad && grad.share_token ? siteUrl('/nfc/s/' + grad.share_token) : siteUrl('/')
+
+  if (status === 'loading') return <Screen title="졸업"><Card><p className="vg-body" style={{ marginTop: 0 }}>불러오는 중이에요.</p></Card></Screen>
+  if (status === 'error') return <Screen title="졸업"><Card><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 원활하지 않아요</h1><p className="vg-body">인터넷 연결을 확인하고 휴대폰을 NFC에 다시 대 주세요.</p></Card></Screen>
+  if (status === 'none') return <Screen title="졸업"><CodeEntry onAttach={attach} /></Screen>
 
   if (!visitor.quiz_at) {
     return (
-      <NfcShell step={3} title="졸업">
-        <h1>{visitor.name}님, 설문이 남아 있습니다</h1>
-        <p className="nfc-lead">졸업증서는 설문에 답한 뒤 발급됩니다. 2번 NFC에서 설문에 답하고 다시 오세요.</p>
-        <div className="nfc-actions"><Link to="/nfc/2" className="nfc-btn" style={{ display: 'grid', placeItems: 'center', textDecoration: 'none' }}>설문 하러 가기</Link></div>
-      </NfcShell>
+      <Screen title="졸업" dock={<BtnLink to="/nfc/2" prominent>설문 하러 가기</BtnLink>}>
+        <Card>
+          <p className="vg-cap">3 / 3</p>
+          <h1 className="vg-q"><Ko>{`${visitor.name}님, 설문이 남아 있어요`}</Ko></h1>
+          <p className="vg-body"><Ko>졸업증서는 설문에 답한 뒤 발급돼요. 2번 NFC에서 설문에 답하고 다시 와 주세요.</Ko></p>
+        </Card>
+      </Screen>
     )
   }
 
+  const onSave = async () => { const r = await saveImage(cert, fileName); if (r === 'downloaded') show('이미지를 저장했어요') }
+  const onShare = async () => {
+    const r = await shareImage(cert, fileName, `${grad.name}님이 UIA 대학교를 졸업했어요`, link)
+    if (r === 'copied') show('주소를 복사했어요')
+  }
+  const onCopy = async () => { const r = await shareLink('UIA 졸업증서', link); if (r === 'copied') show('링크를 복사했어요') }
+
   return (
-    <NfcShell step={3} title="졸업증서">
-      <h1>{visitor.name}님, 졸업을 축하합니다</h1>
-      <p className="nfc-lead">UIA 대학교 과정을 모두 마쳤습니다. 졸업증서 이미지를 길게 눌러 저장해 주세요.</p>
-      {err && <p className="nfc-err" style={{ marginTop: '1rem' }}>{err}</p>}
-      {cert && <img className="nfc-cert" src={cert} alt={visitor.name + ' 졸업증서'} />}
-      {cert && grad && (
-        <div className="nfc-actions">
-          <a className="nfc-btn" style={{ display: 'grid', placeItems: 'center', textDecoration: 'none' }} href={cert} download={`UIA_졸업증서_${visitor.name}.png`}>졸업증서 저장</a>
-        </div>
-      )}
-    </NfcShell>
+    <Screen title="졸업증서" dock={cert ? (<><Btn onClick={onSave}>졸업증서 저장하기</Btn><Btn prominent={false} onClick={onShare}>공유하기</Btn></>) : null}>
+      <Card>
+        <p className="vg-cap">3 / 3</p>
+        <h1 className="vg-q"><Ko>{`${visitor.name}님, 졸업을 축하해요`}</Ko></h1>
+        <p className="vg-body"><Ko>UIA 대학교 과정을 모두 마쳤어요. 졸업증서를 저장하고 친구에게 공유해 보세요.</Ko></p>
+        {err ? <p className="vg-err">{err}</p> : null}
+        {cert ? <img className="vg-cert" src={cert} alt={`${visitor.name} 졸업증서`} /> : <p className="vg-body">증서를 만드는 중이에요.</p>}
+        {cert ? <p className="vg-note"><button type="button" onClick={onCopy} className="vg-link">증서 링크 복사하기</button></p> : null}
+      </Card>
+      {toast}
+    </Screen>
   )
 }

@@ -4,18 +4,24 @@ import { NFC_DB_URL } from './dbConfig'
 let sql
 const client = () => (sql ||= neon(NFC_DB_URL))
 
+// 행사장 와이파이가 흔들려도 한 번은 다시 시도한다.
 async function call(text, params) {
-  try {
-    return await client().query(text, params)
-  } catch (e) {
-    const err = new Error('network')
-    err.cause = e
-    throw err
+  let last
+  for (let i = 0; i < 2; i++) {
+    try {
+      return await client().query(text, params)
+    } catch (e) {
+      last = e
+      await new Promise((r) => setTimeout(r, 600))
+    }
   }
+  const err = new Error('network')
+  err.cause = last
+  throw err
 }
 
-export async function enroll({ name, affiliation, major, wish }) {
-  const rows = await call('select * from nfc_enroll($1,$2,$3,$4)', [name, affiliation || null, major || null, wish || null])
+export async function enroll({ name, affiliation }) {
+  const rows = await call('select * from nfc_enroll($1,$2,$3,$4)', [name, affiliation || null, null, null])
   return rows[0]
 }
 
@@ -41,6 +47,11 @@ export async function graduate(id) {
   return rows[0] || null
 }
 
+export async function getShare(token) {
+  const rows = await call('select * from nfc_share($1)', [token])
+  return rows[0] || null
+}
+
 export async function getWords() {
   const rows = await call('select nfc_words() as r', [])
   return rows[0].r
@@ -49,4 +60,21 @@ export async function getWords() {
 export async function getChoices() {
   const rows = await call('select nfc_choices() as r', [])
   return rows[0].r
+}
+
+export async function adminStats(pass) {
+  const rows = await call('select nfc_admin_stats($1) as r', [pass])
+  return rows[0].r
+}
+export async function adminWords(pass) {
+  const rows = await call('select nfc_admin_words($1) as r', [pass])
+  return rows[0].r
+}
+export async function adminHide(pass, word, hide) {
+  const rows = await call('select nfc_admin_hide($1,$2,$3) as ok', [pass, word, hide])
+  return !!rows[0].ok
+}
+export async function adminSetPass(oldPass, newPass) {
+  const rows = await call('select nfc_admin_setpass($1,$2) as ok', [oldPass, newPass])
+  return !!rows[0].ok
 }

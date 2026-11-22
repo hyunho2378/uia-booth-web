@@ -1,39 +1,37 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import PageHeader from '../components/ui/PageHeader'
 import { getWords } from '../nfc/db'
+import { shareLink, siteUrl } from '../nfc/share'
+import { asset } from '../utils/asset'
 
-const COLORS = ['#212120', '#2d9ed9', '#e94545', '#e0a400', '#3c3c3c']
 const POLL = 3000
 
 function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h) }
 
-// 큰 단어부터 나선을 따라 겹치지 않는 자리에 놓는다.
+// 많이 나온 단어부터 중앙에서 나선으로 퍼지며 겹치지 않는 자리에 놓는다. 좌표는 무대 폭(W) 기준 숫자다.
 function layout(items, W, H) {
   const ctx = document.createElement('canvas').getContext('2d')
-  const max = items[0] ? items[0].count : 1
   const n = items.length
-  const k = n <= 15 ? 1.9 : n <= 40 ? 1.35 : 1
-  const base = (W > H ? 54 : 46) * k
+  const max = items[0] ? items[0].count : 1
+  const k = n <= 8 ? 1.7 : n <= 20 ? 1.35 : n <= 50 ? 1 : 0.8
+  const base = (W > H ? 46 : 40) * k
   const placed = []
-  for (const it of items) {
-    const size = Math.round(base * (0.5 + 1.5 * Math.pow(it.count / max, 0.6)) * (n > 60 ? 0.7 : 1))
-    ctx.font = `800 ${size}px Pretendard Variable, Pretendard, sans-serif`
-    const w = ctx.measureText(it.word).width + size * 0.3
-    const h = size * 1.15
-    let ok = false
-    const rot = false
-    const bw = rot ? h : w, bh = rot ? w : h
-    const seed = hash(it.word) % 628 / 100
-    for (let t = 0; t < 4000 && !ok; t++) {
-      const a = seed + t * 0.35, r = 2 + t * 0.9
-      const x = W / 2 + r * Math.cos(a) * 1.7 - bw / 2
-      const y = H / 2 + r * Math.sin(a) - bh / 2
-      if (x < 0 || y < 0 || x + bw > W || y + bh > H) continue
-      if (placed.some((p) => x < p.x + p.bw && x + bw > p.x && y < p.y + p.bh && y + bh > p.y)) continue
-      placed.push({ ...it, x, y, bw, bh, size, rot, cx: x + bw / 2, cy: y + bh / 2 })
-      ok = true
+  items.forEach((it, idx) => {
+    const size = Math.round(base * (0.62 + 1.3 * Math.pow(it.count / max, 0.55)))
+    ctx.font = `700 ${size}px Pretendard Variable, Pretendard, sans-serif`
+    const w = ctx.measureText(it.word).width + size * 1.1
+    const h = size * 1.72
+    const seed = (hash(it.word) % 628) / 100
+    for (let t = 0; t < 5000; t++) {
+      const a = seed + t * 0.33, r = 2 + t * 0.85
+      const x = W / 2 + r * Math.cos(a) * (W > H ? 1.75 : 1.1) - w / 2
+      const y = H / 2 + r * Math.sin(a) - h / 2
+      if (x < 8 || y < 8 || x + w > W - 8 || y + h > H - 8) continue
+      if (placed.some((p) => x < p.x + p.w + 8 && x + w + 8 > p.x && y < p.y + p.h + 8 && y + h + 8 > p.y)) continue
+      placed.push({ ...it, x, y, w, h, size, lead: idx === 0 && (n === 1 || it.count > items[1].count) })
+      break
     }
-  }
+  })
   return placed
 }
 
@@ -41,15 +39,16 @@ export default function WordsPage() {
   const [data, setData] = useState(null)
   const [fail, setFail] = useState(false)
   const [portrait, setPortrait] = useState(false)
-  const box = useRef(null)
+  const [note, setNote] = useState('')
 
   useEffect(() => { document.title = 'Words | UIA' }, [])
 
   useEffect(() => {
     let off = false, timer
     const tick = async () => {
-      if (document.hidden) { timer = setTimeout(tick, POLL); return }
-      try { const r = await getWords(); if (!off) { setData(r); setFail(false) } } catch { if (!off) setFail(true) }
+      if (!document.hidden) {
+        try { const r = await getWords(); if (!off) { setData(r); setFail(false) } } catch { if (!off) setFail(true) }
+      }
       timer = setTimeout(tick, POLL)
     }
     tick()
@@ -57,30 +56,39 @@ export default function WordsPage() {
   }, [])
 
   useEffect(() => {
-    const f = () => setPortrait(window.innerWidth < window.innerHeight * 1.05)
+    const f = () => setPortrait(window.innerWidth < window.innerHeight * 1.1)
     f(); window.addEventListener('resize', f)
     return () => window.removeEventListener('resize', f)
   }, [])
 
-  const W = portrait ? 900 : 1600, H = portrait ? 1100 : 720
+  const W = portrait ? 900 : 1600, H = portrait ? 1150 : 760
   const items = data ? data.items : []
   const key = items.map((i) => i.word + i.count).join('|') + W
-  const placed = useMemo(() => layout(items, W, H), [key]) // eslint-disable-line
+  const placed = useMemo(() => layout(items, W, H), [key]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const share = async () => {
+    const r = await shareLink('UIA 특별관 워드클라우드', siteUrl('/words'))
+    if (r === 'copied') { setNote('링크를 복사했어요'); setTimeout(() => setNote(''), 2200) }
+  }
 
   return (
     <div style={{ paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
       <PageHeader title="Words" />
       <p className="t-lead" style={{ maxWidth: '46rem' }}>방문객이 NFC로 남긴 “UIA 하면 떠오르는 단어”가 실시간으로 모입니다.</p>
-      <div ref={box} className="words-stage" aria-live="polite">
-        {data && placed.length === 0 && <p className="words-empty t-ko">아직 남겨진 단어가 없습니다.</p>}
-        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="워드클라우드">
-          {placed.map((p) => (
-            <text key={p.word.toLowerCase()} className="words-t" textAnchor="middle" dominantBaseline="central" fontSize={p.size} fill={COLORS[hash(p.word) % COLORS.length]}
-              style={{ transform: `translate(${p.cx}px, ${p.cy}px) rotate(${p.rot ? -90 : 0}deg)` }}>{p.word}</text>
-          ))}
-        </svg>
+      <div className="words-stage" style={{ '--bg': `url(${asset('/nfc/bg-screen.webp')})`, aspectRatio: `${W} / ${H}` }} aria-live="polite">
+        {data && placed.length === 0 ? <p className="words-empty t-ko">아직 남겨진 단어가 없습니다.</p> : null}
+        {placed.map((p) => (
+          <span
+            key={p.word.toLowerCase()}
+            className={'words-chip' + (p.lead ? ' words-chip-lead' : '')}
+            style={{ left: `${(p.x / W) * 100}%`, top: `${(p.y / H) * 100}%`, width: `${(p.w / W) * 100}%`, height: `${(p.h / H) * 100}%`, fontSize: `${(p.size / W) * 100}cqw` }}
+          >{p.word}</span>
+        ))}
       </div>
-      <p className="t-ko words-meta">{data ? `참여 ${data.participants}명 / 단어 ${data.total}개` : ' '}{fail ? ' / 연결을 다시 시도하는 중입니다' : ''}</p>
+      <div className="words-foot">
+        <p className="t-ko words-meta">{data ? `참여 ${data.participants}명, 단어 ${data.total}개` : ' '}{fail ? ', 연결을 다시 시도하는 중입니다' : ''}</p>
+        <button type="button" className="words-share t-ko" onClick={share}>{note || '링크 공유'}</button>
+      </div>
     </div>
   )
 }
