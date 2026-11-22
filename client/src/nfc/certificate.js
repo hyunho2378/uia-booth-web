@@ -204,6 +204,76 @@ function emblem(ctx, cx, cy, R, logo) {
   ctx.restore()
 }
 
+
+// 직인: 이중 테두리, 칸에 맞춰 균등하게 앉힌 글자, 인주가 고르게 먹지 않은 질감.
+// 오른쪽 열부터 세로로 읽는다(대학임팩트 / 얼라이언스 / 총장인).
+function drawSeal(ctx, cx, cy, size, angle) {
+  const N = 640
+  const c = document.createElement('canvas'); c.width = N; c.height = N
+  const g = c.getContext('2d')
+  let seed = 91
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647 }
+  const RED = '#c4181f'
+  g.fillStyle = RED; g.strokeStyle = RED
+
+  // 가장자리가 살짝 일그러진 사각 테두리
+  const wobble = (x0, y0, x1, y1, lw, amp) => {
+    g.lineWidth = lw; g.lineJoin = 'round'
+    g.beginPath()
+    const pts = []
+    const side = (ax, ay, bx, by) => { const n = 26; for (let i = 0; i < n; i++) { const t = i / n; pts.push([ax + (bx - ax) * t + (rnd() - 0.5) * amp, ay + (by - ay) * t + (rnd() - 0.5) * amp]) } }
+    side(x0, y0, x1, y0); side(x1, y0, x1, y1); side(x1, y1, x0, y1); side(x0, y1, x0, y0)
+    pts.forEach((p, i) => (i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])))
+    g.closePath(); g.stroke()
+  }
+  wobble(28, 28, N - 28, N - 28, 26, 2.2)
+  wobble(66, 66, N - 66, N - 66, 7, 1.4)
+
+  // 글자: 3열(오른쪽부터 5자, 5자, 3자). 짧은 열은 위아래로 균등하게 벌려 앉힌다.
+  const cols = [['대', '학', '임', '팩', '트'], ['얼', '라', '이', '언', '스'], ['총', '장', '인']]
+  const inner = { x0: 92, y0: 92, x1: N - 92, y1: N - 92 }
+  const colW = (inner.x1 - inner.x0) / 3
+  const rowH = (inner.y1 - inner.y0) / 5
+  cols.forEach((chars, ci) => {
+    const x = inner.x1 - colW * (ci + 0.5)
+    const n = chars.length
+    chars.forEach((ch, ri) => {
+      const y = n === 5 ? inner.y0 + rowH * (ri + 0.5) : inner.y0 + rowH * 0.5 + ((inner.y1 - inner.y0 - rowH) * ri) / (n - 1)
+      g.save(); g.translate(x, y)
+      g.font = `900 ${rowH * 0.96}px 'Noto Serif KR', 'Noto Serif CJK KR', AppleMyungjo, serif`
+      g.textAlign = 'center'; g.textBaseline = 'middle'
+      g.scale(1.1, 0.95)
+      g.lineWidth = 4.2; g.lineJoin = 'round'
+      g.strokeText(ch, 0, 4); g.fillText(ch, 0, 4)
+      g.restore()
+    })
+  })
+
+  // 인주 질감: 군데군데 먹지 않은 점과 얼룩, 한쪽 모서리가 옅어지는 눌림
+  g.globalCompositeOperation = 'destination-out'
+  for (let i = 0; i < 2600; i++) {
+    const x = rnd() * N, y = rnd() * N, r = 0.6 + rnd() * 2.1
+    g.globalAlpha = 0.25 + rnd() * 0.55
+    g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill()
+  }
+  for (let i = 0; i < 26; i++) {
+    const x = rnd() * N, y = rnd() * N, r = 6 + rnd() * 16
+    g.globalAlpha = 0.10 + rnd() * 0.22
+    g.beginPath(); g.ellipse(x, y, r, r * (0.5 + rnd() * 0.6), rnd() * 3, 0, Math.PI * 2); g.fill()
+  }
+  const wear = g.createLinearGradient(N * 0.1, N, N * 0.9, 0)
+  wear.addColorStop(0, 'rgba(0,0,0,0.30)'); wear.addColorStop(0.35, 'rgba(0,0,0,0)'); wear.addColorStop(1, 'rgba(0,0,0,0.12)')
+  g.globalAlpha = 1; g.fillStyle = wear; g.fillRect(0, 0, N, N)
+  g.globalCompositeOperation = 'source-over'
+
+  ctx.save()
+  ctx.translate(cx, cy); ctx.rotate(angle)
+  ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = 0.94
+  ctx.filter = 'blur(0.35px)'
+  ctx.drawImage(c, -size / 2, -size / 2, size, size)
+  ctx.restore()
+}
+
 // kind: 'admission' | 'graduation'
 export async function drawCertificate(kind, d) {
   const grad = kind === 'graduation'
@@ -214,9 +284,9 @@ export async function drawCertificate(kind, d) {
   const bodyText = grad
     ? '위 사람은 UIA 대학교에 입학하여\n모든 과정을 마쳤으므로 이 증서를 수여함.'
     : '위 사람은 UIA 대학교에 입학하였으므로\n이 증서를 수여함.'
-  const sample = [title, d.name, d.affiliation || '', d.major || '', numLabel, date, bodyText, 'UIA 대학교 총 장 대학임팩트얼라이언스', '성명 소속'].join('')
+  const sample = [title, d.name, d.affiliation || '', d.major || '', numLabel, date, bodyText, 'UIA 대학교 총 장 대학임팩트얼라이언스총장인', '성명 소속'].join('')
   await loadFonts(sample)
-  const [logo, seal] = await Promise.all([loadLogo(), loadImage(asset('/nfc/seal.jpg'))])
+  const logo = await loadLogo()
 
   const c = document.createElement('canvas')
   c.width = W * S; c.height = H * S
@@ -284,18 +354,13 @@ export async function drawCertificate(kind, d) {
   // 오른쪽 아래 학교 이름, 총장 표기, 직인
   ctx.textAlign = 'right'; ctx.fillStyle = INK
   ctx.font = `900 50px ${SERIF}`
-  ctx.fillText('UIA 대학교', 770, 1282)
+  ctx.fillText('UIA 대학교', 762, 1282)
   ctx.font = `700 40px ${SERIF}`
-  drawSpacedRight(ctx, '총 장', 770, 1342, 18)
+  drawSpacedRight(ctx, '총 장', 762, 1342, 18)
   ctx.fillStyle = NAVY; ctx.font = `500 15px ${CAPS}`
-  ctx.fillText('UNIVERSITY IMPACT ALLIANCE', 770, 1382)
-  ctx.save()
-  ctx.globalCompositeOperation = 'multiply'
-  ctx.translate(872, 1318); ctx.rotate(-0.05)
-  ctx.drawImage(seal, -92, -92, 184, 184)
-  ctx.restore()
+  ctx.fillText('UNIVERSITY IMPACT ALLIANCE', 762, 1382)
+  drawSeal(ctx, 858, 1306, 184, -0.07)
 
-  // 가는 무늬가 많아 PNG는 6MB가 넘는다. JPEG 92%로 저장해 1MB대로 줄인다.
   return c.toDataURL('image/jpeg', 0.92)
 }
 
