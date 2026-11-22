@@ -31,7 +31,7 @@ export default function NfcGraduate() {
   const link = grad && grad.share_token ? siteUrl('/nfc/s/' + grad.share_token) : siteUrl('/')
 
   if (status === 'loading') return <Screen title="졸업"><Card><p className="vg-body" style={{ marginTop: 0 }}>불러오는 중이에요.</p></Card></Screen>
-  if (status === 'error') return <Screen title="졸업"><Card><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 원활하지 않아요</h1><p className="vg-body">인터넷 연결을 확인하고 휴대폰을 NFC에 다시 대 주세요.</p></Card></Screen>
+  if (status === 'error') return <Screen title="졸업" dock={<Btn onClick={() => window.location.reload()}>다시 시도</Btn>}><Card><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 원활하지 않아요</h1><p className="vg-body">인터넷 연결을 확인한 뒤 다시 시도해 주세요.</p></Card></Screen>
   if (status === 'none') return <Screen title="졸업"><CodeEntry onAttach={attach} /></Screen>
 
   if (!visitor.quiz_at) {

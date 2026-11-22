@@ -18,7 +18,7 @@ export default function NfcSurvey() {
   const [again, setAgain] = useState(false)
 
   if (status === 'loading') return <Screen title="질문"><Card><p className="vg-body" style={{ marginTop: 0 }}>불러오는 중이에요.</p></Card></Screen>
-  if (status === 'error') return <Screen title="질문"><Card><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 원활하지 않아요</h1><p className="vg-body">인터넷 연결을 확인하고 휴대폰을 NFC에 다시 대 주세요.</p></Card></Screen>
+  if (status === 'error') return <Screen title="질문" dock={<Btn onClick={() => window.location.reload()}>다시 시도</Btn>}><Card><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 원활하지 않아요</h1><p className="vg-body">인터넷 연결을 확인한 뒤 다시 시도해 주세요.</p></Card></Screen>
   if (status === 'none') return <Screen title="질문"><CodeEntry onAttach={attach} /></Screen>
 
   const finished = saved || (visitor.quiz_at && !again)

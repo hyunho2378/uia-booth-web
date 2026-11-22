@@ -26,10 +26,9 @@ export function useVisitor() {
   }, [load])
 
   const attach = useCallback(async (code) => {
-    setStatus('loading')
     try {
       const vid = await findByCode(code)
-      if (!vid) { setStatus('none'); return false }
+      if (!vid) return false
       saveVisitor({ id: vid })
       await load(vid)
       return true

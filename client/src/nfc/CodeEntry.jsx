@@ -5,9 +5,12 @@ import { Card, Btn, BtnLink, Ko } from './ui'
 export default function CodeEntry({ onAttach }) {
   const [code, setCode] = useState('')
   const [bad, setBad] = useState(false)
+  const [busy, setBusy] = useState(false)
   const submit = async () => {
-    setBad(false)
+    if (busy) return
+    setBad(false); setBusy(true)
     const ok = await onAttach(code)
+    setBusy(false)
     if (!ok) setBad(true)
   }
   return (
@@ -22,7 +25,7 @@ export default function CodeEntry({ onAttach }) {
         {bad ? <p className="vg-err">코드를 찾지 못했어요. 다시 확인해 주세요.</p> : null}
       </Card>
       <div className="vg-dock" style={{ position: 'static' }}>
-        <Btn disabled={code.length < 6} onClick={submit}>코드로 이어가기</Btn>
+        <Btn disabled={code.length < 6 || busy} onClick={submit}>{busy ? '확인하는 중' : '코드로 이어가기'}</Btn>
         <BtnLink to="/nfc/1">입학하러 가기</BtnLink>
       </div>
     </>

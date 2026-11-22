@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import PageHeader from '../components/ui/PageHeader'
 import { getWords } from '../nfc/db'
 import { shareLink, siteUrl } from '../nfc/share'
@@ -41,6 +42,8 @@ function layout(items, W, H) {
 }
 
 export default function WordsPage() {
+  const { search } = useLocation()
+  const bare = new URLSearchParams(search).has('screen')
   const [data, setData] = useState(null)
   const [fail, setFail] = useState(false)
   const [portrait, setPortrait] = useState(false)
@@ -77,9 +80,9 @@ export default function WordsPage() {
   }
 
   return (
-    <div style={{ paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
-      <PageHeader title="Words" />
-      <p className="t-lead" style={{ maxWidth: '46rem' }}>방문객이 NFC로 남긴 단어가 실시간으로 모입니다.</p>
+    <div className={bare ? 'words-screen' : ''} style={bare ? undefined : { paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
+      {bare ? null : <PageHeader title="Words" />}
+      {bare ? null : <p className="t-lead" style={{ maxWidth: '46rem' }}>방문객이 NFC로 남긴 단어가 실시간으로 모입니다.</p>}
       <div className="words-grid">
         {QUESTIONS.map((q, n) => (
           <section key={n}>
@@ -100,7 +103,7 @@ export default function WordsPage() {
       </div>
       <div className="words-foot">
         <p className="t-ko words-meta">{data ? `참여 ${data.participants}명, 단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}{fail ? ', 연결을 다시 시도하는 중입니다' : ''}</p>
-        <button type="button" className="words-share t-ko" onClick={share}>{note || '링크 공유'}</button>
+        {bare ? null : <button type="button" className="words-share t-ko" onClick={share}>{note || '링크 공유'}</button>}
       </div>
     </div>
   )

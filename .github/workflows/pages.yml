@@ -30,6 +30,9 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run build
       - run: cp dist/index.html dist/404.html
+      - name: 경로별 index.html 복사 (NFC 태그와 공유 주소가 200으로 열리게 함)
+        run: |
+          for d in nfc nfc/1 nfc/2 nfc/3 nfc/admin words visit; do mkdir -p dist/$d && cp dist/index.html dist/$d/index.html; done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: client/dist

@@ -4,8 +4,11 @@ import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
 
 export default function Layout({ children }) {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const full = pathname === '/'
+  // 스탠바이미와 모니터에 띄우는 전체 화면 모드: /words?screen=1
+  const bare = pathname.replace(/\/$/, '') === '/words' && new URLSearchParams(search).has('screen')
+  if (bare) return <div className="words-bare">{children}</div>
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg)' }}>
       <ScrollToTop />
