@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import PageHeader from '../components/ui/PageHeader'
 import { getWords } from '../nfc/db'
 import { shareLink, siteUrl } from '../nfc/share'
@@ -45,6 +45,8 @@ function layout(items, W, H) {
 export default function WordsPage() {
   const { search } = useLocation()
   const bare = new URLSearchParams(search).has('screen')
+  // 워드클라우드는 스탠바이미와 모니터에서만 보여 준다. 휴대폰 크기 화면에서는 열지 않는다.
+  const phone = !bare && typeof window !== 'undefined' && window.innerWidth < 900
   const [data, setData] = useState(null)
   const [fail, setFail] = useState(false)
   const [portrait, setPortrait] = useState(false)
@@ -88,6 +90,8 @@ export default function WordsPage() {
     if (r === 'copied') { setNote('링크를 복사했어요'); setTimeout(() => setNote(''), 2200) }
   }
 
+  if (phone) return <Navigate to="/" replace />
+
   return (
     <div className={bare ? 'words-screen' : ''} style={bare ? undefined : { paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
       {bare ? null : <PageHeader title="Words" />}
@@ -111,7 +115,7 @@ export default function WordsPage() {
         ))}
       </div>
       <div className="words-foot">
-        <p className="t-ko words-meta">{data ? `참여 ${data.participants}명, 단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}{fail ? ', 연결을 다시 시도하는 중입니다' : ''}</p>
+        <p className="t-ko words-meta">{data ? `${data.participants}명 참여  단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}{fail ? '  연결을 다시 시도하는 중입니다' : ''}</p>
         {bare ? null : <button type="button" className="words-share t-ko" onClick={share}>{note || '링크 공유'}</button>}
       </div>
     </div>

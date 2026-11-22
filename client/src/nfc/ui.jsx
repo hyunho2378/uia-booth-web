@@ -17,7 +17,6 @@ export function Screen({ title, children, dock, wide = false }) {
   return (
     <div className="vg-root" style={{ '--vg-bg': `url(${asset('/nfc/bg-vote.webp')})` }}>
       <div className={'vg-col' + (wide ? ' vg-wide' : '')}>
-        <img className="vg-logo" src={asset('/brand/uia-logo-official.svg')} alt="UIA" />
         {children}
       </div>
       {dock ? <div className={'vg-dock' + (wide ? ' vg-wide' : '')}>{dock}</div> : null}
@@ -25,8 +24,13 @@ export function Screen({ title, children, dock, wide = false }) {
   )
 }
 
-export function Card({ children, className = '' }) {
-  return <section className={'vg-card enter ' + className}>{children}</section>
+export function Card({ children, className = '', logo = false }) {
+  return (
+    <section className={'vg-card enter ' + className}>
+      {logo ? <img className="vg-logo-in" src={asset('/brand/uia-logo-official.svg')} alt="UIA" /> : null}
+      {children}
+    </section>
+  )
 }
 
 export function Btn({ children, prominent = true, ...rest }) {

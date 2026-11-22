@@ -109,3 +109,21 @@
   .vg-btn { min-height: 46px; padding: 10px 20px; border-radius: 23px; font-size: 16px; }
   .vg-dock { gap: 8px; bottom: 12px; }
 }
+
+/* 한 화면에 들어오도록 증서 크기를 화면 높이에 맞춘다 */
+.vg-cert.fit { width: auto; max-width: 100%; max-height: calc(100svh - 440px); min-height: 180px; margin: 16px auto 0; }
+.vg-cert.fit-g { width: auto; max-width: 100%; max-height: calc(100svh - 500px); min-height: 180px; margin: 14px auto 0; }
+.vg-cert-wait { margin-top: 16px; min-height: 220px; display: grid; place-items: center; border-radius: 16px; background: rgba(255,255,255,.4); font-size: 14px; font-weight: 600; }
+.vg-code-inline { font-size: 20px; letter-spacing: .12em; font-weight: 700; margin-left: 6px; font-variant-numeric: tabular-nums; }
+
+/* 단어 추가 버튼 */
+.vg-add { appearance: none; margin-top: 12px; min-height: 48px; padding: 0 20px; border-radius: 24px; border: 0; cursor: pointer; font: 600 16px/24px inherit; font-family: inherit; color: var(--ink); background: rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 6px 18px rgba(0,0,0,.08); display: inline-flex; align-items: center; gap: 8px; transition: transform .26s var(--ease); }
+.vg-add span { font-size: 22px; line-height: 1; font-weight: 500; }
+.vg-add:active:not([disabled]) { transform: scale(.97); }
+.vg-add[disabled] { opacity: .55; cursor: default; }
+
+.vg-logo-in { display: block; height: 26px; width: auto; margin-bottom: 16px; }
+.vg-cert.fit { max-height: calc(100svh - 330px); margin-top: 14px; }
+.vg-cert.fit-g { max-height: calc(100svh - 390px); margin-top: 14px; }
+.vg-root { gap: 14px; padding-top: 20px; padding-bottom: 24px; }
+.vg-col { gap: 14px; }
