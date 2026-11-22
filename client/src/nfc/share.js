@@ -1,7 +1,7 @@
 // 저장과 공유. 폰에서는 공유 시트(이미지 저장, 메시지, 카카오톡)가 열리고, 시트가 없는 브라우저는 파일로 내려받는다.
 async function toFile(dataUrl, filename) {
   const blob = await (await fetch(dataUrl)).blob()
-  return new File([blob], filename, { type: 'image/png' })
+  return new File([blob], filename, { type: blob.type || 'image/jpeg' })
 }
 
 export function siteUrl(path = '') {

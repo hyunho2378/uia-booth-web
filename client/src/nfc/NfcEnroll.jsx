@@ -47,7 +47,7 @@ export default function NfcEnroll() {
     } finally { setBusy(false); lock.current = false }
   }
 
-  const fileName = useMemo(() => (visitor ? `UIA_입학증서_${visitor.name}.png` : ''), [visitor])
+  const fileName = useMemo(() => (visitor ? `UIA_입학증서_${visitor.name}.jpg` : ''), [visitor])
   const onSave = async () => { const r = await saveImage(cert, fileName); if (r === 'downloaded') show('이미지를 저장했어요') }
   const onShare = async () => {
     const r = await shareImage(cert, fileName, `${visitor.name}님이 UIA 대학교에 입학했어요`, siteUrl('/'))

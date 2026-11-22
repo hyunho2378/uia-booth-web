@@ -39,7 +39,7 @@ export default function NfcShare() {
       </Screen>
     )
   }
-  const file = `UIA_졸업증서_${data.name}.png`
+  const file = `UIA_졸업증서_${data.name}.jpg`
   return (
     <Screen
       title={`${data.name} 졸업증서`}

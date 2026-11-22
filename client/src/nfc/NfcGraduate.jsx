@@ -27,7 +27,7 @@ export default function NfcGraduate() {
     return () => { off = true }
   }, [status, visitor, id])
 
-  const fileName = useMemo(() => (grad ? `UIA_졸업증서_${grad.name}.png` : ''), [grad])
+  const fileName = useMemo(() => (grad ? `UIA_졸업증서_${grad.name}.jpg` : ''), [grad])
   const link = grad && grad.share_token ? siteUrl('/nfc/s/' + grad.share_token) : siteUrl('/')
 
   if (status === 'loading') return <Screen title="졸업"><Card><p className="vg-body" style={{ marginTop: 0 }}>불러오는 중이에요.</p></Card></Screen>
