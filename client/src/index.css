@@ -365,7 +365,11 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 .visit-plan-note { margin-top: clamp(1rem, 1.6vw, 2rem); color: var(--ink-2); }
 
 /* Words: 볼트업 라이브 대형화면과 같은 번지는 배경 위의 글래스 칩 */
-.words-stage { position: relative; margin-top: clamp(1.4rem, 2.4vw, 3rem); border-radius: 32px; overflow: hidden; container-type: inline-size; background: #e9eef8 var(--bg) center / cover no-repeat; box-shadow: var(--s2); }
+.words-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.4rem, 2.4vw, 3rem); margin-top: clamp(1.4rem, 2.4vw, 3rem); }
+@media (orientation: portrait), (max-width: 900px) { .words-grid { grid-template-columns: 1fr; } }
+.words-label { margin: 0; }
+.words-q { margin: .3rem 0 .9rem; color: var(--ink-2); }
+.words-stage { position: relative; margin-top: 0; border-radius: 32px; overflow: hidden; container-type: inline-size; background: #e9eef8 var(--bg) center / cover no-repeat; box-shadow: var(--s2); }
 .words-chip { position: absolute; display: grid; place-items: center; box-sizing: border-box; white-space: nowrap; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #0a0a0a; border-radius: 16px; background: rgba(255,255,255,.34); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); border: 1px solid rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 10px 30px rgba(0,0,0,.10); animation: words-in .5s var(--ease) both; transition: left .8s var(--ease), top .8s var(--ease), width .8s var(--ease), height .8s var(--ease), font-size .8s var(--ease); }
 .words-chip-lead { background: #1f6fff; color: #fff; border-color: rgba(255,255,255,.35); }
 @keyframes words-in { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }

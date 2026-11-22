@@ -57,8 +57,9 @@ export default function NfcEnroll() {
           <p className="vg-body"><Ko>입학증서가 발급되었어요. 아래 순서로 진행돼요.</Ko></p>
           <ol className="vg-steps">
             <li><b>1</b><span>입학증서를 저장해 두세요.</span></li>
-            <li><b>2</b><span><Ko>2번 NFC에 휴대폰을 대고 설문에 답해요.</Ko></span></li>
-            <li><b>3</b><span><Ko>체험을 마친 뒤 3번 NFC에서 졸업증서를 받아요.</Ko></span></li>
+            <li><b>2</b><span><Ko>전시를 둘러본 뒤 2번 NFC에 휴대폰을 대고 질문에 답해요.</Ko></span></li>
+            <li><b>3</b><span><Ko>2팀 체험에서 토큰으로 관심 분야에 투자하고 아이디어를 남겨요.</Ko></span></li>
+            <li><b>4</b><span><Ko>3번 NFC로 졸업증서를 받고 럭키드로우에 참여해요.</Ko></span></li>
           </ol>
           <p className="vg-cap" style={{ marginTop: 18 }}>입학 코드</p>
           <b className="vg-code">{visitor.code}</b>

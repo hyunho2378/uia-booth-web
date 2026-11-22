@@ -36,11 +36,11 @@ export default function NfcGraduate() {
 
   if (!visitor.quiz_at) {
     return (
-      <Screen title="졸업" dock={<BtnLink to="/nfc/2" prominent>설문 하러 가기</BtnLink>}>
+      <Screen title="졸업" dock={<BtnLink to="/nfc/2" prominent>질문에 답하러 가기</BtnLink>}>
         <Card>
           <p className="vg-cap">3 / 3</p>
-          <h1 className="vg-q"><Ko>{`${visitor.name}님, 설문이 남아 있어요`}</Ko></h1>
-          <p className="vg-body"><Ko>졸업증서는 설문에 답한 뒤 발급돼요. 2번 NFC에서 설문에 답하고 다시 와 주세요.</Ko></p>
+          <h1 className="vg-q"><Ko>{`${visitor.name}님, 질문이 남아 있어요`}</Ko></h1>
+          <p className="vg-body"><Ko>졸업증서는 질문에 답한 뒤 발급돼요. 2번 NFC에서 질문에 답하고 다시 와 주세요.</Ko></p>
         </Card>
       </Screen>
     )
@@ -58,7 +58,7 @@ export default function NfcGraduate() {
       <Card>
         <p className="vg-cap">3 / 3</p>
         <h1 className="vg-q"><Ko>{`${visitor.name}님, 졸업을 축하해요`}</Ko></h1>
-        <p className="vg-body"><Ko>UIA 대학교 과정을 모두 마쳤어요. 졸업증서를 저장하고 친구에게 공유해 보세요.</Ko></p>
+        <p className="vg-body"><Ko>{grad && grad.draw_at ? 'UIA 대학교 과정을 모두 마쳤고 럭키드로우에도 참여했어요. 졸업증서를 저장하고 친구에게 공유해 보세요.' : 'UIA 대학교 과정을 모두 마쳤어요. 럭키드로우 자리에서 이 화면을 보여 주세요. 졸업증서는 저장하고 친구에게 공유할 수 있어요.'}</Ko></p>
         {err ? <p className="vg-err">{err}</p> : null}
         {cert ? <img className="vg-cert" src={cert} alt={`${visitor.name} 졸업증서`} /> : <p className="vg-body">증서를 만드는 중이에요.</p>}
         {cert ? <p className="vg-note"><button type="button" onClick={onCopy} className="vg-link">증서 링크 복사하기</button></p> : null}

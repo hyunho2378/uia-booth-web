@@ -19,7 +19,7 @@ export default function FacesPage() {
               <Link to={'/people/' + (i + 1)} className="person-card">
                 <span className={'person-pic' + (logo ? ' is-logo' : '')}>
                   {f.photo
-                    ? <img src={asset(f.photo)} alt={f.name} loading="lazy" decoding="async" />
+                    ? <img src={asset(f.photo.replace('/people/', '/people/thumb/'))} alt={f.name} loading="lazy" decoding="async" />
                     : logo && <img src={asset('/brand/symbols/' + logo.logo)} alt={f.univ} loading="lazy" decoding="async" />}
                 </span>
                 <span className="t-h3 person-name">{f.name}</span>

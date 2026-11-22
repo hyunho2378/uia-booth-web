@@ -35,11 +35,12 @@ export async function getVisitor(id) {
   return rows[0] || null
 }
 
-export async function saveSurvey(id, answers, words) {
-  const rows = await call('select nfc_survey($1::uuid,$2::jsonb,$3::text[]) as r', [id, JSON.stringify(answers), words])
+// words 예: { 0: ['연결'], 1: ['청년', '일자리'] }
+export async function saveSurvey(id, words) {
+  const rows = await call('select nfc_survey2($1::uuid,$2::jsonb) as r', [id, JSON.stringify(words)])
   const r = rows[0] && rows[0].r
   if (!r || !r.ok) throw new Error('rejected')
-  return r.words || []
+  return r.words || {}
 }
 
 export async function graduate(id) {
@@ -53,7 +54,7 @@ export async function getShare(token) {
 }
 
 export async function getWords() {
-  const rows = await call('select nfc_words() as r', [])
+  const rows = await call('select nfc_words2() as r', [])
   return rows[0].r
 }
 
@@ -76,5 +77,13 @@ export async function adminHide(pass, word, hide) {
 }
 export async function adminSetPass(oldPass, newPass) {
   const rows = await call('select nfc_admin_setpass($1,$2) as ok', [oldPass, newPass])
+  return !!rows[0].ok
+}
+export async function adminFind(pass, q) {
+  const rows = await call('select nfc_admin_find($1,$2) as r', [pass, q])
+  return rows[0].r
+}
+export async function adminDraw(pass, id, done) {
+  const rows = await call('select nfc_admin_draw($1,$2::uuid,$3) as ok', [pass, id, done])
   return !!rows[0].ok
 }

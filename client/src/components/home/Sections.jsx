@@ -112,7 +112,7 @@ export function Voices() {
         {picks.map(({ f, i }) => (
           <li key={f.name}>
             <Link to={'/people/' + (i + 1)} className="voice">
-              <span className="voice-photo"><img src={asset(f.photo)} alt={f.name} loading="lazy" decoding="async" /></span>
+              <span className="voice-photo"><img src={asset(f.photo.replace('/people/', '/people/thumb/'))} alt={f.name} loading="lazy" decoding="async" /></span>
               <span className="t-h3" style={{ display: 'block' }}>{f.name}</span>
               <span className="t-ko" style={{ display: 'block', fontSize: '1rem', marginTop: '.2rem' }}>{f.univ} {f.major}</span>
               <span className="voice-q" style={{ marginTop: '1.2rem' }}>{firstLines(f.uia)}</span>
