@@ -41,7 +41,7 @@ function tint(img, color) {
 
 const spaced = (s) => String(s).split('').join(' ')
 
-function wrapKo(ctx, text, maxW) {
+function wrapRaw(ctx, text, maxW) {
   const words = String(text).split(/\s+/).filter(Boolean)
   const lines = []
   let line = ''
@@ -51,6 +51,19 @@ function wrapKo(ctx, text, maxW) {
   }
   if (line) lines.push(line)
   return lines
+}
+
+// 줄 수는 그대로 두고 위아래 길이가 비슷해지도록 폭을 줄여 가며 다시 나눈다(마지막 줄에 한 단어만 남지 않게).
+function wrapKo(ctx, text, maxW) {
+  const base = wrapRaw(ctx, text, maxW)
+  if (base.length < 2) return base
+  let lo = maxW * 0.4, hi = maxW, best = base
+  for (let i = 0; i < 14; i++) {
+    const mid = (lo + hi) / 2
+    const t = wrapRaw(ctx, text, mid)
+    if (t.length <= base.length) { best = t; hi = mid } else lo = mid
+  }
+  return best
 }
 
 // 위쪽 호: 왼쪽에서 오른쪽으로 읽힘
@@ -131,10 +144,14 @@ export async function drawCertificate(kind, d) {
   const rowsUse = []
 
   const sample = [title, d.name, numLabel, date, bodyText, d.wish || '', ...rowsUse.flat(), 'UIA 대학교', 'UIA UNIVERSITY', 'IMPACT ALLIANCE', '0123456789가나다라마바사'].join('')
-  await Promise.all([
-    document.fonts.load(`800 60px ${FONT}`, sample),
-    document.fonts.load(`700 30px ${FONT}`, sample),
-    document.fonts.load(`600 30px ${FONT}`, sample),
+  // 글꼴 서버가 느리거나 막혀도 증서는 만들어지도록 3.5초까지만 기다린다(그때는 기기 기본 글꼴로 그려진다).
+  await Promise.race([
+    Promise.all([
+      document.fonts.load(`800 60px ${FONT}`, sample),
+      document.fonts.load(`700 30px ${FONT}`, sample),
+      document.fonts.load(`600 30px ${FONT}`, sample),
+    ]).catch(() => {}),
+    new Promise((r) => setTimeout(r, 3500)),
   ])
   const [logo, seal] = await Promise.all([loadLogo(), loadImage(asset('/nfc/seal.jpg'))])
   const logoWhite = tint(logo, '#ffffff')

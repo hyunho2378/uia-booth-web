@@ -5,6 +5,7 @@ import { getWords } from '../nfc/db'
 import { shareLink, siteUrl } from '../nfc/share'
 import { asset } from '../utils/asset'
 import { QUESTIONS } from '../nfc/survey'
+import { keepAwake } from '../utils/wakeLock'
 
 const POLL = 3000
 
@@ -50,6 +51,14 @@ export default function WordsPage() {
   const [note, setNote] = useState('')
 
   useEffect(() => { document.title = 'Words | UIA' }, [])
+
+  // 전체 화면 모드는 며칠 켜 두므로 30분마다 새로 불러와 메모리와 배포본을 갱신한다.
+  useEffect(() => {
+    if (!bare) return undefined
+    const t = setTimeout(() => window.location.reload(), 30 * 60 * 1000)
+    const release = keepAwake()
+    return () => { clearTimeout(t); release() }
+  }, [bare])
 
   useEffect(() => {
     let off = false, timer

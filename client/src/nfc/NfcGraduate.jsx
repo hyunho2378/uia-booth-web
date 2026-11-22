@@ -7,7 +7,7 @@ import { useVisitor } from './useVisitor'
 import { saveImage, shareImage, shareLink, siteUrl } from './share'
 
 export default function NfcGraduate() {
-  const { status, visitor, id, attach } = useVisitor()
+  const { status, visitor, id, attach, reset } = useVisitor()
   const [grad, setGrad] = useState(null)
   const [cert, setCert] = useState('')
   const [err, setErr] = useState('')
@@ -41,6 +41,7 @@ export default function NfcGraduate() {
           <p className="vg-cap">3 / 3</p>
           <h1 className="vg-q"><Ko>{`${visitor.name}님, 질문이 남아 있어요`}</Ko></h1>
           <p className="vg-body"><Ko>졸업증서는 질문에 답한 뒤 발급돼요. 2번 NFC에서 질문에 답하고 다시 와 주세요.</Ko></p>
+          <p className="vg-note"><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니에요</button></p>
         </Card>
       </Screen>
     )
@@ -61,7 +62,10 @@ export default function NfcGraduate() {
         <p className="vg-body"><Ko>{grad && grad.draw_at ? 'UIA 대학교 과정을 모두 마쳤고 럭키드로우에도 참여했어요. 졸업증서를 저장하고 친구에게 공유해 보세요.' : 'UIA 대학교 과정을 모두 마쳤어요. 럭키드로우 자리에서 이 화면을 보여 주세요. 졸업증서는 저장하고 친구에게 공유할 수 있어요.'}</Ko></p>
         {err ? <p className="vg-err">{err}</p> : null}
         {cert ? <img className="vg-cert" src={cert} alt={`${visitor.name} 졸업증서`} /> : <p className="vg-body">증서를 만드는 중이에요.</p>}
+        {grad && grad.cert_no ? <p className="vg-cap" style={{ marginTop: 12 }}>증서 번호 {grad.cert_no}</p> : null}
+        {cert ? <p className="vg-note">저장 버튼이 열리지 않으면 증서 이미지를 길게 눌러 저장해 주세요.</p> : null}
         {cert ? <p className="vg-note"><button type="button" onClick={onCopy} className="vg-link">증서 링크 복사하기</button></p> : null}
+        <p className="vg-note"><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니에요</button></p>
       </Card>
       {toast}
     </Screen>

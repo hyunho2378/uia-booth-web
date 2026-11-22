@@ -9,7 +9,7 @@ const TOTAL = QUESTIONS.length
 const empty = () => QUESTIONS.map(() => [''])
 
 export default function NfcSurvey() {
-  const { status, visitor, id, attach, reload } = useVisitor()
+  const { status, visitor, id, attach, reload, reset } = useVisitor()
   const [i, setI] = useState(0)
   const [words, setWords] = useState(empty)
   const [busy, setBusy] = useState(false)
@@ -79,7 +79,7 @@ export default function NfcSurvey() {
         <div style={{ marginTop: 20, display: 'grid', gap: 12 }}>
           {cur.map((w, n) => (
             <div key={n}>
-              <input className="vg-input" value={w} onChange={setWord(n)} maxLength={WORD_LEN} placeholder={n === 0 ? '한 단어로' : '다른 단어'} aria-label={`단어 ${n + 1}`} autoFocus={n === 0 && i === 0 ? false : undefined} />
+              <input className="vg-input" value={w} onChange={setWord(n)} maxLength={WORD_LEN} placeholder={n === 0 ? '한 단어로' : '다른 단어'} aria-label={`단어 ${n + 1}`} enterKeyHint="done" autoCorrect="off" spellCheck={false} onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); ev.target.blur() } }} />
               <p className="vg-count">{w.length} / {WORD_LEN}</p>
             </div>
           ))}
@@ -87,6 +87,7 @@ export default function NfcSurvey() {
         {cur.length < WORD_MAX ? <p className="vg-note"><button type="button" onClick={addWord} className="vg-link">단어 더 적기</button></p> : null}
         {err ? <p className="vg-err">{err}</p> : null}
         <p className="vg-note">이름은 단어와 함께 표시되지 않아요.</p>
+        <p className="vg-note"><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니에요</button></p>
       </Card>
     </Screen>
   )

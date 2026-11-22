@@ -404,3 +404,9 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
   .words-screen .words-stage { width: min(100%, calc((100vh - 15rem) / 2 * 900 / 620)); }
 }
 .words-screen .words-label, .words-screen .words-q { text-align: center; }
+
+/* 휴대폰의 자동 다크 모드와 글자 크기 확대가 화면을 깨지 않게 한다 */
+:root { color-scheme: light only; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* 전시 화면 모드: 확대 제스처와 길게 눌러 선택을 막는다 */
+.kiosk-on, .kiosk-on body { touch-action: pan-x pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; overscroll-behavior: none; }

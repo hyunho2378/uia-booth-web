@@ -103,3 +103,9 @@
 
 @media (prefers-reduced-motion: reduce) { .vg-root * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 @media (prefers-reduced-transparency: reduce) { .vg-card, .vg-btn, .vg-chip { background: rgba(255,255,255,.92); -webkit-backdrop-filter: none; backdrop-filter: none; } .vg-btn-prominent { background: var(--blue); } }
+
+/* 화면이 낮은 휴대폰(높이 700px 이하)은 하단 버튼을 줄여 내용이 덜 가리게 한다 */
+@media (max-height: 700px) {
+  .vg-btn { min-height: 46px; padding: 10px 20px; border-radius: 23px; font-size: 16px; }
+  .vg-dock { gap: 8px; bottom: 12px; }
+}

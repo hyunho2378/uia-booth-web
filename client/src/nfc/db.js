@@ -5,14 +5,17 @@ let sql
 const client = () => (sql ||= neon(NFC_DB_URL))
 
 // 행사장 와이파이가 흔들려도 한 번은 다시 시도한다.
+// 쓰기 함수는 모두 같은 요청을 다시 보내도 결과가 같게 만들어 두었다(입학은 client_key, 질문과 졸업은 덮어쓰기).
 async function call(text, params) {
   let last
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     try {
       return await client().query(text, params)
     } catch (e) {
+      // DB가 규칙에 따라 거절한 경우(코드가 있는 오류)는 다시 보내지 않고 그대로 알린다.
+      if (e && e.code) { const err = new Error(String(e.message || 'rejected')); err.rejected = true; throw err }
       last = e
-      await new Promise((r) => setTimeout(r, 600))
+      await new Promise((r) => setTimeout(r, 700 * (i + 1)))
     }
   }
   const err = new Error('network')
@@ -20,8 +23,8 @@ async function call(text, params) {
   throw err
 }
 
-export async function enroll({ name, affiliation }) {
-  const rows = await call('select * from nfc_enroll($1,$2,$3,$4)', [name, affiliation || null, null, null])
+export async function enroll({ name, affiliation, key }) {
+  const rows = await call('select * from nfc_enroll2($1,$2,$3)', [name, affiliation || null, key || null])
   return rows[0]
 }
 
@@ -85,5 +88,9 @@ export async function adminFind(pass, q) {
 }
 export async function adminDraw(pass, id, done) {
   const rows = await call('select nfc_admin_draw($1,$2::uuid,$3) as ok', [pass, id, done])
+  return !!rows[0].ok
+}
+export async function adminForce(pass, id) {
+  const rows = await call('select nfc_admin_force($1,$2::uuid) as ok', [pass, id])
   return !!rows[0].ok
 }

@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Screen, Card, Btn, Ko, useToast } from './ui'
-import { adminStats, adminWords, adminHide, adminSetPass, adminFind, adminDraw } from './db'
+import { adminStats, adminWords, adminHide, adminSetPass, adminFind, adminDraw, adminForce } from './db'
 import { QUESTIONS } from './survey'
+import NfcGuide from './NfcGuide'
 
 const KEY = 'uia-nfc-admin'
 const hhmm = (iso) => new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(iso))
@@ -38,6 +39,7 @@ export default function NfcAdmin() {
     if (await load(input)) { try { sessionStorage.setItem(KEY, input) } catch { /* 무시 */ } setPass(input); setInput('') }
   }
   const search = async () => { try { setFound(await adminFind(pass, find)) } catch { show('연결이 원활하지 않아요') } }
+  const force = async (r) => { await adminForce(pass, r.id); setFound(await adminFind(pass, find)); load(pass) }
   const mark = async (r) => { await adminDraw(pass, r.id, !r.draw_at); setFound(await adminFind(pass, find)); load(pass) }
   const toggle = async (w) => { await adminHide(pass, w.word, !w.hidden); load(pass) }
   const change = async () => {
@@ -81,7 +83,7 @@ export default function NfcAdmin() {
         {found ? (
           <ul className="vg-list">
             {found.length === 0 ? <li className="vg-row">찾지 못했어요.</li> : found.map((r) => (
-              <li key={r.id} className="vg-row"><span>{r.name}{r.affiliation ? `, ${r.affiliation}` : ''}<br /><small>{r.graduated ? r.cert_no : '졸업 전'}</small></span><button type="button" className={'vg-mini' + (r.draw_at ? ' off' : '')} onClick={() => mark(r)}>{r.draw_at ? '표시 취소' : '추첨 완료'}</button></li>
+              <li key={r.id} className="vg-row"><span>{r.name}{r.affiliation ? `, ${r.affiliation}` : ''}<br /><small>{r.graduated ? r.cert_no : r.surveyed ? '졸업 전' : '질문 전'}</small></span>{r.surveyed ? <button type="button" className={'vg-mini' + (r.draw_at ? ' off' : '')} onClick={() => mark(r)}>{r.draw_at ? '표시 취소' : '추첨 완료'}</button> : <button type="button" className="vg-mini" onClick={() => force(r)}>질문 없이 졸업</button>}</li>
             ))}
           </ul>
         ) : null}
@@ -100,6 +102,7 @@ export default function NfcAdmin() {
         <label className="vg-field"><span>새 비밀번호 (4자 이상)</span><input className="vg-input" type="password" value={np} onChange={(e) => setNp(e.target.value)} autoComplete="new-password" /></label>
         <div style={{ marginTop: 14 }}><Btn disabled={np.length < 4} onClick={change}>바꾸기</Btn></div>
       </Card>
+      <NfcGuide />
       {toast}
     </Screen>
   )
