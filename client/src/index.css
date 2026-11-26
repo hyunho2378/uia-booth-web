@@ -454,3 +454,50 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .person-detail { grid-template-columns: 1fr; }
   .person-photo-wrap { max-width: 24rem; }
 }
+
+/* 손가락으로만 쓰는 전시 화면: 하단 메뉴, 시작 화면, 호버 없는 눌림 반응 */
+.kiosk-on { -webkit-tap-highlight-color: transparent; }
+.kiosk-on body { padding-bottom: 8.4rem; }
+.kiosk-on .header-logo { pointer-events: none; }
+.kiosk-on .burger { display: none !important; }
+.kiosk-dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-template-columns: repeat(6, 1fr); gap: .6rem; padding: .8rem .8rem calc(.8rem + env(safe-area-inset-bottom)); background: var(--glass); -webkit-backdrop-filter: blur(22px) saturate(1.3); backdrop-filter: blur(22px) saturate(1.3); box-shadow: 0 -6px 24px rgba(33,33,32,.14); }
+.kiosk-tab { display: grid; place-items: center; min-height: 6.4rem; border-radius: 1.4rem; font: 700 1.35rem/1.1 var(--latin); letter-spacing: -0.01em; color: var(--ink); background: var(--surface); box-shadow: var(--s1); text-align: center; padding-inline: .3rem; transition: transform .2s var(--ease), background .2s var(--ease); }
+.kiosk-tab:active { transform: scale(.95); }
+.kiosk-tab.is-on { background: var(--ink); color: #fff; }
+.kiosk-on a, .kiosk-on button, .kiosk-on [role=button] { touch-action: manipulation; }
+.kiosk-on a:active:not(.kiosk-tab), .kiosk-on button:active { opacity: .7; }
+.kiosk-on .tl-row:hover, .kiosk-on .poster-link:hover { transform: none; }
+
+.kiosk-attract { position: fixed; inset: 0; z-index: 100; border: 0; padding: 0; background: #111; cursor: pointer; overflow: hidden; }
+.kiosk-attract img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s var(--ease); }
+.kiosk-attract img.on { opacity: 1; }
+.kiosk-attract-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 45%, rgba(0,0,0,.72) 100%); }
+.kiosk-attract-body { position: absolute; left: 0; right: 0; bottom: 8%; display: grid; gap: 1.2rem; justify-items: center; text-align: center; color: #fff; }
+.kiosk-attract-body b { font: 800 3.4rem/1.2 var(--sans); letter-spacing: -0.03em; }
+.kiosk-attract-body i { font: 600 1.9rem/1.4 var(--sans); font-style: normal; padding: 1rem 2.2rem; border-radius: 999px; background: rgba(255,255,255,.22); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); animation: kiosk-pulse 2.2s ease-in-out infinite; }
+.kiosk-attract-logo { height: 4.2rem !important; width: auto; filter: brightness(0) invert(1); }
+@keyframes kiosk-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+/* 세로 화면: 글자 한 단계 더 크게, 회색 글자는 진하게, 누르는 요소는 손가락 크기로 */
+@media (orientation: portrait) and (min-width: 900px) {
+  :root { --mute: #5a5a5b; --ink-2: #2c2c2b; }
+  .t-ko, .home-type .t-ko { font-size: clamp(1.3rem, 2.5vw, 2.2rem); line-height: 1.65; }
+  .t-label { font-size: clamp(1.2rem, 2.3vw, 2rem); }
+  .person-sub { font-size: clamp(1.15rem, 2.2vw, 1.9rem); line-height: 1.5; color: var(--ink-2); }
+  .visit-tabs { gap: 2.4rem; }
+  .visit-tabs button { min-height: 5.6rem; font-size: 2.1rem; padding-inline: .4rem; }
+  .link-pair { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+  .link-pair a { min-height: 5.6rem; padding: 0 2rem; border-radius: 999px; background: var(--ink); color: #fff; font-size: 1.7rem; display: inline-flex; align-items: center; }
+  .visit-routes { gap: 2rem; }
+  .photo-filter button, .proj-filter button, [role=tab] { min-height: 5.2rem; }
+}
+@media (orientation: portrait) and (min-width: 900px) {
+  .lg\:hidden aside { display: none !important; }
+  .lg\:hidden > .overflow-x-auto, .lg\:hidden.overflow-x-auto { overflow: visible; }
+  .lg\:hidden .w-max { width: auto !important; flex-wrap: wrap; gap: 1rem !important; }
+  .lg\:hidden .w-max button { min-height: 5rem; padding: 0 1.8rem !important; border-radius: 999px; background: var(--surface); box-shadow: var(--s1); font-size: 1.6rem; }
+  .lg\:hidden .w-max button.text-text-primary { background: var(--ink); color: #fff; }
+}
+@media (orientation: portrait) and (min-width: 900px) {
+  button.t-label { min-height: 5rem; padding-inline: 1.2rem; }
+}

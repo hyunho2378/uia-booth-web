@@ -1,39 +1,76 @@
-import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { keepAwake } from '../../utils/wakeLock'
+import { NAV_LINKS } from './navLinks'
+import { heroPhotos } from '../../data/photos'
+import { asset } from '../../utils/asset'
 
 const KEY = 'uia-kiosk'
 const IDLE = 90 * 1000
+const SHOTS = Object.values(heroPhotos)
 
-// 스탠바이미와 모니터에 띄우는 전시 화면용. 주소 끝에 ?kiosk=1을 붙여 한 번 열면 그 탭에서 계속 켜진다.
-// 90초 동안 아무도 만지지 않으면 처음 화면으로 돌아가 다음 방문객이 이어서 보지 않게 한다.
+// 스탠바이미 전시 화면용(주소 끝에 ?kiosk=1). 손가락으로만 쓰는 화면이라 아래에 항상 보이는 메뉴를 두고,
+// 90초 동안 아무도 만지지 않으면 처음 화면으로 돌아가 사진이 돌아가는 시작 화면을 보여 준다.
 export default function KioskGuard() {
   const { pathname, search } = useLocation()
   const navigate = useNavigate()
+  const [on, setOn] = useState(false)
+  const [attract, setAttract] = useState(true)
+  const [shot, setShot] = useState(0)
 
   useEffect(() => {
-    if (new URLSearchParams(search).has('kiosk')) { try { sessionStorage.setItem(KEY, '1') } catch { /* 무시 */ } }
+    let v = false
+    try {
+      if (new URLSearchParams(search).has('kiosk')) sessionStorage.setItem(KEY, '1')
+      v = sessionStorage.getItem(KEY) === '1'
+    } catch { /* 무시 */ }
+    setOn(v)
   }, [search])
 
   useEffect(() => {
-    let on = false
-    try { on = sessionStorage.getItem(KEY) === '1' } catch { /* 무시 */ }
-    if (!on && !new URLSearchParams(search).has('kiosk')) return undefined
+    if (!on) return undefined
     document.documentElement.classList.add('kiosk-on')
     const release = keepAwake()
     let timer
     const arm = () => {
       clearTimeout(timer)
       timer = setTimeout(() => {
-        if (window.location.pathname.replace(/\/$/, '') !== (import.meta.env.BASE_URL || '/').replace(/\/$/, '')) navigate('/')
+        navigate('/')
         window.scrollTo(0, 0)
+        setAttract(true)
       }, IDLE)
     }
     const ev = ['pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel']
     ev.forEach((e) => window.addEventListener(e, arm, { passive: true }))
     arm()
     return () => { release(); clearTimeout(timer); ev.forEach((e) => window.removeEventListener(e, arm)); document.documentElement.classList.remove('kiosk-on') }
-  }, [pathname, search, navigate])
+  }, [on, navigate])
 
-  return null
+  useEffect(() => {
+    if (!attract || !SHOTS.length) return undefined
+    const t = setInterval(() => setShot((s) => (s + 1) % SHOTS.length), 4500)
+    return () => clearInterval(t)
+  }, [attract])
+
+  if (!on) return null
+  return (
+    <>
+      <nav className="kiosk-dock" aria-label="메뉴">
+        {NAV_LINKS.map(({ to, label, end }) => (
+          <NavLink key={to} to={to} end={end} className={({ isActive }) => 'kiosk-tab' + (isActive ? ' is-on' : '')}>{label}</NavLink>
+        ))}
+      </nav>
+      {attract ? (
+        <button type="button" className="kiosk-attract" onClick={() => { setAttract(false); window.scrollTo(0, 0) }} aria-label="시작하기">
+          {SHOTS.map((s, i) => <img key={i} src={s} alt="" className={i === shot ? 'on' : ''} />)}
+          <span className="kiosk-attract-shade" />
+          <span className="kiosk-attract-body">
+            <img className="kiosk-attract-logo" src={asset('/brand/uia-logo-official.svg')} alt="UIA" />
+            <b>대학 임팩트 얼라이언스</b>
+            <i>화면을 눌러 시작해 보세요</i>
+          </span>
+        </button>
+      ) : null}
+    </>
+  )
 }
