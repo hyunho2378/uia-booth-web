@@ -410,3 +410,47 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 전시 화면 모드: 확대 제스처와 길게 눌러 선택을 막는다 */
 .kiosk-on, .kiosk-on body { touch-action: pan-x pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; overscroll-behavior: none; }
+
+/* 세로 스탠바이미(1080x1920)와 큰 세로 화면: 글자를 키우고 모든 구성을 한 열로 쌓는다 */
+@media (orientation: portrait) and (min-width: 900px) {
+  html { font-size: clamp(22px, 2.35vw, 40px); }
+  :root { --cols: 1fr; --gap: 2.4rem; --gutter: 4rem; --radius: 22px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.6rem; }
+  .poster-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .act-row.two { grid-template-columns: 1fr; }
+  .home-type .t-display { font-size: clamp(3.4rem, 8.6vw, 8rem); }
+  .home-type .t-h1 { font-size: clamp(2.4rem, 5vw, 4.6rem); }
+  .home-type .t-h2 { font-size: clamp(1.7rem, 3.4vw, 3.2rem); }
+  .home-type .t-lead { font-size: clamp(1.25rem, 2.4vw, 2.2rem); }
+  .home-type .t-ko { font-size: clamp(1.15rem, 2.2vw, 2rem); }
+  .hero-stage { height: 92vw !important; min-height: 0 !important; margin-top: 1rem; }
+  .tl-row:hover { transform: none; }
+}
+
+@media (orientation: portrait) and (min-width: 900px) {
+  :root { --gutter: 3.4rem; --header-h: 6.4rem; }
+  .t-display { font-size: clamp(3rem, 8vw, 7rem); }
+  .t-h1 { font-size: clamp(2.4rem, 5.2vw, 4.6rem); }
+  .t-h2 { font-size: clamp(1.7rem, 3.4vw, 3rem); }
+  .t-h3 { font-size: clamp(1.4rem, 2.8vw, 2.4rem); }
+  .t-lead { font-size: clamp(1.3rem, 2.6vw, 2.2rem); }
+  .t-ko { font-size: clamp(1.2rem, 2.3vw, 2rem); }
+  .t-ko-lg { font-size: clamp(1.4rem, 2.8vw, 2.4rem); }
+  .t-label { font-size: clamp(1.1rem, 2.1vw, 1.8rem); }
+  .people-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 1.6rem; }
+  .person-sub { font-size: clamp(1.05rem, 2vw, 1.7rem); }
+  .visit-pane { grid-template-columns: 1fr; }
+  .visit-map { aspect-ratio: 16 / 10; }
+  .visit-tabs button { min-height: 4rem; font-size: 1.9rem; }
+  .link-pair a { min-height: 4rem; display: inline-flex; align-items: center; }
+  .lg\:hidden { display: block !important; }
+  .flex.gap-10 { display: block; }
+  .flex.gap-10 > .hidden { display: none !important; }
+  .grid.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 1.6rem !important; }
+  .words-grid { grid-template-columns: 1fr; }
+}
+@media (orientation: portrait) and (min-width: 900px) {
+  .photo-cols { columns: 2; }
+  .person-detail { grid-template-columns: 1fr; }
+  .person-photo-wrap { max-width: 24rem; }
+}
