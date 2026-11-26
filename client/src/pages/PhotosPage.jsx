@@ -40,26 +40,26 @@ export default function PhotosPage() {
   }
 
   const pickEvent = id => { setEventId(id); setAlbumId('all'); setOpen(-1) }
-  const tab = (active) => ({ color: active ? 'var(--ink)' : 'var(--mute)', transition: 'color .25s var(--ease)', paddingBlock: '.4rem' })
+  const tab = (active) => 'tab' + (active ? ' is-on' : '')
 
   return (
     <div style={{ paddingBottom: 'clamp(4rem, 8vw, 10rem)' }}>
       <PageHeader title="Photo" />
 
-      <div className="flex flex-wrap" style={{ gap: '.4rem 2rem', marginBottom: '.6rem' }}>
-        <button type="button" onClick={() => pickEvent('all')} className="t-label" style={tab(eventId === 'all')}>전체</button>
+      <div className="flex flex-wrap" style={{ gap: 'var(--sp-1) var(--sp-4)', marginBottom: 'var(--sp-1)' }}>
+        <button type="button" onClick={() => pickEvent('all')} className={tab(eventId === 'all')}>전체</button>
         {events.map(e => (
-          <button key={e.id} type="button" onClick={() => pickEvent(e.id)} className="t-label" style={tab(eventId === e.id)}>
+          <button key={e.id} type="button" onClick={() => pickEvent(e.id)} className={tab(eventId === e.id)}>
             {e.ko}
           </button>
         ))}
       </div>
-      <div className="flex flex-wrap" style={{ gap: '.4rem 1.6rem', marginBottom: 'clamp(2rem, 3vw, 4rem)', minHeight: '2.4rem' }}>
+      <div className="flex flex-wrap" style={{ gap: 'var(--sp-1) var(--sp-4)', marginBottom: 'var(--sp-4)', minHeight: 'var(--btn-h)' }}>
         {event && (
           <>
-            <button type="button" onClick={() => { setAlbumId('all'); setOpen(-1) }} className="t-label" style={tab(albumId === 'all')}>전체</button>
+            <button type="button" onClick={() => { setAlbumId('all'); setOpen(-1) }} className={tab(albumId === 'all')}>전체</button>
             {event.albums.map(a => (
-              <button key={a.id} type="button" onClick={() => { setAlbumId(a.id); setOpen(-1) }} className="t-label" style={tab(albumId === a.id)}>
+              <button key={a.id} type="button" onClick={() => { setAlbumId(a.id); setOpen(-1) }} className={tab(albumId === a.id)}>
                 {a.ko}
               </button>
             ))}

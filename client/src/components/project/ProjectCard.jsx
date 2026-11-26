@@ -44,7 +44,7 @@ export default function ProjectCard({ work, index = 0, keycolor = 'var(--y)', su
       <div
         ref={cardRef}
         className="relative overflow-hidden"
-        style={{ aspectRatio: '1 / 1.414', borderRadius: '4px', background: 'var(--bg)', border: 'none' }}
+        style={{ aspectRatio: '1 / 1.414', borderRadius: 'var(--radius)', background: 'var(--bg)', border: 'none' }}
       >
         {/* 이미지 레이어: 와이프 아웃 시 동기 페이드인 */}
         <div

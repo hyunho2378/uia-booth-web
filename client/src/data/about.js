@@ -2,7 +2,7 @@
 
 export const heroTitle = 'UIA'
 export const heroSubtitleKo = '대학임팩트얼라이언스 특별관'
-export const heroDesc = '춘천 임팩톤, 사회적가치 페스타, 경주 포럼. 학생들이 현장에서 만든 결과를 소개합니다.'
+export const heroDesc = '춘천 임팩톤과 사회적가치 페스타와 경주 포럼. 학생들이 현장에서 만든 결과를 소개합니다.'
 
 export const introBody = `UIA(University Impact Alliance)는 대학의 경계를 넘어 학생과 교수진이 함께 새로운 대학의 모습을 실험하는 대학 연합입니다.
 2026년 UIA 학생들은 춘천 임팩톤, 서울 코엑스의 사회적가치 페스타, 경주 포럼에서 지역과 사회의 문제를 현장에서 직접 조사하고 해결안을 만들었습니다.
@@ -12,7 +12,7 @@ export const schedule = {
     chuncheon: {
         label: '춘천 임팩톤',
         date: '9개 대학 11개 캠퍼스, 학생 55명',
-        venue: '춘천의 인구, 공간, 관광 문제를 현장조사와 디자인씽킹으로 탐구',
+        venue: '춘천의 인구와 공간과 관광 문제를 현장조사와 디자인씽킹으로 탐구',
     },
     sagape: {
         label: '사회적가치 페스타',

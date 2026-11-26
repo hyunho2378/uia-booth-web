@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { keepAwake } from '../../utils/wakeLock'
-import { NAV_LINKS } from './navLinks'
 import { heroPhotos } from '../../data/photos'
 import { asset } from '../../utils/asset'
 
@@ -55,11 +54,6 @@ export default function KioskGuard() {
   if (!on) return null
   return (
     <>
-      <nav className="kiosk-dock" aria-label="메뉴">
-        {NAV_LINKS.map(({ to, label, end }) => (
-          <NavLink key={to} to={to} end={end} className={({ isActive }) => 'kiosk-tab' + (isActive ? ' is-on' : '')}>{label}</NavLink>
-        ))}
-      </nav>
       {attract ? (
         <button type="button" className="kiosk-attract" onClick={() => { setAttract(false); window.scrollTo(0, 0) }} aria-label="시작하기">
           {SHOTS.map((s, i) => <img key={i} src={s} alt="" className={i === shot ? 'on' : ''} />)}

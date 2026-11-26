@@ -19,7 +19,7 @@
 .vg-logo { height: 26px; width: auto; align-self: flex-start; margin-left: 6px; }
 
 .vg-card {
-  position: relative; padding: 20px; border-radius: 36px; width: 100%;
+  position: relative; padding: 20px; border-radius: 16px; width: 100%;
   background: rgba(255,255,255,.3);
   -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid rgba(255,255,255,.55);
@@ -39,7 +39,7 @@
   font: 500 16px/24px inherit; font-family: inherit; color: var(--ink);
   background: var(--opt-fill); border: 1px solid var(--opt-border);
 }
-.vg-input::placeholder { color: #5b6270; }
+.vg-input::placeholder { color: #212120; font-weight: 400; }
 .vg-input:focus { box-shadow: 0 0 0 2px var(--blue); }
 .vg-count { text-align: right; font-size: 13px; line-height: 20px; font-weight: 500; margin-top: 6px !important; font-variant-numeric: tabular-nums; }
 .vg-err { font-size: 13px; line-height: 20px; font-weight: 600; margin-top: 12px !important; }
@@ -61,7 +61,7 @@
 .vg-dock { position: sticky; bottom: 20px; z-index: 10; width: 100%; max-width: 430px; display: flex; flex-direction: column; gap: 10px; }
 .vg-dock.vg-wide { max-width: 860px; }
 .vg-btn {
-  width: 100%; min-height: 54px; padding: 14px 22px; border-radius: 27px; border: 0; cursor: pointer; text-align: center; text-decoration: none;
+  width: 100%; min-height: 56px; padding: 0 22px; border-radius: 16px; border: 0; cursor: pointer; text-align: center; text-decoration: none;
   display: grid; place-items: center; font: 600 17px/24px inherit; font-family: inherit; letter-spacing: -0.01em; color: var(--ink);
   background: rgba(255,255,255,.3); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 10px 30px rgba(0,0,0,.12);
@@ -84,7 +84,7 @@
 }
 .vg-link { all: unset; cursor: pointer; text-decoration: underline; font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; }
 .vg-note { font-size: 13px; line-height: 20px; font-weight: 500; margin-top: 14px !important; }
-.vg-toast { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 50; padding: 12px 20px; border-radius: 27px; background: var(--ink); color: #fff; font: 600 14px/20px inherit; font-family: inherit; white-space: nowrap; animation: vg-enter .22s var(--ease) both; }
+.vg-toast { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 50; padding: 12px 20px; border-radius: 16px; background: var(--ink); color: #fff; font: 600 14px/20px inherit; font-family: inherit; white-space: nowrap; animation: vg-enter .22s var(--ease) both; }
 
 /* 운영자 화면 */
 .vg-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
@@ -94,9 +94,9 @@
 .vg-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
 .vg-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 8px 8px 8px 16px; border-radius: 16px; background: var(--opt-fill); border: 1px solid var(--opt-border); font-size: 15px; line-height: 22px; font-weight: 500; }
 .vg-row small { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.vg-mini { min-height: 36px; padding: 0 14px; border-radius: 18px; border: 0; cursor: pointer; background: var(--ink); color: #fff; font: 600 13px/20px inherit; font-family: inherit; }
+.vg-mini { min-height: 44px; padding: 0 22px; border-radius: 16px; border: 0; cursor: pointer; background: var(--ink); color: #fff; font: 600 13px/20px inherit; font-family: inherit; }
 .vg-mini.off { background: var(--line); color: var(--ink); }
-.vg-qr { display: block; width: 132px; height: 132px; border-radius: 12px; background: #fff; padding: 8px; }
+.vg-qr { display: block; width: 132px; height: 132px; border-radius: 16px; background: #fff; padding: 8px; }
 .vg-tag { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; margin-top: 18px; }
 .vg-tag + .vg-tag { margin-top: 22px; }
 .vg-url { font-size: 13px; line-height: 20px; font-weight: 500; word-break: break-all; margin-top: 6px !important; }
@@ -106,7 +106,7 @@
 
 /* 화면이 낮은 휴대폰(높이 700px 이하)은 하단 버튼을 줄여 내용이 덜 가리게 한다 */
 @media (max-height: 700px) {
-  .vg-btn { min-height: 46px; padding: 10px 20px; border-radius: 23px; font-size: 16px; }
+  .vg-btn { min-height: 48px; padding: 0 22px; border-radius: 16px; font-size: 16px; }
   .vg-dock { gap: 8px; bottom: 12px; }
 }
 
@@ -117,7 +117,7 @@
 .vg-code-inline { font-size: 20px; letter-spacing: .12em; font-weight: 700; margin-left: 6px; font-variant-numeric: tabular-nums; }
 
 /* 단어 추가 버튼 */
-.vg-add { appearance: none; margin-top: 12px; min-height: 48px; padding: 0 20px; border-radius: 24px; border: 0; cursor: pointer; font: 600 16px/24px inherit; font-family: inherit; color: var(--ink); background: rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 6px 18px rgba(0,0,0,.08); display: inline-flex; align-items: center; gap: 8px; transition: transform .26s var(--ease); }
+.vg-add { appearance: none; margin-top: 12px; min-height: 56px; padding: 0 22px; border-radius: 16px; border: 0; cursor: pointer; font: 600 16px/24px inherit; font-family: inherit; color: var(--ink); background: rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 6px 18px rgba(0,0,0,.08); display: inline-flex; align-items: center; gap: 8px; transition: transform .26s var(--ease); }
 .vg-add span { font-size: 22px; line-height: 1; font-weight: 500; }
 .vg-add:active:not([disabled]) { transform: scale(.97); }
 .vg-add[disabled] { opacity: .55; cursor: default; }

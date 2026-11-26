@@ -3,7 +3,7 @@ const ITEMS = [
   {
     n: '01', name: 'Connecting', color: '#2d9ed9',
     en: 'We connect universities, students, professors and local communities.',
-    ko: '대학과 대학, 학생과 학생, 교수와 지역사회를 연결합니다.',
+    ko: '대학과 대학 그리고 학생과 학생 교수와 지역사회를 연결합니다.',
   },
   {
     n: '02', name: 'Co-Learning', color: '#fdc51b',

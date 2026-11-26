@@ -46,13 +46,6 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
     }
   }, [lightboxOpen])
 
-  const navBtnStyle = {
-    position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-    background: 'rgba(10,10,10,0.6)', border: 'none',
-    color: 'var(--ink)', borderRadius: '4px', padding: '6px', cursor: 'pointer',
-    display: 'flex', alignItems: 'center', transition: 'border-color 150ms ease, color 150ms ease',
-  }
-
   const membersLen = work.members?.length ?? 0
   const renderMembers = () => {
     if (membersLen <= 1) return null
@@ -78,8 +71,6 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
         {/* 이미지 */}
         <div className="lg:w-[60%]">
           <div
-            onMouseEnter={() => { if (hasLeftOnce) setPosterHovered(true) }}
-            onMouseLeave={() => { setHasLeftOnce(true); setPosterHovered(false) }}
             onClick={() => setLightboxOpen(true)}
             style={{
               position: 'relative',
@@ -114,9 +105,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             {!isMagazine && pages.length > 1 && (
               <button
                 onClick={e => { e.stopPropagation(); setPageIdx(i => (i - 1 + pages.length) % pages.length) }}
-                style={{ ...navBtnStyle, left: 10 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
+                className="icon-btn on-image" style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: 'var(--sp-2)' }}
                 aria-label="이전 이미지"
               >
                 <ChevronLeft size={16} />
@@ -125,9 +114,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             {!isMagazine && pages.length > 1 && (
               <button
                 onClick={e => { e.stopPropagation(); setPageIdx(i => (i + 1) % pages.length) }}
-                style={{ ...navBtnStyle, right: 10 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
+                className="icon-btn on-image" style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: 'var(--sp-2)' }}
                 aria-label="다음 이미지"
               >
                 <ChevronRight size={16} />
@@ -154,23 +141,13 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             </div>
           )}
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--sp-2)', marginTop: 'var(--sp-3)' }}>
             <button
               onClick={() => setLightboxOpen(true)}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '7px',
-                padding: '8px 18px',
-                border: 'none', borderRadius: '8px',
-                background: 'transparent', cursor: 'pointer',
-                color: 'var(--mute)', fontSize: '13px',
-                letterSpacing: '0.04em', fontFamily: 'Pretendard Variable, sans-serif',
-                transition: 'border-color 200ms ease, color 200ms ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--mute)' }}
+              className="link"
               aria-label="크게 보기"
             >
-              <Maximize size={14} />
+              <Maximize size={18} />
               크게 보기
             </button>
             <button
@@ -182,25 +159,15 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   setTimeout(() => setPopupBlocked(false), 5000)
                 }
               }}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '7px',
-                padding: '8px 18px',
-                border: 'none', borderRadius: '8px',
-                background: 'transparent', cursor: 'pointer',
-                color: 'var(--mute)', fontSize: '13px',
-                letterSpacing: '0.04em', fontFamily: 'Pretendard Variable, sans-serif',
-                transition: 'border-color 200ms ease, color 200ms ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--mute)' }}
+              className="link"
               aria-label="전체 화면 보기"
             >
-              <ExternalLink size={14} />
+              <ExternalLink size={18} />
               전체 화면 보기
             </button>
           </div>
           {popupBlocked && (
-            <p style={{ textAlign: 'center', marginTop: '8px', fontSize: '13px', color: 'var(--mute)', fontFamily: 'Pretendard Variable, sans-serif' }}>
+            <p style={{ textAlign: 'center', marginTop: '8px', fontSize: '.85rem', color: 'var(--mute)', fontFamily: 'Pretendard Variable, sans-serif' }}>
               팝업이 차단됐습니다. 주소창 우측의 팝업 허용 아이콘을 클릭해주세요.
             </p>
           )}
@@ -236,9 +203,9 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                 border: 'none',
                 color: 'var(--ink)',
                 background: 'transparent',
-                padding: '2px 8px',
-                borderRadius: '8px',
-                fontSize: '11px',
+                padding: 0,
+                borderRadius: 0,
+                fontSize: '.8rem',
                 fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
@@ -259,10 +226,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-body transition-colors duration-200"
-                  style={{ border: 'none', color: 'var(--ink)', borderRadius: '8px', padding: '8px 16px' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
+                  className="link"
                 >
                   {link.label}
                   <ExternalLink size={14} />
@@ -278,6 +242,17 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
           )}
 
           {renderMembers()}
+
+          {work.details?.length ? (
+            <div className="proj-sections">
+              {work.details.map((d) => (
+                <section key={d.h}>
+                  <h2 className="proj-sec-h">{d.h}</h2>
+                  <p className="proj-sec-p">{d.p}</p>
+                </section>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -296,13 +271,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               {/* 이전 버튼 */}
               <button
                 onClick={() => setMagIdx(i => (i - 1 + magPages.length) % magPages.length)}
-                style={{
-                  ...navBtnStyle,
-                  position: 'relative', top: 'auto', transform: 'none',
-                  flexShrink: 0, marginRight: '12px',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
+                className="icon-btn" style={{ flexShrink: 0, marginRight: 'var(--sp-2)' }}
                 aria-label="이전 페이지"
               >
                 <ChevronLeft size={16} />
@@ -336,13 +305,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               {/* 다음 버튼 */}
               <button
                 onClick={() => setMagIdx(i => (i + 1) % magPages.length)}
-                style={{
-                  ...navBtnStyle,
-                  position: 'relative', top: 'auto', transform: 'none',
-                  flexShrink: 0, marginLeft: '12px',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
+                className="icon-btn" style={{ flexShrink: 0, marginLeft: 'var(--sp-2)' }}
                 aria-label="다음 페이지"
               >
                 <ChevronRight size={16} />
@@ -350,7 +313,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
             </div>
 
             {/* 페이지 카운터 + 도트 */}
-            <p style={{ fontSize: '11px', color: 'var(--mute)', letterSpacing: '0.1em', userSelect: 'none' }}>
+            <p style={{ fontSize: '.8rem', color: 'var(--mute)', letterSpacing: '0.1em', userSelect: 'none' }}>
               {magIdx + 1} / {magPages.length}
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '5px', maxWidth: '320px' }}>
@@ -386,15 +349,7 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
         >
           <button
             onClick={e => { e.stopPropagation(); setLightboxOpen(false) }}
-            style={{
-              position: 'absolute', top: '20px', right: '20px',
-              background: 'transparent', border: 'none',
-              color: 'var(--ink)', borderRadius: '4px', padding: '8px',
-              cursor: 'pointer', display: 'flex', alignItems: 'center',
-              transition: 'border-color 150ms ease, color 150ms ease',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--y)'; e.currentTarget.style.color = 'var(--ink)' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--ink)' }}
+            className="icon-btn on-image" style={{ position: 'absolute', top: 'var(--sp-3)', right: 'var(--sp-3)' }}
             aria-label="닫기"
           >
             <X size={18} />

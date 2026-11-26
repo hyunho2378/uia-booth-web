@@ -72,7 +72,7 @@ export default function AboutPage() {
           </div>
           <div>
             <p className="t-lead" style={{ fontWeight: 700 }}>2026 사회연대경제박람회 UIA 특별관</p>
-            <p className="t-lead" style={{ color: 'var(--ink-2)' }}>11월 27일부터 29일까지, 고양 킨텍스</p>
+            <p className="t-lead" style={{ color: 'var(--ink-2)' }}>11월 27일부터 29일까지 고양 킨텍스</p>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default function AboutPage() {
             <p className="t-ko" style={{ color: 'var(--ink-2)' }}>국내 주요 대학과 사회혁신 생태계 조직이 연대해 사회와 환경 문제 해결에 기여하는 미래세대를 양성하는 대학 사회혁신 협력 네트워크입니다.</p>
           </div>
           <div>
-            <p className="t-ko" style={{ color: 'var(--ink-2)' }}>각 대학의 교육과 연구 역량, 인재와 지역사회 네트워크를 연결해 한 대학이 혼자서는 만들 수 없는 배움과 임팩트를 함께 만듭니다.</p>
+            <p className="t-ko" style={{ color: 'var(--ink-2)' }}>각 대학의 교육과 연구 역량과 인재와 지역사회 네트워크를 연결해 한 대학이 혼자서는 만들 수 없는 배움과 임팩트를 함께 만듭니다.</p>
           </div>
           <div>
             <p className="t-ko" style={{ color: 'var(--ink-2)' }}>9개 대학 11개 캠퍼스가 참여하며 2026년에 정식 출범했습니다. 춘천 임팩톤에는 학생 55명 이상이 참여했습니다.</p>

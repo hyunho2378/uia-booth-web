@@ -173,7 +173,7 @@ export function VisitBand() {
         </span>
         <span className="visit-info">
           <span className="t-h2" style={{ display: 'block' }}>11월 27일부터 29일까지</span>
-          <span className="t-ko" style={{ display: 'block', color: 'rgba(33,33,32,.72)' }}>고양 킨텍스</span>
+          <span className="t-ko" style={{ display: 'block', color: 'var(--ink)' }}>고양 킨텍스</span>
           
         </span>
       </Link>

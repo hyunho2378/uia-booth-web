@@ -116,7 +116,7 @@ export default function WordsPage() {
       </div>
       <div className="words-foot">
         <p className="t-ko words-meta">{data ? `${data.participants}명 참여  단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}{fail ? '  연결을 다시 시도하는 중입니다' : ''}</p>
-        {bare ? null : <button type="button" className="words-share t-ko" onClick={share}>{note || '링크 공유'}</button>}
+        {bare ? null : <button type="button" className="btn" onClick={share}>{note || '링크 공유'}</button>}
       </div>
     </div>
   )
