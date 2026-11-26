@@ -16,7 +16,7 @@ export default function Header() {
     <>
     <header className="site-header fixed top-0 left-0 right-0 z-50">
       <div className="wrap h-full flex items-center justify-between" style={{ gap: 'var(--sp-3)' }}>
-        <button type="button" className="icon-btn burger burger-left" onClick={() => setSide('left')} aria-label="왼쪽 메뉴 열기"><Menu size={22} /><span className="burger-label">메뉴</span></button>
+        <button type="button" className="icon-btn burger burger-left" onClick={() => setSide('left')} aria-label="왼쪽 메뉴 열기"><Menu size={22} /></button>
 
         <Link to="/" className="flex items-center header-logo" style={{ color: 'var(--ink)' }} aria-label="UIA 특별관">
           <UiaMark className="" title="UIA" />
@@ -28,7 +28,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <button type="button" className="icon-btn burger burger-right" onClick={() => setSide('right')} aria-label="오른쪽 메뉴 열기"><Menu size={22} /><span className="burger-label">메뉴</span></button>
+        <button type="button" className="icon-btn burger burger-right" onClick={() => setSide('right')} aria-label="오른쪽 메뉴 열기"><Menu size={22} /></button>
       </div>
     </header>
     <SideNav side="left" open={side === 'left'} onClose={close} />

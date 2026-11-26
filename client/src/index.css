@@ -545,8 +545,5 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 p, li, dd, dt, figcaption, blockquote, .t-ko, .t-ko-lg, .t-lead, .person-body { word-break: keep-all; overflow-wrap: break-word; line-break: strict; text-wrap: pretty; }
 h1, h2, h3, h4, .t-h1, .t-h2, .t-h3, .proj-sec-h, .kiosk-attract-body b { word-break: keep-all; overflow-wrap: break-word; line-break: strict; text-wrap: balance; }
 
-.burger.icon-btn { width: auto; padding-inline: var(--sp-1); gap: .35rem; font: 600 1rem/1 var(--sans); letter-spacing: -0.01em; }
-.burger-label { display: none; }
-.kiosk-on .burger-label { display: inline; }
 .partner-grid li, .partner-grid li * { word-break: keep-all; }
 .partner-grid li span, .partner-grid li p { white-space: nowrap; }
