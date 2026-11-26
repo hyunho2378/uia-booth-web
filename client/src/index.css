@@ -534,8 +534,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 프로젝트 상세 항목: 소제목과 본문만. 상자와 선 없음 */
 .proj-sections { display: grid; gap: var(--sp-4); margin-top: var(--sp-3); }
 .proj-sec-h { font: 700 1.15rem/1.4 var(--sans); letter-spacing: -0.02em; color: var(--ink); margin-bottom: var(--sp-1); }
-.proj-sec-p { font: 400 1rem/1.85 var(--sans); letter-spacing: -0.01em; color: var(--ink); word-break: keep-all; line-break: strict; max-width: 42rem; }
+.proj-sec-p { font: 400 1rem/1.8 var(--sans); letter-spacing: -0.01em; color: var(--ink); max-width: 34em; display: grid; gap: .55em; }
+.proj-sec-p p { margin: 0; }
 @media (orientation: portrait) and (min-width: 900px) {
   .proj-sec-h { font-size: 1.3rem; }
-  .proj-sec-p { font-size: 1.15rem; max-width: none; }
+  .proj-sec-p { font-size: 1.15rem; max-width: 36em; }
 }
+
+/* 한글 줄바꿈: 낱말 단위로 끊고 마지막 줄에 한두 글자가 남지 않게 한다. 제목은 줄 길이를 고르게 맞춘다 */
+p, li, dd, dt, figcaption, blockquote, .t-ko, .t-ko-lg, .t-lead, .person-body { word-break: keep-all; overflow-wrap: break-word; line-break: strict; text-wrap: pretty; }
+h1, h2, h3, h4, .t-h1, .t-h2, .t-h3, .proj-sec-h, .kiosk-attract-body b { word-break: keep-all; overflow-wrap: break-word; line-break: strict; text-wrap: balance; }
+
+.burger.icon-btn { width: auto; padding-inline: var(--sp-1); gap: .35rem; font: 600 1rem/1 var(--sans); letter-spacing: -0.01em; }
+.burger-label { display: none; }
+.kiosk-on .burger-label { display: inline; }
+.partner-grid li, .partner-grid li * { word-break: keep-all; }
+.partner-grid li span, .partner-grid li p { white-space: nowrap; }

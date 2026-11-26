@@ -5,6 +5,12 @@ import BackLink from '../ui/BackLink'
 const reducedMotion = typeof window !== 'undefined'
   && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// 문장 끝(다. 요. 까?)에서만 줄을 나눠 한 줄에 한 사실이 보이게 한다
+function splitLines(text) {
+  if (Array.isArray(text)) return text
+  return String(text).split(/(?<=[다요까]\.)\s+|(?<=\?)\s+/).map(t => t.trim()).filter(Boolean)
+}
+
 function detailOf(src) {
   if (!src || !src.startsWith('/works/')) return src
   return `/works/detail/${src.split('/').pop()}`
@@ -248,7 +254,9 @@ export default function ProjectDetail({ work, fromSubject = 'all' }) {
               {work.details.map((d) => (
                 <section key={d.h}>
                   <h2 className="proj-sec-h">{d.h}</h2>
-                  <p className="proj-sec-p">{d.p}</p>
+                  <div className="proj-sec-p">
+                    {splitLines(d.p).map((t, i) => <p key={i}>{t}</p>)}
+                  </div>
                 </section>
               ))}
             </div>
