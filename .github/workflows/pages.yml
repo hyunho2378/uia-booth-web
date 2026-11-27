@@ -38,6 +38,9 @@ jobs:
             people/1 people/2 people/3 people/4 people/5 people/6 people/7 people/8 people/9 people/10 people/11 people/12 people/13 people/14 people/15 people/16; do
             mkdir -p dist/$d && cp dist/index.html dist/$d/index.html
           done
+      - name: 이전 형식 증서 공유 주소(nfc/s/코드)도 200으로 열리게 함
+        run: |
+          while read -r t; do [ -n "$t" ] && mkdir -p dist/nfc/s/$t && cp dist/index.html dist/nfc/s/$t/index.html; done < legacy-share-tokens.txt
       - uses: actions/upload-pages-artifact@v3
         with:
           path: client/dist
