@@ -23,7 +23,7 @@ export default function Header() {
         </Link>
 
         <nav className="hidden xl:flex items-center site-nav" style={{ gap: 'clamp(1.2rem, 1.8vw, 2.6rem)' }}>
-          {NAV_LINKS.map(({ to, label, end }) => (
+          {NAV_LINKS.filter((l) => !l.kioskOnly).map(({ to, label, end }) => (
             <NavLink key={to} to={to} end={end} className="t-label nav-link">{label}</NavLink>
           ))}
         </nav>

@@ -5,4 +5,5 @@ export const NAV_LINKS = [
   { to: '/photos', label: 'Photo' },
   { to: '/people', label: 'Students' },
   { to: '/visit', label: 'Visit' },
+  { to: '/words', label: 'Words', kioskOnly: true },
 ]

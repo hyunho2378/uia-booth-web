@@ -20,8 +20,8 @@ export default function SideNav({ side, open, onClose }) {
       <nav className="sidenav-panel" aria-label="주 메뉴">
         <button type="button" className="icon-btn sidenav-close" onClick={onClose} aria-label="닫기" tabIndex={open ? 0 : -1}><X size={22} /></button>
         <ul>
-          {NAV_LINKS.map(({ to, label, end }) => (
-            <li key={to}>
+          {NAV_LINKS.map(({ to, label, end, kioskOnly }) => (
+            <li key={to} className={kioskOnly ? 'kiosk-only' : undefined}>
               <NavLink to={to} end={end} onClick={onClose} tabIndex={open ? 0 : -1} className={({ isActive }) => 'sidenav-link' + (isActive ? ' is-on' : '')}>{label}</NavLink>
             </li>
           ))}
