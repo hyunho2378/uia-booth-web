@@ -92,19 +92,6 @@ export default function NfcAdmin() {
           </ul>
         ) : null}
       </Card>
-      <Card>
-        <h2 className="vg-q" style={{ marginTop: 0 }}>단어 가리기</h2>
-        {grouped.map(({ q, n, rows }) => (
-          <div key={n} style={{ marginTop: 14 }}>
-            <p className="vg-body" style={{ marginTop: 0, fontWeight: 700 }}>{q.label}</p>
-            <ul className="vg-list" style={{ marginTop: 6 }}>
-              {rows.length === 0 ? <li className="vg-row"><small>아직 없어요</small></li> : rows.map((w) => (
-                <li key={w.word} className="vg-row"><span>{w.word}<br /><small>{w.count}명</small></span><button type="button" className={'vg-mini' + (w.hidden ? ' off' : '')} onClick={() => toggle(w)}>{w.hidden ? '되살리기' : '가리기'}</button></li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </Card>
       <NfcGuide />
       {toast}
     </Screen>
