@@ -5,7 +5,7 @@ import { saveVisitor } from './storage'
 import { useVisitor } from './useVisitor'
 import { drawCertificate } from './certificate'
 
-export default function NfcEnroll() {
+export default function NfcEnroll({ onNext, onReset } = {}) {
   const { status, visitor, reset, adopt } = useVisitor()
   const [form, setForm] = useState({ name: '', affiliation: '' })
   const [busy, setBusy] = useState(false)
@@ -49,12 +49,12 @@ export default function NfcEnroll() {
 
   if (status === 'ready' && visitor) {
     return (
-      <Screen title="입학증서">
+      <Screen title="입학증서" dock={onNext ? <Btn onClick={onNext}>질문 답하러 가기</Btn> : null}>
         <Card logo>
           <h1 className="vg-q" style={{ marginTop: 0 }}><Ko>{`${visitor.name}님 입학을 축하해요`}</Ko></h1>
           {cert ? <img className="vg-cert fit" src={cert} alt={`${visitor.name} 입학증서`} /> : <div className="vg-cert-wait">증서를 만드는 중이에요</div>}
           <p className="vg-body">입학 코드 <b className="vg-code-inline">{visitor.code}</b></p>
-          <p className="vg-note" style={{ marginTop: 0 }}><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
+          <p className="vg-note" style={{ marginTop: 0 }}><button type="button" onClick={() => { reset(); onReset && onReset() }} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
         </Card>
       </Screen>
     )

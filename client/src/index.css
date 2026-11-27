@@ -364,9 +364,9 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 .words-label { margin: 0; }
 .words-q { margin: .3rem 0 .9rem; color: var(--ink-2); }
 .words-stage { position: relative; margin-top: 0; border-radius: var(--radius); overflow: hidden; container-type: inline-size; background: #e9eef8 var(--bg) center / cover no-repeat; box-shadow: var(--s2); }
-.words-chip { position: absolute; display: grid; place-items: center; box-sizing: border-box; white-space: nowrap; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #0a0a0a; border-radius: 16px; background: rgba(255,255,255,.34); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); border: 1px solid rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 10px 30px rgba(0,0,0,.10); animation: words-in .5s var(--ease) both; transition: left .8s var(--ease), top .8s var(--ease), width .8s var(--ease), height .8s var(--ease), font-size .8s var(--ease); }
-.words-chip-lead { background: #1f6fff; color: #fff; border-color: rgba(255,255,255,.35); }
-@keyframes words-in { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+.words-chip { position: absolute; display: grid; place-items: center; box-sizing: border-box; white-space: nowrap; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #0a0a0a; border-radius: 16px; background: rgba(255,255,255,.86); box-shadow: 0 4px 14px rgba(0,0,0,.08); animation: words-in .4s var(--ease) both; }
+.words-chip-lead { background: #1f6fff; color: #fff; }
+@keyframes words-in { from { opacity: 0; } to { opacity: 1; } }
 .words-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #0a0a0a; }
 .words-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
 .words-meta { color: var(--ink); }
@@ -542,3 +542,6 @@ h1, h2, h3, h4, .t-h1, .t-h2, .t-h3, .proj-sec-h,
 .kiosk-only { display: none; }
 .kiosk-on .kiosk-only { display: list-item; }
 .kiosk-on .words-foot .btn { display: none; }
+
+/* 전시 화면 기기가 느려서 머리말의 흐림 효과를 끈다 */
+.kiosk-on .site-header { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--bg); }

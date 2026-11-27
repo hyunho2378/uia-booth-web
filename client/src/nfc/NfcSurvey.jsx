@@ -8,7 +8,7 @@ import { useVisitor } from './useVisitor'
 const TOTAL = QUESTIONS.length
 const empty = () => QUESTIONS.map(() => [''])
 
-export default function NfcSurvey() {
+export default function NfcSurvey({ onDone, onReset } = {}) {
   const { status, visitor, id, attach, reload, reset } = useVisitor()
   const [i, setI] = useState(0)
   const [words, setWords] = useState(empty)
@@ -28,7 +28,7 @@ export default function NfcSurvey() {
         <Card logo>
           <h1 className="vg-q" style={{ marginTop: 0 }}><Ko>{`${visitor.name}님 답변이 전달됐어요`}</Ko></h1>
           {shown.length ? <div className="vg-chips">{shown.map((w, n) => <span key={w + n} className="vg-chip">{w}</span>)}</div> : null}
-          <p className="vg-note" style={{ marginTop: 6 }}><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
+          <p className="vg-note" style={{ marginTop: 6 }}><button type="button" onClick={() => { reset(); onReset && onReset() }} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
         </Card>
       </Screen>
     )
@@ -54,6 +54,7 @@ export default function NfcSurvey() {
       words.forEach((arr, k) => { payload[k] = arr.map((w) => w.trim()).filter(Boolean) })
       const out = await saveSurvey(id, payload)
       vibrate([12, 40, 12])
+      if (onDone) { onDone(); return }
       setSaved(out)
       reload()
     } catch {

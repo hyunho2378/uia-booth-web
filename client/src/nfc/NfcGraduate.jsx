@@ -6,7 +6,7 @@ import { drawCertificate } from './certificate'
 import { useVisitor } from './useVisitor'
 import { saveImage, shareImage, siteUrl } from './share'
 
-export default function NfcGraduate() {
+export default function NfcGraduate({ onReset, onSurvey } = {}) {
   const { status, visitor, id, attach, reset } = useVisitor()
   const [grad, setGrad] = useState(null)
   const [cert, setCert] = useState('')
@@ -36,11 +36,11 @@ export default function NfcGraduate() {
 
   if (!visitor.quiz_at) {
     return (
-      <Screen title="졸업" dock={<BtnLink to="/nfc/2" prominent>2번 질문 답하기</BtnLink>}>
+      <Screen title="졸업" dock={onSurvey ? <Btn onClick={onSurvey}>질문 답하기</Btn> : <BtnLink to="/nfc/2" prominent>2번 질문 답하기</BtnLink>}>
         <Card logo>
           <h1 className="vg-q" style={{ marginTop: 0 }}><Ko>{`${visitor.name}님 질문이 남아 있어요`}</Ko></h1>
           <p className="vg-body"><Ko>졸업증서는 질문에 답하면 받을 수 있어요.</Ko></p>
-          <p className="vg-note" style={{ marginTop: 2 }}><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
+          <p className="vg-note" style={{ marginTop: 2 }}><button type="button" onClick={() => { reset(); onReset && onReset() }} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
         </Card>
       </Screen>
     )
@@ -58,7 +58,7 @@ export default function NfcGraduate() {
         <h1 className="vg-q" style={{ marginTop: 0 }}><Ko>{`${visitor.name}님 졸업을 축하해요`}</Ko></h1>
         {err ? <p className="vg-err">{err}</p> : null}
         {cert ? <img className="vg-cert fit-g" src={cert} alt={`${visitor.name} 졸업증서`} /> : <div className="vg-cert-wait">증서를 만드는 중이에요</div>}
-        <p className="vg-note" style={{ marginTop: 6 }}><button type="button" onClick={reset} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
+        <p className="vg-note" style={{ marginTop: 6 }}><button type="button" onClick={() => { reset(); onReset && onReset() }} className="vg-link">{visitor.name}님이 아니면 눌러 주세요</button></p>
       </Card>
       {toast}
     </Screen>

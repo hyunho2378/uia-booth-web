@@ -8,6 +8,9 @@ import { QUESTIONS } from '../nfc/survey'
 import { keepAwake } from '../utils/wakeLock'
 
 const POLL = 3000
+const SLOW = 8000
+const CACHE = 'uia-words-cache'
+const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE) || 'null') } catch { return null } }
 
 function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h) }
 
@@ -47,7 +50,8 @@ export default function WordsPage() {
   const bare = new URLSearchParams(search).has('screen')
   // 워드클라우드는 스탠바이미와 모니터에서만 보여 준다. 휴대폰 크기 화면에서는 열지 않는다.
   const phone = !bare && typeof window !== 'undefined' && window.innerWidth < 900
-  const [data, setData] = useState(null)
+  // 와이파이가 느려도 바로 보이도록 마지막으로 받은 단어를 먼저 띄운다.
+  const [data, setData] = useState(readCache)
   const [fail, setFail] = useState(false)
   const [portrait, setPortrait] = useState(false)
   const [note, setNote] = useState('')
@@ -72,12 +76,16 @@ export default function WordsPage() {
   }, [bare])
 
   useEffect(() => {
-    let off = false, timer
+    let off = false, timer, failed = 0
     const tick = async () => {
       if (!document.hidden) {
-        try { const r = await getWords(); if (!off) { setData(r); setFail(false) } } catch { if (!off) setFail(true) }
+        try {
+          const r = await getWords()
+          if (!off) { setData(r); setFail(false); try { localStorage.setItem(CACHE, JSON.stringify(r)) } catch { /* 무시 */ } }
+          failed = 0
+        } catch { failed += 1; if (!off) setFail(true) }
       }
-      timer = setTimeout(tick, POLL)
+      timer = setTimeout(tick, failed ? SLOW : POLL)
     }
     tick()
     return () => { off = true; clearTimeout(timer) }
@@ -104,7 +112,7 @@ export default function WordsPage() {
   return (
     <div className={bare ? 'words-screen' : ''} style={bare ? undefined : { paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
       {bare ? null : <PageHeader title="Words" />}
-      {bare ? null : <p className="t-lead" style={{ maxWidth: '46rem' }}>방문객이 NFC로 남긴 단어가 실시간으로 모입니다.</p>}
+      {bare ? null : <p className="t-lead" style={{ maxWidth: '46rem' }}>방문객이 남긴 단어가 실시간으로 모입니다.</p>}
       <div className="words-grid">
         {QUESTIONS.map((q, n) => (
           <section key={n}>
@@ -124,7 +132,7 @@ export default function WordsPage() {
         ))}
       </div>
       <div className="words-foot">
-        <p className="t-ko words-meta">{data ? `${data.participants}명 참여  단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}{fail ? '  연결을 다시 시도하는 중입니다' : ''}</p>
+        <p className="t-ko words-meta">{data ? `${data.participants}명 참여  단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}</p>
         {bare ? null : <button type="button" className="btn" onClick={share}>{note || '링크 공유'}</button>}
       </div>
     </div>
