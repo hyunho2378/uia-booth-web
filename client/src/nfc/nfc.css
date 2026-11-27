@@ -87,7 +87,7 @@
 .vg-toast { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 50; padding: 12px 20px; border-radius: 16px; background: var(--ink); color: #fff; font: 600 14px/20px inherit; font-family: inherit; white-space: nowrap; animation: vg-enter .22s var(--ease) both; }
 
 /* 운영자 화면 */
-.vg-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
+.vg-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
 .vg-stat { padding: 12px 10px; border-radius: 16px; background: var(--opt-fill); border: 1px solid var(--opt-border); }
 .vg-stat b { display: block; font-size: 28px; line-height: 32px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .vg-stat span { font-size: 12px; line-height: 18px; font-weight: 600; }

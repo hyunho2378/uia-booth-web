@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Screen, Card, Btn, useToast } from './ui'
-import { adminStats, adminWords, adminHide, adminSetPass, adminFind, adminDraw, adminForce } from './db'
+import { adminStats, adminWords, adminHide, adminSetPass, adminFind, adminForce } from './db'
 import { QUESTIONS } from './survey'
 import NfcGuide from './NfcGuide'
 
@@ -40,7 +40,6 @@ export default function NfcAdmin() {
   }
   const search = async () => { try { setFound(await adminFind(pass, find)) } catch { show('연결이 끊겼어요') } }
   const force = async (r) => { await adminForce(pass, r.id); setFound(await adminFind(pass, find)); load(pass) }
-  const mark = async (r) => { await adminDraw(pass, r.id, !r.draw_at); setFound(await adminFind(pass, find)); load(pass) }
   const toggle = async (w) => { await adminHide(pass, w.word, !w.hidden); load(pass) }
   const change = async () => {
     if (np.length < 4) { show('4자 이상으로 적어 주세요'); return }
@@ -71,7 +70,6 @@ export default function NfcAdmin() {
           <div className="vg-stat"><b>{stats.enrolled}</b><span>입학</span></div>
           <div className="vg-stat"><b>{stats.surveyed}</b><span>질문</span></div>
           <div className="vg-stat"><b>{stats.graduated}</b><span>졸업</span></div>
-          <div className="vg-stat"><b>{stats.drawn}</b><span>럭키드로우</span></div>
         </div>
         <ul className="vg-list">
           {(stats.recent || []).map((r, n) => (
@@ -80,7 +78,7 @@ export default function NfcAdmin() {
         </ul>
       </Card>
       <Card>
-        <h2 className="vg-q" style={{ marginTop: 0 }}>럭키드로우</h2>
+        <h2 className="vg-q" style={{ marginTop: 0 }}>방문객 찾기</h2>
         <label className="vg-field"><span>이름 또는 입학 코드</span><input className="vg-input" value={find} onChange={(e) => setFind(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') search() }} /></label>
         <div style={{ marginTop: 14 }}><Btn disabled={find.trim().length < 2} onClick={search}>찾기</Btn></div>
         {found ? (
@@ -88,9 +86,7 @@ export default function NfcAdmin() {
             {found.length === 0 ? <li className="vg-row">찾지 못했어요.</li> : found.map((r) => (
               <li key={r.id} className="vg-row">
                 <span>{r.name}{r.affiliation ? <><br /><small>{r.affiliation}</small></> : null}<br /><small>{r.graduated ? r.cert_no : r.surveyed ? '졸업 전' : '질문 전'}</small></span>
-                {r.surveyed
-                  ? <button type="button" className={'vg-mini' + (r.draw_at ? ' off' : '')} onClick={() => mark(r)}>{r.draw_at ? '취소' : '추첨 완료'}</button>
-                  : <button type="button" className="vg-mini" onClick={() => force(r)}>질문 없이 졸업</button>}
+                {r.graduated ? null : <button type="button" className="vg-mini" onClick={() => force(r)}>졸업 처리</button>}
               </li>
             ))}
           </ul>
