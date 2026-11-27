@@ -57,7 +57,16 @@ export default function WordsPage() {
   // 전체 화면 모드는 며칠 켜 두므로 30분마다 새로 불러와 메모리와 배포본을 갱신한다.
   useEffect(() => {
     if (!bare) return undefined
-    const t = setTimeout(() => window.location.reload(), 30 * 60 * 1000)
+    // 연결이 끊긴 채로 새로 불러오면 오류 화면이 떠 복구되지 않으므로, 사이트가 응답할 때만 새로 불러오고 아니면 1분 뒤 다시 시도한다.
+    let t
+    const tick = async () => {
+      try {
+        const r = await fetch(window.location.pathname + '?ping=' + Date.now(), { cache: 'no-store' })
+        if (r.ok || r.status === 404) { window.location.reload(); return }
+      } catch { /* 연결 없음 */ }
+      t = setTimeout(tick, 60 * 1000)
+    }
+    t = setTimeout(tick, 30 * 60 * 1000)
     const release = keepAwake()
     return () => { clearTimeout(t); release() }
   }, [bare])
