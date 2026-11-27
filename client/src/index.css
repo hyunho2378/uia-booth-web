@@ -440,15 +440,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .kiosk-on a, .kiosk-on button, .kiosk-on [role=button] { touch-action: manipulation; }
 .kiosk-on .tl-row:hover, .kiosk-on .poster-link:hover { transform: none; }
 
-.kiosk-attract { position: fixed; inset: 0; z-index: 100; border: 0; padding: 0; background: #111; cursor: pointer; overflow: hidden; }
-.kiosk-attract > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s var(--ease); }
-.kiosk-attract > img.on { opacity: 1; }
-.kiosk-attract-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 45%, rgba(0,0,0,.72) 100%); }
-.kiosk-attract-body { position: absolute; left: 0; right: 0; bottom: 8%; display: grid; gap: 1.2rem; justify-items: center; text-align: center; color: #fff; }
-.kiosk-attract-body b { font: 800 3.4rem/1.2 var(--sans); letter-spacing: -0.03em; }
-.kiosk-attract-body i { font: 600 1.9rem/1.4 var(--sans); font-style: normal; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .4em; animation: kiosk-pulse 2.2s ease-in-out infinite; }
-.kiosk-attract-logo { height: 4.2rem !important; width: auto; filter: brightness(0) invert(1); }
-@keyframes kiosk-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
 /* 세로 화면: 글자 한 단계 더 크게, 회색 글자는 진하게, 누르는 요소는 손가락 크기로 */
 @media (orientation: portrait) and (min-width: 900px) {
@@ -543,7 +534,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* 한글 줄바꿈: 낱말 단위로 끊고 마지막 줄에 한두 글자가 남지 않게 한다. 제목은 줄 길이를 고르게 맞춘다 */
 p, li, dd, dt, figcaption, blockquote, .t-ko, .t-ko-lg, .t-lead, .person-body { word-break: keep-all; overflow-wrap: break-word; line-break: strict; text-wrap: pretty; }
-h1, h2, h3, h4, .t-h1, .t-h2, .t-h3, .proj-sec-h, .kiosk-attract-body b { word-break: keep-all; overflow-wrap: break-word; line-break: strict; text-wrap: balance; }
-
+h1, h2, h3, h4, .t-h1, .t-h2, .t-h3, .proj-sec-h, 
 .partner-grid li, .partner-grid li * { word-break: keep-all; }
 .partner-grid li span, .partner-grid li p { white-space: nowrap; }
