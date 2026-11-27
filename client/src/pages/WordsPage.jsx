@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import PageHeader from '../components/ui/PageHeader'
-import { getWords } from '../nfc/db'
+import { pollWords } from '../nfc/db'
 import { shareLink, siteUrl } from '../nfc/share'
 import { asset } from '../utils/asset'
 import { QUESTIONS } from '../nfc/survey'
 import { keepAwake } from '../utils/wakeLock'
 
-const POLL = 2000
+const POLL = 700
 const SLOW = 8000
 const CACHE = 'uia-words-cache'
 const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE) || 'null') } catch { return null } }
@@ -52,7 +52,19 @@ function layout(items, W, H, prev) {
     if (o && o.count === it.count) placed.push({ ...o, ...it, x: o.x, y: o.y, w: o.w, h: o.h, size: o.size })
     else todo.push(it)
   })
-  todo.forEach((it) => { const p = place(it, sizeOf(it, max, n, W, H), placed, W, H); if (p) placed.push(p) })
+  // 방금 보낸 단어가 가장 먼저 자리를 얻는다. 자리가 없으면 오래된 한 번짜리 단어를 하나씩 비운다.
+  todo.sort((a, b) => (b.recent ? 1 : 0) - (a.recent ? 1 : 0) || b.count - a.count)
+  todo.forEach((it) => {
+    for (let tries = 0; tries < 12; tries++) {
+      const p = place(it, sizeOf(it, max, n, W, H), placed, W, H)
+      if (p) { placed.push(p); return }
+      if (!it.recent) return
+      let evict = -1
+      placed.forEach((q, i) => { if (!q.recent && q.count <= 1 && (evict < 0 || q.size <= placed[evict].size)) evict = i })
+      if (evict < 0) return
+      placed.splice(evict, 1)
+    }
+  })
   const top = items[0]
   const lead = top && (n === 1 || top.count > items[1].count) ? top.word.toLowerCase() : ''
   return { max, bucket, W, list: placed.map((p) => ({ ...p, lead: p.word.toLowerCase() === lead })) }
@@ -88,20 +100,27 @@ export default function WordsPage() {
     return () => { clearTimeout(t); release() }
   }, [bare])
 
+  // 방문객이 보낸 단어가 가장 빨리 보이는 것이 최우선이다.
+  // 0.7초마다 작은 확인 요청 하나만 보내고, 바뀐 것이 있을 때만 전체 단어를 함께 받아 새로 그린다.
   useEffect(() => {
-    let off = false, timer, failed = 0
+    let off = false, timer, failed = 0, ver = ''
     const tick = async () => {
       if (!document.hidden) {
         try {
-          const r = await getWords()
-          if (!off) { setData(r); setFail(false); try { localStorage.setItem(CACHE, JSON.stringify(r)) } catch { /* 무시 */ } }
+          // 한 번의 요청으로 변경 여부를 묻고, 바뀐 경우에만 전체 단어를 함께 받는다.
+          const r = await pollWords(ver)
+          if (r && r.data && !off) { setData(r.data); try { localStorage.setItem(CACHE, JSON.stringify(r.data)) } catch { /* 무시 */ } }
+          if (r && r.v) ver = r.v
+          if (!off) setFail(false)
           failed = 0
         } catch { failed += 1; if (!off) setFail(true) }
       }
       timer = setTimeout(tick, failed ? SLOW : POLL)
     }
     tick()
-    return () => { off = true; clearTimeout(timer) }
+    const wake = () => { if (!document.hidden) { clearTimeout(timer); tick() } }
+    document.addEventListener('visibilitychange', wake)
+    return () => { off = true; clearTimeout(timer); document.removeEventListener('visibilitychange', wake) }
   }, [])
 
   useEffect(() => {

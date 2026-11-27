@@ -37,6 +37,8 @@ export default function KioskGuard() {
     const arm = () => {
       clearTimeout(timer)
       timer = setTimeout(() => {
+        // 워드클라우드 화면은 계속 켜 두는 화면이라 홈으로 돌아가지 않는다.
+        if (window.location.pathname.replace(/\/$/, '').endsWith('/words')) return arm()
         navigate('/')
         window.scrollTo(0, 0)
       }, IDLE)

@@ -56,6 +56,16 @@ export async function getShare(token) {
   return rows[0] || null
 }
 
+export async function pollWords(ver) {
+  const rows = await call('select nfc_words_poll($1) as r', [ver || ''])
+  return rows[0].r
+}
+
+export async function getWordsVer() {
+  const rows = await call('select nfc_words_ver() as v', [])
+  return rows[0].v
+}
+
 export async function getWords() {
   const rows = await call('select nfc_words2() as r', [])
   return rows[0].r
