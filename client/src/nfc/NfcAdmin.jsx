@@ -72,7 +72,7 @@ export default function NfcAdmin() {
           <div className="vg-stat"><b>{stats.graduated}</b><span>졸업</span></div>
         </div>
         <ul className="vg-list">
-          {(stats.recent || []).map((r, n) => (
+          {(stats.recent || []).slice(0, 5).map((r, n) => (
             <li key={n} className="vg-row"><span>{r.name}{r.affiliation ? <><br /><small>{r.affiliation}</small></> : null}</span><small>{status(r)}</small></li>
           ))}
         </ul>
@@ -106,11 +106,6 @@ export default function NfcAdmin() {
         ))}
       </Card>
       <NfcGuide />
-      <Card>
-        <h2 className="vg-q" style={{ marginTop: 0 }}>비밀번호 바꾸기</h2>
-        <label className="vg-field"><span>새 비밀번호</span><input className="vg-input" type="password" value={np} onChange={(e) => setNp(e.target.value)} placeholder="4자 이상" autoComplete="new-password" /></label>
-        <div style={{ marginTop: 14 }}><Btn disabled={np.length < 4} onClick={change}>바꾸기</Btn></div>
-      </Card>
       {toast}
     </Screen>
   )

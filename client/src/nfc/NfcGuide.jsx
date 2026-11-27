@@ -1,21 +1,11 @@
 import { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
-import { Card, Ko, useToast } from './ui'
+import { Card, useToast } from './ui'
 import { siteUrl } from './share'
 
 const ROWS = [
   ['입학 QR', '입학부터 질문과 졸업까지 이 QR 하나로 끝납니다', '/nfc/1'],
   ['워드클라우드', '스탠바이미 화면', '/words'],
-]
-
-// 현장에서 자주 생기는 일과 해결 방법
-const HELP = [
-  ['QR을 다시 찍었어요', '같은 휴대폰이면 멈춘 단계부터 이어집니다.'],
-  ['한 휴대폰을 둘이 써요', '화면 아래 "이름님이 아니면 눌러 주세요"를 누르면 새로 입학합니다.'],
-  ['질문을 못 하고 가셨어요', '방문객 찾기에서 이름을 찾아 졸업 처리를 눌러 주세요.'],
-  ['같은 이름이 여러 명이에요', '졸업 화면의 증서 번호와 검색 결과의 번호를 맞춰 보세요.'],
-  ['이상한 단어가 올라왔어요', '단어 가리기에서 가리기를 누르면 바로 사라지고 다시 올라오지 않습니다.'],
-  ['접속이 느려요', '화면의 다시 시도를 눌러도 기록이 두 번 생기지 않습니다.'],
 ]
 
 // 운영자 화면 안에서만 보인다(비밀번호가 필요함).
@@ -29,7 +19,7 @@ export default function NfcGuide() {
   return (
     <>
       <Card>
-        <h2 className="vg-q" style={{ marginTop: 0 }}>태그와 QR</h2>
+        <h2 className="vg-q" style={{ marginTop: 0 }}>QR</h2>
         {ROWS.map(([t, d, p]) => (
           <div key={p} className="vg-tag">
             <div>
@@ -41,12 +31,6 @@ export default function NfcGuide() {
             {qr[p] ? <img className="vg-qr" src={qr[p]} alt={`${t} QR`} /> : null}
           </div>
         ))}
-      </Card>
-      <Card>
-        <h2 className="vg-q" style={{ marginTop: 0 }}>이럴 땐</h2>
-        <ol className="vg-steps">
-          {HELP.map(([t, d], n) => (<li key={t}><b>{n + 1}</b><span><b style={{ fontWeight: 700 }}>{t}</b><br /><Ko>{d}</Ko></span></li>))}
-        </ol>
       </Card>
       {toast}
     </>

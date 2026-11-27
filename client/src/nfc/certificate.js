@@ -33,18 +33,27 @@ async function loadLogo() {
 }
 const LOGO_RATIO = 594 / 1296
 
-// 구글 글꼴에서 이 증서에 쓰는 글자만 받아 온다. 막히면 3.5초 뒤 기기 기본 명조로 그린다.
-async function loadFonts(sample) {
-  const chars = [...new Set(sample + '0123456789 ,.-/·UIAUNIVERSITYMPCTLEOFGRDHSON')].join('')
+// 구글 글꼴에서 증서에 쓰는 글자만 받아 온다. 입학증서와 졸업증서가 같은 글자 묶음을 쓰도록 고정 문구를 한데 모아
+// 한 사람당 한 번만 받는다. 입학하기를 누르는 순간 미리 받기 시작하고, 막히면 3.5초 뒤 기기 기본 명조로 그린다.
+const FIXED = '입학증서졸업증서위 사람은 UIA 대학교에 입학하여모든 과정을 마쳤으므로 이 증서를 수여함.입학하였으므로 총 장대학임팩트얼라이언스총장인성명소속제호년월일0123456789,.-/·ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+function certChars(name = '', aff = '', major = '') {
+  return [...new Set(FIXED + String(name).trim() + String(aff || '').trim() + String(major || '').trim())].sort().join('')
+}
+export function preloadCertFonts(name, aff) {
+  const chars = certChars(name, aff)
   const url = 'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Cinzel:wght@500;700&display=block&text=' + encodeURIComponent(chars)
-  if (!document.querySelector(`link[data-cert-font="${chars.length}"]`)) {
+  if (!document.querySelector(`link[data-cert-font="${CSS.escape(chars)}"]`)) {
     const l = document.createElement('link')
-    l.rel = 'stylesheet'; l.href = url; l.dataset.certFont = String(chars.length)
+    l.rel = 'stylesheet'; l.href = url; l.dataset.certFont = chars
     document.head.appendChild(l)
   }
+  return chars
+}
+async function loadFonts(d) {
+  const chars = preloadCertFonts(d.name, d.affiliation)
   const specs = ['900 60px "Noto Serif KR"', '700 40px "Noto Serif KR"', '500 30px "Noto Serif KR"', '700 24px "Cinzel"', '500 24px "Cinzel"']
   await Promise.race([
-    new Promise((r) => setTimeout(r, 400)).then(() => Promise.all(specs.map((s) => document.fonts.load(s, chars)))).catch(() => {}),
+    new Promise((r) => setTimeout(r, 300)).then(() => Promise.all(specs.map((sp) => document.fonts.load(sp, chars)))).catch(() => {}),
     new Promise((r) => setTimeout(r, 3500)),
   ])
 }
@@ -279,8 +288,7 @@ export async function drawCertificate(kind, d) {
   const bodyText = grad
     ? '위 사람은 UIA 대학교에 입학하여\n모든 과정을 마쳤으므로 이 증서를 수여함.'
     : '위 사람은 UIA 대학교에 입학하였으므로\n이 증서를 수여함.'
-  const sample = [title, d.name, d.affiliation || '', d.major || '', numLabel, date, bodyText, 'UIA 대학교 총 장 대학임팩트얼라이언스총장인', '성명 소속'].join('')
-  await loadFonts(sample)
+  await loadFonts(d)
   const logo = await loadLogo()
 
   const c = document.createElement('canvas')

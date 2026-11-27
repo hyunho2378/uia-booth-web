@@ -3,7 +3,7 @@ import { Screen, Card, Btn, Ko } from './ui'
 import { enroll } from './db'
 import { saveVisitor } from './storage'
 import { useVisitor } from './useVisitor'
-import { drawCertificate } from './certificate'
+import { drawCertificate, preloadCertFonts } from './certificate'
 
 export default function NfcEnroll({ onNext, onReset } = {}) {
   const { status, visitor, reset, adopt } = useVisitor()
@@ -29,6 +29,7 @@ export default function NfcEnroll({ onNext, onReset } = {}) {
     if (!canSubmit || lock.current) return
     lock.current = true
     setBusy(true); setErr('')
+    try { preloadCertFonts(form.name, form.affiliation) } catch { /* 무시 */ }
     // 같은 입학 시도는 같은 키를 쓴다. 응답이 늦어 다시 눌러도 입학증서가 두 장 만들어지지 않는다.
     if (!keyRef.current) keyRef.current = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2))
     try {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import PageHeader from '../components/ui/PageHeader'
 import { getWords } from '../nfc/db'
@@ -7,7 +7,7 @@ import { asset } from '../utils/asset'
 import { QUESTIONS } from '../nfc/survey'
 import { keepAwake } from '../utils/wakeLock'
 
-const POLL = 3000
+const POLL = 2000
 const SLOW = 8000
 const CACHE = 'uia-words-cache'
 const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE) || 'null') } catch { return null } }
@@ -15,34 +15,47 @@ const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE) ||
 function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h) }
 
 // 많이 나온 단어부터 중앙에서 나선으로 퍼지며 겹치지 않는 자리에 놓는다. 좌표는 무대 폭(W) 기준 숫자다.
-function layout(items, W, H) {
-  const ctx = document.createElement('canvas').getContext('2d')
+// 느린 전시 기기를 위해 이미 놓인 단어는 그 자리에 두고, 새 단어와 숫자가 바뀐 단어만 빈자리에 놓는다.
+// 가장 많은 단어의 숫자가 바뀌어 전체 크기가 달라질 때만 처음부터 다시 배치한다.
+const measure = (() => { let ctx; return (font, text) => { ctx = ctx || document.createElement('canvas').getContext('2d'); ctx.font = font; return ctx.measureText(text).width } })()
+function sizeOf(it, max, n, W, H) {
+  const k = n <= 4 ? 1.25 : n <= 12 ? 1.05 : n <= 30 ? 0.85 : 0.7
+  return (W > H ? 40 : 36) * k * (0.62 + 1.3 * Math.pow(it.count / max, 0.55))
+}
+function place(it, base, placed, W, H) {
+  for (const shrink of [1, 0.85, 0.7, 0.55, 0.42]) {
+    const size = Math.round(base * shrink)
+    const w = measure(`700 ${size}px Pretendard Variable, Pretendard, sans-serif`, it.word) + size * 1.1
+    const h = size * 1.72
+    const seed = (hash(it.word) % 628) / 100
+    for (let t = 0; t < 2500; t++) {
+      const a2 = seed + t * 0.33, r = 2 + t * 0.85
+      const x = W / 2 + r * Math.cos(a2) * (W > H ? 1.5 : 1.1) - w / 2
+      const y = H / 2 + r * Math.sin(a2) - h / 2
+      if (x < 8 || y < 8 || x + w > W - 8 || y + h > H - 8) continue
+      if (placed.some((p) => x < p.x + p.w + 8 && x + w + 8 > p.x && y < p.y + p.h + 8 && y + h + 8 > p.y)) continue
+      return { ...it, x, y, w, h, size }
+    }
+  }
+  return null
+}
+function layout(items, W, H, prev) {
   const n = items.length
   const max = items[0] ? items[0].count : 1
-  const k = n <= 4 ? 1.25 : n <= 12 ? 1.05 : n <= 30 ? 0.85 : 0.7
-  const base = (W > H ? 40 : 36) * k
+  const bucket = n <= 4 ? 0 : n <= 12 ? 1 : n <= 30 ? 2 : 3
+  const keep = prev && prev.max === max && prev.bucket === bucket && prev.W === W
+  const old = new Map(keep ? prev.list.map((p) => [p.word.toLowerCase(), p]) : [])
   const placed = []
-  items.forEach((it, idx) => {
-    for (const shrink of [1, 0.85, 0.7, 0.55, 0.42]) {
-      const size = Math.round(base * shrink * (0.62 + 1.3 * Math.pow(it.count / max, 0.55)))
-      ctx.font = `700 ${size}px Pretendard Variable, Pretendard, sans-serif`
-      const w = ctx.measureText(it.word).width + size * 1.1
-      const h = size * 1.72
-      const seed = (hash(it.word) % 628) / 100
-      let ok = false
-      for (let t = 0; t < 4000 && !ok; t++) {
-        const a2 = seed + t * 0.33, r = 2 + t * 0.85
-        const x = W / 2 + r * Math.cos(a2) * (W > H ? 1.5 : 1.1) - w / 2
-        const y = H / 2 + r * Math.sin(a2) - h / 2
-        if (x < 8 || y < 8 || x + w > W - 8 || y + h > H - 8) continue
-        if (placed.some((p) => x < p.x + p.w + 8 && x + w + 8 > p.x && y < p.y + p.h + 8 && y + h + 8 > p.y)) continue
-        placed.push({ ...it, x, y, w, h, size, lead: idx === 0 && (n === 1 || it.count > items[1].count) })
-        ok = true
-      }
-      if (ok) break
-    }
+  const todo = []
+  items.forEach((it) => {
+    const o = old.get(it.word.toLowerCase())
+    if (o && o.count === it.count) placed.push({ ...o, ...it, x: o.x, y: o.y, w: o.w, h: o.h, size: o.size })
+    else todo.push(it)
   })
-  return placed
+  todo.forEach((it) => { const p = place(it, sizeOf(it, max, n, W, H), placed, W, H); if (p) placed.push(p) })
+  const top = items[0]
+  const lead = top && (n === 1 || top.count > items[1].count) ? top.word.toLowerCase() : ''
+  return { max, bucket, W, list: placed.map((p) => ({ ...p, lead: p.word.toLowerCase() === lead })) }
 }
 
 export default function WordsPage() {
@@ -100,7 +113,12 @@ export default function WordsPage() {
   const W = portrait ? 900 : 800, H = portrait ? 620 : 720
   const qs = data ? data.qs : []
   const key = JSON.stringify(qs.map((q) => q.items.map((i) => i.word + i.count))) + W
-  const placed = useMemo(() => qs.map((q) => layout(q.items, W, H)), [key]) // eslint-disable-line react-hooks/exhaustive-deps
+  const prevRef = useRef([])
+  const placed = useMemo(() => {
+    const out = qs.map((q, n) => layout(q.items, W, H, prevRef.current[n]))
+    prevRef.current = out
+    return out.map((o) => o.list)
+  }, [key]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const share = async () => {
     const r = await shareLink('UIA 특별관 워드클라우드', siteUrl('/words'))
