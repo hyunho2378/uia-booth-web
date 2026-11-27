@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { Screen, Card, Btn, BtnLink, Ko, useToast } from './ui'
 import { getShare } from './db'
 import { drawCertificate } from './certificate'
@@ -7,7 +7,9 @@ import { saveImage } from './share'
 
 // 친구가 공유 링크로 열어 보는 졸업증서
 export default function NfcShare() {
-  const { token } = useParams()
+  const params = useParams()
+  const [query] = useSearchParams()
+  const token = params.token || query.get('t') || ''
   const [state, setState] = useState('loading')
   const [data, setData] = useState(null)
   const [cert, setCert] = useState('')

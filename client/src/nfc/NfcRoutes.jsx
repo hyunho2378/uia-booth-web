@@ -11,6 +11,7 @@ export default function NfcRoutes() {
       <Route path="1" element={<NfcEnroll />} />
       <Route path="2" element={<NfcSurvey />} />
       <Route path="3" element={<NfcGraduate />} />
+      <Route path="s" element={<NfcShare />} />
       <Route path="s/:token" element={<NfcShare />} />
       <Route path="admin" element={<NfcAdmin />} />
       <Route path="*" element={<Navigate to="/nfc/1" replace />} />

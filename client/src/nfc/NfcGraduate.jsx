@@ -28,7 +28,7 @@ export default function NfcGraduate() {
   }, [status, visitor, id])
 
   const fileName = useMemo(() => (grad ? `UIA_졸업증서_${grad.name}.jpg` : ''), [grad])
-  const link = grad && grad.share_token ? siteUrl('/nfc/s/' + grad.share_token) : siteUrl('/')
+  const link = grad && grad.share_token ? siteUrl('/nfc/s/?t=' + grad.share_token) : siteUrl('/')
 
   if (status === 'loading') return <Screen title="졸업"><Card logo><p className="vg-body" style={{ marginTop: 0 }}>불러오는 중이에요.</p></Card></Screen>
   if (status === 'error') return <Screen title="졸업" dock={<Btn onClick={() => window.location.reload()}>다시 시도</Btn>}><Card logo><h1 className="vg-q" style={{ marginTop: 0 }}>연결이 끊겼어요</h1><p className="vg-body">인터넷 연결을 확인한 뒤 다시 시도해 주세요.</p></Card></Screen>

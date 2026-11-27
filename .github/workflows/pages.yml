@@ -32,7 +32,12 @@ jobs:
       - run: cp dist/index.html dist/404.html
       - name: 경로별 index.html 복사 (NFC 태그와 공유 주소가 200으로 열리게 함)
         run: |
-          for d in nfc nfc/1 nfc/2 nfc/3 nfc/admin words visit; do mkdir -p dist/$d && cp dist/index.html dist/$d/index.html; done
+          for d in nfc nfc/1 nfc/2 nfc/3 nfc/s nfc/admin words visit activities projects people photos \
+            activities/chuncheon activities/sagape activities/gyeongju activities/kintex \
+            projects/cc-soyang projects/cc-bomnaerun projects/cc-volumeup projects/cc-salon projects/sg-forum-poster projects/sg-session projects/sg-booth projects/gj-hanyang projects/gj-korea projects/gj-seoulwu projects/gj-handong \
+            people/1 people/2 people/3 people/4 people/5 people/6 people/7 people/8 people/9 people/10 people/11 people/12 people/13 people/14 people/15 people/16; do
+            mkdir -p dist/$d && cp dist/index.html dist/$d/index.html
+          done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: client/dist
