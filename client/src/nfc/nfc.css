@@ -127,3 +127,4 @@
 .vg-cert.fit-g { max-height: calc(100svh - 390px); margin-top: 14px; }
 .vg-root { gap: 14px; padding-top: 20px; padding-bottom: 24px; }
 .vg-col { gap: 14px; }
+.vg-note-sm { font-size: 11px; line-height: 16px; font-weight: 400; }

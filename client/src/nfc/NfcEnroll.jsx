@@ -75,7 +75,7 @@ export default function NfcEnroll({ onNext, onReset } = {}) {
           <input className="vg-input" value={form.affiliation} ref={affRef} onChange={set('affiliation')} maxLength={40} autoCorrect="off" spellCheck={false} enterKeyHint="done" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); ev.target.blur(); submit() } }} placeholder="ex: 기관 / 대학 / 단체" />
         </label>
         {err ? <p className="vg-err">{err}</p> : null}
-        <p className="vg-note">입력한 정보는 증서 발급에만 써요.</p>
+        <p className="vg-note vg-note-sm">입력한 정보는 증서 발급에만 사용됩니다.</p>
       </Card>
     </Screen>
   )
