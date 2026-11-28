@@ -104,3 +104,8 @@ export async function adminForce(pass, id) {
   const rows = await call('select nfc_admin_force($1,$2::uuid) as ok', [pass, id])
   return !!rows[0].ok
 }
+
+export async function adminList(pass) {
+  const rows = await call('select nfc_admin_list($1) as r', [pass])
+  return rows[0].r
+}

@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import NfcOne from './NfcOne'
 import NfcShare from './NfcShare'
 import NfcAdmin from './NfcAdmin'
+import NfcSheet from './NfcSheet'
 
 export default function NfcRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function NfcRoutes() {
       <Route path="s" element={<NfcShare />} />
       <Route path="s/:token" element={<NfcShare />} />
       <Route path="admin" element={<NfcAdmin />} />
+      <Route path="admin/list" element={<NfcSheet />} />
       <Route path="*" element={<Navigate to="/nfc/1" replace />} />
     </Routes>
   )

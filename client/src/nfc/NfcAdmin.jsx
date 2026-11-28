@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Screen, Card, Btn, useToast } from './ui'
 import { adminStats, adminWords, adminHide, adminSetPass, adminFind, adminForce } from './db'
 import { QUESTIONS } from './survey'
@@ -71,6 +72,7 @@ export default function NfcAdmin() {
           <div className="vg-stat"><b>{stats.surveyed}</b><span>질문</span></div>
           <div className="vg-stat"><b>{stats.graduated}</b><span>졸업</span></div>
         </div>
+        <p style={{ margin: '14px 0 0' }}><Link to="/nfc/admin/list" className="vg-link">방문객 명단</Link></p>
         <ul className="vg-list">
           {(stats.recent || []).slice(0, 5).map((r, n) => (
             <li key={n} className="vg-row"><span>{r.name}{r.affiliation ? <><br /><small>{r.affiliation}</small></> : null}</span><small>{status(r)}</small></li>

@@ -128,3 +128,38 @@
 .vg-root { gap: 14px; padding-top: 20px; padding-bottom: 24px; }
 .vg-col { gap: 14px; }
 .vg-note-sm { font-size: 11px; line-height: 16px; font-weight: 400; }
+
+/* 운영자 전체 명단: 구글 시트처럼 격자 칸, 행 번호, 열 문자, 아래쪽 날짜 탭 */
+.sh-root { position: fixed; inset: 0; display: flex; flex-direction: column; background: #fff; color: #1f1f1f; font: 13px/1.4 Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif; }
+.sh-top { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: #f9fbfd; }
+.sh-back { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #1f1f1f; }
+.sh-back:hover { background: #e9eef6; }
+.sh-title { font-size: 18px; font-weight: 600; margin: 0; white-space: nowrap; }
+.sh-search { flex: 1; min-width: 120px; max-width: 420px; height: 36px; padding: 0 14px; border: 0; border-radius: 18px; background: #e9eef6; font: inherit; font-size: 14px; color: #1f1f1f; outline: none; }
+.sh-search:focus { background: #fff; box-shadow: 0 0 0 2px #1f6fff inset; }
+.sh-btn { margin-left: auto; height: 36px; padding: 0 18px; border: 0; border-radius: 18px; background: #1f6fff; color: #fff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.sh-btn:disabled { opacity: .4; cursor: default; }
+.sh-bar { display: flex; align-items: center; height: 30px; background: #fff; box-shadow: 0 1px 0 #e1e3e1, 0 -1px 0 #e1e3e1; }
+.sh-cellname { width: 72px; padding: 0 10px; color: #444; box-shadow: 1px 0 0 #e1e3e1; }
+.sh-fx { width: 34px; text-align: center; color: #9aa0a6; font-style: italic; }
+.sh-val { flex: 1; padding: 0 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sh-err { margin: 0; padding: 6px 16px; color: #c5221f; background: #fce8e6; }
+.sh-scroll { flex: 1; overflow: auto; }
+.sh-grid { border-collapse: separate; border-spacing: 0; table-layout: fixed; width: max-content; min-width: 100%; }
+.sh-grid th, .sh-grid td { height: 24px; padding: 0 6px; box-shadow: inset -1px -1px 0 #e1e3e1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; font-weight: 400; }
+.sh-grid td { cursor: cell; }
+.sh-grid td.is-sel { box-shadow: inset 0 0 0 2px #1f6fff; }
+.sh-letters th { position: sticky; top: 0; z-index: 2; height: 22px; background: #f8f9fa; color: #5f6368; font-size: 11px; text-align: center; }
+.sh-letters th.is-sel, .sh-num.is-sel { background: #d3e3fd; color: #0b57d0; font-weight: 600; }
+.sh-head th { position: sticky; top: 22px; z-index: 2; background: #fff; font-weight: 700; cursor: pointer; box-shadow: inset -1px -2px 0 #c4c7c5; }
+.sh-head th.sh-num { cursor: default; }
+.sh-sort { margin-left: 4px; font-size: 9px; color: #1f6fff; }
+.sh-num { position: sticky; left: 0; z-index: 1; width: 46px; background: #f8f9fa !important; color: #5f6368; font-size: 11px; text-align: center !important; }
+.sh-corner { position: sticky; left: 0; z-index: 3 !important; background: #f8f9fa; }
+.sh-head .sh-num { z-index: 3; }
+.sh-grid tbody tr:hover td { background: #f1f5ff; }
+.sh-empty { padding: 24px 16px; color: #5f6368; }
+.sh-tabs { display: flex; align-items: center; gap: 2px; height: 40px; padding: 0 12px; background: #f9fbfd; box-shadow: 0 -1px 0 #e1e3e1; }
+.sh-tab { height: 32px; padding: 0 16px; border: 0; border-radius: 6px; background: transparent; font: inherit; font-size: 13px; color: #444; cursor: pointer; }
+.sh-tab.is-on { background: #e1e9f7; color: #0b57d0; font-weight: 600; }
+.sh-count { margin-left: auto; color: #5f6368; white-space: pre; }
