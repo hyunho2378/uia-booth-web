@@ -23,7 +23,7 @@ export default function NfcEnroll({ onNext, onReset } = {}) {
   }, [status, visitor])
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
-  const canSubmit = form.name.trim().length > 0 && !busy
+  const canSubmit = form.name.trim().length > 0 && form.affiliation.trim().length > 0 && !busy
 
   const submit = async () => {
     if (!canSubmit || lock.current) return
@@ -68,11 +68,11 @@ export default function NfcEnroll({ onNext, onReset } = {}) {
         <p className="vg-body"><Ko>증서에 들어갈 이름과 소속을 적어 주세요.</Ko></p>
         <label className="vg-field">
           <span>이름</span>
-          <input className="vg-input" value={form.name} onChange={set('name')} maxLength={20} autoComplete="name" autoCorrect="off" spellCheck={false} enterKeyHint="next" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); affRef.current && affRef.current.focus() } }} placeholder="홍길동" />
+          <input className="vg-input" value={form.name} onChange={set('name')} maxLength={20} autoComplete="name" autoCorrect="off" spellCheck={false} enterKeyHint="next" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); affRef.current && affRef.current.focus() } }} placeholder="ex: 홍길동" />
         </label>
         <label className="vg-field">
-          <span>소속 (선택)</span>
-          <input className="vg-input" value={form.affiliation} ref={affRef} onChange={set('affiliation')} maxLength={40} autoCorrect="off" spellCheck={false} enterKeyHint="done" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); ev.target.blur(); submit() } }} placeholder="기관, 대학, 단체" />
+          <span>소속</span>
+          <input className="vg-input" value={form.affiliation} ref={affRef} onChange={set('affiliation')} maxLength={40} autoCorrect="off" spellCheck={false} enterKeyHint="done" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); ev.target.blur(); submit() } }} placeholder="ex: 기관 / 대학 / 단체" />
         </label>
         {err ? <p className="vg-err">{err}</p> : null}
         <p className="vg-note">입력한 정보는 증서 발급에만 써요.</p>
