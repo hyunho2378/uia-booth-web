@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import PageHeader from '../components/ui/PageHeader'
 import { pollWords } from '../nfc/db'
-import { shareLink, siteUrl } from '../nfc/share'
-import { asset } from '../utils/asset'
 import { QUESTIONS } from '../nfc/survey'
 import { keepAwake } from '../utils/wakeLock'
 
@@ -70,6 +67,15 @@ function layout(items, W, H, prev) {
   return { max, bucket, W, list: placed.map((p) => ({ ...p, lead: p.word.toLowerCase() === lead })) }
 }
 
+// 많이 나온 단어일수록 파란색이 진해진다. 1등은 프라이머리, 그다음은 비율에 따라 세 단계, 한 번 나온 단어는 흰색.
+const tierOf = (count, max) => {
+  const r = count / max
+  if (r >= 0.6) return 'words-t3'
+  if (r >= 0.35) return 'words-t2'
+  if (count >= 2) return 'words-t1'
+  return ''
+}
+
 export default function WordsPage() {
   const { search } = useLocation()
   const bare = new URLSearchParams(search).has('screen')
@@ -79,7 +85,6 @@ export default function WordsPage() {
   const [data, setData] = useState(readCache)
   const [fail, setFail] = useState(false)
   const [portrait, setPortrait] = useState(false)
-  const [note, setNote] = useState('')
 
   useEffect(() => { document.title = 'Words | UIA' }, [])
 
@@ -139,28 +144,22 @@ export default function WordsPage() {
     return out.map((o) => o.list)
   }, [key]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const share = async () => {
-    const r = await shareLink('UIA 특별관 워드클라우드', siteUrl('/words'))
-    if (r === 'copied') { setNote('링크를 복사했어요'); setTimeout(() => setNote(''), 2200) }
-  }
 
   if (phone) return <Navigate to="/" replace />
 
   return (
-    <div className={bare ? 'words-screen' : ''} style={bare ? undefined : { paddingBottom: 'clamp(3rem, 6vw, 7rem)' }}>
-      {bare ? null : <PageHeader title="Words" />}
-      {bare ? null : <p className="t-lead" style={{ maxWidth: '46rem' }}>방문객이 남긴 단어가 실시간으로 모입니다.</p>}
+    <div className={bare ? 'words-screen' : 'words-page'} style={bare ? undefined : { paddingBottom: 'clamp(1rem, 2vw, 2rem)' }}>
+      {bare ? null : <h1 className="t-display words-title">Words</h1>}
       <div className="words-grid">
         {QUESTIONS.map((q, n) => (
           <section key={n}>
             <h2 className="t-h3 words-label">{q.label}</h2>
-            <p className="t-ko words-q">{q.q}</p>
-            <div className="words-stage" style={{ '--bg': `url(${asset('/nfc/bg-screen.webp')})`, aspectRatio: `${W} / ${H}` }} aria-live="polite">
+            <div className="words-stage" style={{ aspectRatio: `${W} / ${H}` }} aria-live="polite">
               {data && (!placed[n] || placed[n].length === 0) ? <p className="words-empty t-ko">아직 남겨진 단어가 없습니다.</p> : null}
               {(placed[n] || []).map((p) => (
                 <span
                   key={p.word.toLowerCase()}
-                  className={'words-chip' + (p.lead ? ' words-chip-lead' : '')}
+                  className={'words-chip ' + (p.lead ? 'words-chip-lead' : tierOf(p.count, (qs[n].items[0] || {}).count || 1))}
                   style={{ left: `${(p.x / W) * 100}%`, top: `${(p.y / H) * 100}%`, width: `${(p.w / W) * 100}%`, height: `${(p.h / H) * 100}%`, fontSize: `${(p.size / W) * 100}cqw` }}
                 >{p.word}</span>
               ))}
@@ -169,8 +168,7 @@ export default function WordsPage() {
         ))}
       </div>
       <div className="words-foot">
-        <p className="t-ko words-meta">{data ? `${data.participants}명 참여  단어 ${data.qs.reduce((a, q) => a + q.total, 0)}개` : ' '}</p>
-        {bare ? null : <button type="button" className="btn" onClick={share}>{note || '링크 공유'}</button>}
+        <p className="t-ko words-meta">{data ? <><span>참여 인원: {data.participants}</span><span>수집한 단어: {data.qs.reduce((a, q) => a + q.total, 0)}</span></> : ' '}</p>
       </div>
     </div>
   )

@@ -153,10 +153,10 @@ img { display: block; max-width: 100%; }
 }
 
 /* 사진 갤러리 */
-.photo-cols { columns: 3; column-gap: clamp(1rem, 2vw, 3rem); }
-@media (max-width: 1100px) { .photo-cols { columns: 2; } }
-@media (max-width: 640px) { .photo-cols { columns: 1; } }
-.photo-item { break-inside: avoid; margin-bottom: clamp(1rem, 1.6vw, 2.4rem); }
+.photo-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.6rem, 1.2vw, 1.6rem); }
+@media (max-width: 640px) { .photo-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.photo-item { margin: 0; }
+.photo-item .photo-btn { aspect-ratio: 4 / 3; }
 .photo-item figcaption { margin-top: .9rem; }
 .photo-btn {
   display: block; width: 100%; overflow: hidden; border-radius: var(--radius);
@@ -199,8 +199,8 @@ img { display: block; max-width: 100%; }
 /* 사람 목록과 상세 */
 .people-grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.4rem, 3.6vw, 5rem) clamp(1.2rem, 2vw, 3rem); }
 @media (min-width: 760px) { .people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .people-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-@media (min-width: 1700px) { .people-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+/* 16명이 줄마다 꽉 차게 4열 또는 8열만 쓴다(마지막 줄에 한 명만 남지 않게) */
+@media (min-width: 1700px) { .people-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
 .people-grid > li { min-width: 0; }
 .person-card { display: block; color: var(--ink); }
 .person-pic { display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius); background: var(--surface-2); box-shadow: var(--s1); transition: box-shadow .4s var(--ease), transform .5s var(--ease); }
@@ -210,7 +210,12 @@ img { display: block; max-width: 100%; }
 .person-card:hover .person-pic { box-shadow: var(--s3); transform: translateY(-4px); }
 .person-card:hover .person-pic:not(.is-logo) img { transform: scale(1.04); }
 .person-name { display: block; margin-top: 1.1rem; }
-.person-sub { display: block; margin-top: .15rem; font-size: clamp(.88rem, .8vw, 1.05rem); }
+.person-univ, .person-major { display: block; }
+.nw { white-space: nowrap; }
+/* 가장 긴 전공 덩어리(9글자)도 칸 안에 들어가게 칸 폭에 맞춰 글자를 줄인다 */
+.person-card { container-type: inline-size; }
+.person-sub { font-size: min(var(--sub-fs, 1rem), 10.4cqw) !important; }
+.person-sub { display: block; margin-top: .15rem; word-break: keep-all; overflow-wrap: normal; --sub-fs: clamp(.88rem, .8vw, 1.05rem); }
 .person-detail { align-items: start; grid-template-columns: clamp(15rem, 19vw, 25rem) minmax(0, 46rem); column-gap: clamp(2rem, 4vw, 6rem); }
 @media (max-width: 900px) { .person-detail { grid-template-columns: 1fr; } .person-photo-wrap { max-width: 16rem; } }
 .person-photo-wrap { position: sticky; top: calc(var(--header-h) + 2rem); }
@@ -363,13 +368,27 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 @media (orientation: portrait), (max-width: 900px) { .words-grid { grid-template-columns: 1fr; } }
 .words-label { margin: 0; }
 .words-q { margin: .3rem 0 .9rem; color: var(--ink-2); }
-.words-stage { position: relative; margin-top: 0; border-radius: var(--radius); overflow: hidden; container-type: inline-size; background: #e9eef8 var(--bg) center / cover no-repeat; box-shadow: var(--s2); }
-.words-chip { position: absolute; display: grid; place-items: center; box-sizing: border-box; white-space: nowrap; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #0a0a0a; border-radius: 16px; background: rgba(255,255,255,.86); box-shadow: 0 4px 14px rgba(0,0,0,.08); animation: words-in .4s var(--ease) both; }
-.words-chip-lead { background: #1f6fff; color: #fff; }
+.words-label { margin-bottom: .7rem; }
+@media (orientation: portrait), (max-width: 900px) { .words-grid > section + section { margin-top: clamp(1rem, 2vw, 2.4rem); } }
+/* 메뉴에서 연 Words 화면: 두 칸이 스크롤 없이 한 화면에 들어오게 */
+.words-title { padding-block: clamp(1rem, 1.6vw, 2rem) 0; }
+.words-page .words-grid { margin-top: clamp(.8rem, 1.2vw, 1.4rem); gap: clamp(1rem, 1.6vw, 2rem); }
+.words-page .words-grid > section { width: min(100%, calc((100svh - var(--header-h, 6rem) - 16rem) * 800 / 720)); margin-inline: auto; }
+@media (orientation: portrait) { .words-page .words-grid > section { width: min(100%, calc((100svh - var(--header-h, 6rem) - 19rem) / 2 * 900 / 620)); } }
+.words-page .words-foot { margin-top: .6rem; }
+.words-stage { position: relative; margin-top: 0; border-radius: var(--radius); overflow: hidden; container-type: inline-size; background: #eef2fa; box-shadow: none; border: 2px solid #1f6fff; }
+.words-chip { position: absolute; display: grid; place-items: center; box-sizing: border-box; white-space: nowrap; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: #0a0a0a; border-radius: 16px; animation: words-in .4s var(--ease) both; }
+/* 단어 색 단계 토큰: 1등 프라이머리, 그다음 진한 파랑, 중간 파랑, 연한 파랑, 한 번 나온 단어 흰색 */
+:root { --w-lead: #1f6fff; --w-t3: #4f8cff; --w-t2: #9dbdff; --w-t1: #d6e4ff; --w-t0: #ffffff; }
+.words-chip { background: var(--w-t0); }
+.words-t1 { background: var(--w-t1); }
+.words-t2 { background: var(--w-t2); }
+.words-t3 { background: var(--w-t3); color: #fff; }
+.words-chip-lead { background: var(--w-lead); color: #fff; }
 @keyframes words-in { from { opacity: 0; } to { opacity: 1; } }
 .words-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #0a0a0a; }
 .words-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
-.words-meta { color: var(--ink); }
+.words-meta { color: var(--ink); display: flex; gap: 1.6em; }
 
 /* 모바일 메뉴: 헤더 아래 전체 화면 */
 
@@ -381,11 +400,11 @@ a:hover > .more-link, .act-row:hover .more-link, .see-item:hover .more-link { tr
 /* 워드클라우드 전체 화면 모드: 헤더와 푸터 없이 화면 높이에 맞춘다 */
 .words-bare { min-height: 100vh; background: var(--bg); padding: clamp(1.2rem, 2.4vw, 3rem) clamp(1.2rem, 3vw, 4rem); box-sizing: border-box; }
 .words-screen .words-grid { margin-top: 0; }
-.words-screen .words-stage { width: min(100%, calc((100vh - 11rem) * 800 / 720)); margin-inline: auto; }
+.words-screen .words-grid > section { width: min(100%, calc((100vh - 11rem) * 800 / 720)); margin-inline: auto; }
 @media (orientation: portrait), (max-width: 900px) {
-  .words-screen .words-stage { width: min(100%, calc((100vh - 15rem) / 2 * 900 / 620)); }
+  .words-screen .words-grid > section { width: min(100%, calc((100vh - 13rem) / 2 * 900 / 620)); }
 }
-.words-screen .words-label, .words-screen .words-q { text-align: center; }
+.words-label, .words-q { text-align: left; }
 
 /* 휴대폰의 자동 다크 모드와 글자 크기 확대가 화면을 깨지 않게 한다 */
 :root { color-scheme: light only; }
@@ -419,8 +438,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .t-ko { font-size: clamp(1.2rem, 2.3vw, 2rem); }
   .t-ko-lg { font-size: clamp(1.4rem, 2.8vw, 2.4rem); }
   .t-label { font-size: clamp(1.1rem, 2.1vw, 1.8rem); }
-  .people-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 1.6rem; }
-  .person-sub { font-size: clamp(1.05rem, 2vw, 1.7rem); }
+  .people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.4rem 1.2rem; }
+  .person-sub { --sub-fs: clamp(1rem, 1.85vw, 1.6rem); }
   .visit-pane { grid-template-columns: 1fr; }
   .visit-map { aspect-ratio: 16 / 10; }
   .lg\:hidden { display: block !important; }
@@ -430,7 +449,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .words-grid { grid-template-columns: 1fr; }
 }
 @media (orientation: portrait) and (min-width: 900px) {
-  .photo-cols { columns: 3; }
   .person-detail { grid-template-columns: 1fr; }
   .person-photo-wrap { max-width: 24rem; }
 }
@@ -446,7 +464,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   :root { --mute: #212120; --ink-2: #212120; }
   .t-ko, .home-type .t-ko { font-size: clamp(1.3rem, 2.5vw, 2.2rem); line-height: 1.65; }
   .t-label { font-size: clamp(1.2rem, 2.3vw, 2rem); }
-  .person-sub { font-size: clamp(1.15rem, 2.2vw, 1.9rem); line-height: 1.5; color: var(--ink-2); }
+  .person-sub { --sub-fs: clamp(1rem, 1.85vw, 1.6rem); line-height: 1.5; color: var(--ink-2); }
   .visit-tabs { gap: 2.4rem; }
   .photo-filter button, .proj-filter button, [role=tab] { min-height: 5.2rem; }
 }

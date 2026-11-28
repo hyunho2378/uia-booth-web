@@ -1,3 +1,4 @@
+import { MajorText } from '../utils/major'
 import { asset } from '../utils/asset'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -23,7 +24,7 @@ export default function FacesPage() {
                     : logo && <img src={asset('/brand/symbols/' + logo.logo)} alt={f.univ} loading="lazy" decoding="async" />}
                 </span>
                 <span className="t-h3 person-name">{f.name}</span>
-                <span className="t-ko person-sub">{f.univ} {f.major}</span>
+                <span className="t-ko person-sub"><span className="person-univ">{f.univ}</span> <span className="person-major"><MajorText text={f.major} /></span></span>
               </Link>
             </li>
           )

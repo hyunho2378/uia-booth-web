@@ -70,8 +70,8 @@ export default function PhotosPage() {
       <div className="photo-cols">
         {list.map((p, i) => (
           <figure key={p.src} className="photo-item">
-            <button type="button" onClick={() => setOpen(i)} className="photo-btn" style={{ aspectRatio: String(p.r) }} aria-label={labelOf(p).ko}>
-              <img src={p.thumb} alt={labelOf(p).ko} loading="lazy" decoding="async" />
+            <button type="button" onClick={() => setOpen(i)} className="photo-btn" aria-label={labelOf(p).ko}>
+              <img src={p.thumb} alt={labelOf(p).ko} loading={i < 12 ? 'eager' : 'lazy'} decoding="async" />
             </button>
           </figure>
         ))}

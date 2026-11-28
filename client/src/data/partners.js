@@ -8,7 +8,7 @@ export const partners = [
   { id: 'swu', en: "Seoul Women's University", ko: '서울여자대학교', logo: 'seoulwu.svg', match: '서울여자' },
   { id: 'handong', en: 'Handong Global University', ko: '한동대학교', logo: 'handong.svg', match: '한동' },
   { id: 'hallym', en: 'Hallym University', ko: '한림대학교', logo: 'hallym.svg', match: '한림' },
-  { id: 'hanshin', en: 'Hanshin University', ko: '한신대학교', logo: 'hanshin.svg', match: '한신' },
+  { id: 'hanshin', en: 'Hanshin University', ko: '한신대학교', logo: 'hanshin.webp', match: '한신' },
   { id: 'hanyang-seoul', en: 'Hanyang University Seoul', ko: '한양대학교 서울', logo: 'hanyang.svg', match: '한양' },
   { id: 'hanyang-erica', en: 'Hanyang University ERICA', ko: '한양대학교 ERICA', logo: 'hanyang.svg', match: '한양대학교(ERICA' },
 ]

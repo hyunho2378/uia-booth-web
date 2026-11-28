@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
 function thumbOf(src) {
+  // 포스터 목록은 가벼운 작은 그림을 쓴다. 상세 화면에서만 큰 그림을 받는다.
+  if (src && /\/posters\/(?!thumb\/)/.test(src)) return src.replace(/\/posters\//, '/posters/thumb/')
   if (!src || !src.startsWith('/works/')) return src
   if (src.startsWith('/works/detail/') || src.startsWith('/works/thumbs/')) return src
   return `/works/thumbs/${src.split('/').pop()}`

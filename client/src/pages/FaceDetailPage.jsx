@@ -1,3 +1,4 @@
+import { MajorText } from '../utils/major'
 import { asset } from '../utils/asset'
 import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
@@ -38,7 +39,7 @@ export default function FaceDetailPage() {
 
         <div>
           <h1 className="t-h1">{f.name}</h1>
-          <p className="t-ko-lg" style={{ marginTop: '.6rem' }}>{f.univ} {f.major}</p>
+          <p className="t-ko-lg" style={{ marginTop: '.6rem' }}>{f.univ} <MajorText text={f.major} /></p>
 
           {f.uia && (
             <section style={{ marginTop: 'clamp(2.4rem, 4vw, 4.6rem)' }}>

@@ -72,7 +72,7 @@ export default function NfcEnroll({ onNext, onReset } = {}) {
         </label>
         <label className="vg-field">
           <span>소속 (선택)</span>
-          <input className="vg-input" value={form.affiliation} ref={affRef} onChange={set('affiliation')} maxLength={40} autoCorrect="off" spellCheck={false} enterKeyHint="done" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); ev.target.blur(); submit() } }} placeholder="한림대학교" />
+          <input className="vg-input" value={form.affiliation} ref={affRef} onChange={set('affiliation')} maxLength={40} autoCorrect="off" spellCheck={false} enterKeyHint="done" onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); ev.target.blur(); submit() } }} placeholder="기관, 대학, 단체" />
         </label>
         {err ? <p className="vg-err">{err}</p> : null}
         <p className="vg-note">입력한 정보는 증서 발급에만 써요.</p>

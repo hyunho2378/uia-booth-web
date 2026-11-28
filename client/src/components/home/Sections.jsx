@@ -1,3 +1,4 @@
+import { MajorText } from '../../utils/major'
 import { Link } from 'react-router-dom'
 import { stats, events, notices, programs } from '../../data/events'
 import { works } from '../../data/works'
@@ -83,7 +84,7 @@ export function FeaturedProjects() {
         {picks.map((w, i) => (
           <li key={w.id} style={{ transitionDelay: i * 70 + 'ms' }}>
             <Link to={'/projects/' + w.id} className="poster-link">
-              <span className="poster-img"><img src={w.pages[0]} alt={w.title} loading="lazy" decoding="async" /></span>
+              <span className="poster-img"><img src={w.pages[0].replace('/posters/', '/posters/thumb/')} alt={w.title} loading="lazy" decoding="async" /></span>
               <span className="t-h3" style={{ display: 'block', marginTop: '1rem' }}>{w.awardLabel}</span>
               <span className="t-ko" style={{ display: 'block' }}>{w.title}</span>
             </Link>
@@ -114,7 +115,7 @@ export function Voices() {
             <Link to={'/people/' + (i + 1)} className="voice">
               <span className="voice-photo"><img src={asset(f.photo.replace('/people/', '/people/thumb/'))} alt={f.name} loading="lazy" decoding="async" /></span>
               <span className="t-h3" style={{ display: 'block' }}>{f.name}</span>
-              <span className="t-ko" style={{ display: 'block', fontSize: '1rem', marginTop: '.2rem' }}>{f.univ} {f.major}</span>
+              <span className="t-ko" style={{ display: 'block', fontSize: '1rem', marginTop: '.2rem' }}>{f.univ} <MajorText text={f.major} /></span>
               <span className="voice-q" style={{ marginTop: '1.2rem' }}>{firstLines(f.uia)}</span>
             </Link>
           </li>
